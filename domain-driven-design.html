@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Domain-Driven Design — Mastery Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f5f0e8;
+    --ink: #1a1208;
+    --gold: #c8922a;
+    --rust: #b5451b;
+    --dark-bg: #1a1208;
+    --toc-bg: #ede6d3;
+    --border: #d4c9b0;
+    --muted: #4a4035;
+    --green: #5a7a5e;
+    --blue-dark: #3d4f5c;
+    --card-bg: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── COVER ── */
+  #cover {
+    background: var(--dark-bg);
+    color: var(--paper);
+    padding: 80px 0 60px;
+    text-align: center;
+  }
+  #cover .cover-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  #cover h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  #cover .subtitle {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1.05rem;
+    color: #c8bfad;
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+  #cover .author {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--gold);
+    margin-bottom: 40px;
+  }
+  #cover .cover-desc {
+    max-width: 600px;
+    margin: 0 auto 40px;
+    font-size: 1rem;
+    color: #c8bfad;
+    line-height: 1.8;
+  }
+  .meta-pills {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .meta-pill {
+    background: rgba(200,146,42,0.15);
+    border: 1px solid rgba(200,146,42,0.4);
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--gold);
+  }
+
+  /* ── TOC ── */
+  #toc {
+    background: var(--toc-bg);
+    padding: 48px 0;
+    border-bottom: 2px solid var(--border);
+  }
+  #toc h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--ink);
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 8px;
+  }
+  .toc-item {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--ink);
+    transition: background 0.2s;
+  }
+  .toc-item:hover { background: rgba(200,146,42,0.12); }
+  .toc-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    min-width: 36px;
+    font-weight: 600;
+  }
+  .toc-label { font-size: 0.9rem; }
+
+  /* ── SECTION ── */
+  .section {
+    padding: 60px 0 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0;
+  }
+  .section-inner { padding-bottom: 40px; }
+  .badge {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: var(--gold);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 3px;
+    margin-bottom: 16px;
+  }
+  .badge.part { background: var(--ink); }
+  .badge.strategy { background: var(--blue-dark); }
+  .badge.debate { background: var(--rust); }
+  h2.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: var(--ink);
+  }
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 32px 0 12px;
+    color: var(--ink);
+  }
+  h4 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--rust);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 24px 0 8px;
+  }
+  p { margin-bottom: 16px; }
+  strong { font-weight: 600; }
+  em { font-style: italic; }
+
+  /* ── CALLOUTS ── */
+  .callout {
+    border-left: 4px solid var(--gold);
+    background: #fff3cd;
+    padding: 16px 20px;
+    margin: 20px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout.danger {
+    border-color: var(--rust);
+    background: #fdf0ec;
+  }
+  .callout.tip {
+    border-color: var(--green);
+    background: #edf4ee;
+  }
+  .callout-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    color: var(--gold);
+  }
+  .callout.danger .callout-label { color: var(--rust); }
+  .callout.tip .callout-label { color: var(--green); }
+
+  /* ── CARDS ── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 20px 20px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--gold);
+  }
+  .card.rust::before { background: var(--rust); }
+  .card.green::before { background: var(--green); }
+  .card.blue::before { background: var(--blue-dark); }
+  .card-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--rust);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .card p { font-size: 0.9rem; margin: 0; }
+
+  /* ── TABLE ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.9rem;
+  }
+  th {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+  }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  tr:nth-child(even) td { background: rgba(200,146,42,0.06); }
+  td code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    background: #f0ebe0;
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: var(--rust);
+  }
+
+  /* ── DECISION TREE ── */
+  .dtree {
+    background: var(--dark-bg);
+    color: var(--paper);
+    border-radius: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    padding: 24px 28px;
+    margin: 20px 0;
+    line-height: 1.9;
+  }
+  .dtree .q { color: var(--gold); }
+  .dtree .y { color: #7ec8a0; }
+  .dtree .n { color: #e07060; }
+  .dtree .result { color: #c8bfad; padding-left: 16px; }
+
+  /* ── BLOCKQUOTE ── */
+  blockquote {
+    border-left: 4px solid var(--gold);
+    margin: 24px 0;
+    padding: 16px 24px;
+    background: rgba(200,146,42,0.08);
+    font-style: italic;
+    color: var(--muted);
+    border-radius: 0 6px 6px 0;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  /* ── CODE ── */
+  pre {
+    background: #1e1810;
+    color: #e8e0d0;
+    border-radius: 8px;
+    padding: 20px 24px;
+    overflow-x: auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 16px 0;
+  }
+  pre .comment { color: #7a7060; }
+  pre .good { color: #7ec8a0; }
+  pre .bad { color: #e07060; }
+  pre .keyword { color: var(--gold); }
+  pre .type { color: #8ab4d4; }
+
+  /* ── DEBATE ── */
+  .debate-item { margin: 20px 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+  .debate-header {
+    background: var(--blue-dark);
+    color: var(--paper);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    padding: 12px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .debate-header .q-icon { color: var(--gold); font-size: 16px; flex-shrink: 0; }
+  .debate-body { background: white; padding: 18px 20px; font-size: 0.9rem; }
+
+  /* ── GLOSSARY ── */
+  .glossary {
+    background: #fff;
+    border-top: 3px solid var(--gold);
+    border: 1.5px solid var(--border);
+    border-top: 3px solid var(--gold);
+    border-radius: 0 0 8px 8px;
+    padding: 20px 24px;
+    margin-top: 40px;
+  }
+  .glossary-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .gterm {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0ebe0;
+    align-items: baseline;
+  }
+  .gterm:last-child { border-bottom: none; }
+  .gterm-word {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    color: var(--rust);
+    font-size: 13px;
+  }
+  .gterm-def { font-size: 13px; color: var(--muted); }
+
+  /* ── COMPARISON BOX ── */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 20px 0;
+  }
+  .compare-col { padding: 16px 20px; }
+  .compare-col.bad { background: #fdf0ec; border-right: 1px solid var(--border); }
+  .compare-col.good { background: #edf4ee; }
+  .compare-col-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+  .compare-col.bad .compare-col-title { color: var(--rust); }
+  .compare-col.good .compare-col-title { color: var(--green); }
+
+  /* responsive */
+  @media (max-width: 640px) {
+    .toc-grid { grid-template-columns: 1fr; }
+    .gterm { grid-template-columns: 1fr; gap: 4px; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .compare-col.bad { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════ COVER -->
+<section id="cover">
+  <div class="container">
+    <div class="cover-badge">📚 Mastery Guide · Tiếng Việt</div>
+    <h1>Domain-Driven Design</h1>
+    <div class="subtitle">Tackling Complexity in the Heart of Software</div>
+    <div class="author">Eric Evans · 2003</div>
+    <p class="cover-desc">
+      Chắt lọc toàn bộ 359 trang thành tài liệu tham chiếu hoàn chỉnh bằng tiếng Việt — đủ để hiểu sâu, đủ để dùng trong công việc thực tế, đủ để tranh luận và phản biện về thiết kế phần mềm.
+    </p>
+    <div class="meta-pills">
+      <div class="meta-pill">📄 359 trang gốc</div>
+      <div class="meta-pill">🏗 4 Phần chính</div>
+      <div class="meta-pill">⚙️ 18 Chương</div>
+      <div class="meta-pill">🔑 30+ Patterns</div>
+      <div class="meta-pill">🇻🇳 Hoàn toàn tiếng Việt</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ TOC -->
+<section id="toc">
+  <div class="container">
+    <h2>Mục Lục</h2>
+    <div class="toc-grid">
+      <a href="#part1" class="toc-item"><span class="toc-num">PHẦN I</span><span class="toc-label">Đặt Domain Model vào Trung Tâm</span></a>
+      <a href="#ch1" class="toc-item"><span class="toc-num">CH 1</span><span class="toc-label">Crunching Knowledge — Chắt lọc Kiến thức</span></a>
+      <a href="#ch2" class="toc-item"><span class="toc-num">CH 2</span><span class="toc-label">Ubiquitous Language — Ngôn ngữ Phổ quát</span></a>
+      <a href="#ch3" class="toc-item"><span class="toc-num">CH 3</span><span class="toc-label">Model-Driven Design — Model gắn với Code</span></a>
+      <a href="#part2" class="toc-item"><span class="toc-num">PHẦN II</span><span class="toc-label">Building Blocks — Các Viên Gạch Xây Dựng</span></a>
+      <a href="#ch4" class="toc-item"><span class="toc-num">CH 4</span><span class="toc-label">Layered Architecture &amp; Isolating the Domain</span></a>
+      <a href="#ch5" class="toc-item"><span class="toc-num">CH 5</span><span class="toc-label">Entities, Value Objects &amp; Services</span></a>
+      <a href="#ch6" class="toc-item"><span class="toc-num">CH 6</span><span class="toc-label">Aggregates, Factories &amp; Repositories</span></a>
+      <a href="#part3" class="toc-item"><span class="toc-num">PHẦN III</span><span class="toc-label">Refactoring Toward Deeper Insight</span></a>
+      <a href="#ch8" class="toc-item"><span class="toc-num">CH 8</span><span class="toc-label">Breakthrough — Đột phá Model</span></a>
+      <a href="#ch9" class="toc-item"><span class="toc-num">CH 9</span><span class="toc-label">Making Implicit Concepts Explicit</span></a>
+      <a href="#ch10" class="toc-item"><span class="toc-num">CH 10</span><span class="toc-label">Supple Design — Thiết kế Dẻo dai</span></a>
+      <a href="#ch11-12" class="toc-item"><span class="toc-num">CH 11-12</span><span class="toc-label">Analysis Patterns &amp; Design Patterns</span></a>
+      <a href="#part4" class="toc-item"><span class="toc-num">PHẦN IV</span><span class="toc-label">Strategic Design — Thiết kế Chiến lược</span></a>
+      <a href="#ch14" class="toc-item"><span class="toc-num">CH 14</span><span class="toc-label">Bounded Context &amp; Context Map</span></a>
+      <a href="#ch15" class="toc-item"><span class="toc-num">CH 15</span><span class="toc-label">Distillation — Core Domain</span></a>
+      <a href="#ch16" class="toc-item"><span class="toc-num">CH 16</span><span class="toc-label">Large-Scale Structure</span></a>
+      <a href="#debate" class="toc-item"><span class="toc-num">⚔</span><span class="toc-label">Căn cứ Lập luận &amp; Phản biện</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ PART I -->
+<div class="section" id="part1">
+  <div class="container section-inner">
+    <span class="badge part">Phần I</span>
+    <h2 class="section-title">Đặt Domain Model vào Trung Tâm</h2>
+    <p>Đây là nền tảng triết học của toàn bộ cuốn sách. Evans lập luận rằng sự thất bại của phần mềm phức tạp không đến từ công nghệ tệ — mà đến từ việc không ai hiểu đủ sâu về nghiệp vụ để thiết kế đúng.</p>
+    <blockquote>
+      Đối với hầu hết các dự án phần mềm, trọng tâm chính phải là domain và domain logic. Các thiết kế domain phức tạp phải dựa trên một model.
+      <cite>— Eric Evans, Preface</cite>
+    </blockquote>
+    <div class="callout">
+      <div class="callout-label">🗺 Bức tranh lớn</div>
+      Evans so sánh model như <strong>bản đồ Trung Quốc thế kỷ 18</strong> — vẽ Trung Quốc to ở giữa, các nước xung quanh chỉ là nét sơ sài. Không cần "đúng với thực tế toàn bộ" — chỉ cần <strong>hữu ích cho vấn đề cần giải quyết</strong>.
+    </div>
+  </div>
+</div>
+
+<!-- CH1 -->
+<div class="section" id="ch1">
+  <div class="container section-inner">
+    <span class="badge">Chương 1</span>
+    <h2 class="section-title">Crunching Knowledge — Chắt lọc Kiến thức</h2>
+    <p><strong>Vấn đề cốt lõi:</strong> Model không xuất hiện từ requirement document. Nó được <em>chắt lọc</em> qua quá trình developer và domain expert ngồi cùng nhau, liên tục thử nghiệm và tinh chỉnh.</p>
+
+    <h3>Câu chuyện PCB — Làm thế nào knowledge crunching hoạt động</h3>
+    <p>Evans được giao viết phần mềm cho thiết kế bo mạch in (PCB) — một lĩnh vực mà ông không biết gì. Thay vì nhận specification và đi code, ông ngồi cùng chuyên gia PCB, vẽ sơ đồ, đặt câu hỏi:</p>
+    <div class="cards">
+      <div class="card">
+        <div class="card-title">Nghe thuật ngữ</div>
+        <p><strong>"net"</strong> là gì? → Dây dẫn kết nối các pin của chip. Khái niệm mới vào model.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Làm rõ sự mơ hồ</div>
+        <p><strong>"ref-des"</strong> vs <strong>"component instance"</strong> — cùng một thứ, hai tên. Chọn một tên cho Ubiquitous Language.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Xây model cùng nhau</div>
+        <p><code>ComponentType → Instance → Pin → Net</code> — model nổi lên từ cuộc trò chuyện, không phải từ bàn giấy.</p>
+      </div>
+      <div class="card rust">
+        <div class="card-title">Prototype sớm</div>
+        <p>Chạy prototype thô sớm → tạo vòng phản hồi → phát hiện sai sót trong model ngay.</p>
+      </div>
+    </div>
+
+    <h3>Ví dụ Overbooking — Kiến thức phải hiện ra trong code</h3>
+    <div class="compare-grid">
+      <div class="compare-col bad">
+        <div class="compare-col-title">❌ Tệ — Rule bị chôn vùi</div>
+        <pre style="margin:0;font-size:12px;background:transparent;padding:0;color:var(--rust);">double max = voyage.capacity() * 1.1;
+if ((booked + cargo.size()) > max)
+    return -1;
+// Rule 110% ẩn trong một con số</pre>
+      </div>
+      <div class="compare-col good">
+        <div class="compare-col-title">✅ Tốt — Rule được đặt tên</div>
+        <pre style="margin:0;font-size:12px;background:transparent;padding:0;color:var(--green);">if (!overbookingPolicy.isAllowed(
+        cargo, voyage))
+    return -1;
+// OverbookingPolicy là khái niệm rõ ràng</pre>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-label">💡 Rule of Thumb</div>
+      <strong>Business expert phải có thể đọc code và verify rule.</strong> Nếu không làm được điều đó, kiến thức đang bị "chôn vùi" — đây là dấu hiệu nguy hiểm.
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-label">📖 Thuật ngữ xuất hiện trong chương này</div>
+      <div class="gterm">
+        <span class="gterm-word">Domain</span>
+        <span class="gterm-def">Lĩnh vực nghiệp vụ mà phần mềm phục vụ. Ví dụ: Air Closet → domain là thời trang/subscription rental. Không phải "database", không phải "server".</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Domain Model</span>
+        <span class="gterm-def">Sự trừu tượng hóa có chọn lọc về domain — giữ những gì quan trọng, bỏ những gì không liên quan. Phải sống trong code, không chỉ trên giấy.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Knowledge Crunching</span>
+        <span class="gterm-def">Quá trình developer và domain expert ngồi cùng nhau, liên tục thảo luận, thử nghiệm, tinh chỉnh model. Không phải "expert nói, dev nghe" — mà là cùng nhau khám phá.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CH2 -->
+<div class="section" id="ch2">
+  <div class="container section-inner">
+    <span class="badge">Chương 2</span>
+    <h2 class="section-title">Ubiquitous Language — Ngôn ngữ Phổ quát</h2>
+    <p>Vấn đề: Developer nói một ngôn ngữ, business expert nói một ngôn ngữ khác. Mỗi lần họp phải có người "phiên dịch" — và bản dịch luôn mất mát thông tin.</p>
+
+    <h3>Hậu quả của "loạn ngôn ngữ"</h3>
+    <div class="callout danger">
+      <div class="callout-label">⚠ Dấu hiệu nguy hiểm</div>
+      Khi dev nói <em>"delete rows in shipment table"</em> và business nói <em>"thay đổi lịch trình"</em> cho cùng một hành động → hiểu nhầm liên tục, code không phản ánh nghiệp vụ, kiến thức bị mất dần.
+    </div>
+
+    <h3>So sánh 2 cuộc hội thoại thực tế (từ sách)</h3>
+    <p>Cùng một bài toán: thay đổi điểm thông quan → có cần tạo lại lộ trình không?</p>
+    <div class="compare-grid">
+      <div class="compare-col bad">
+        <div class="compare-col-title">❌ Không có Ubiquitous Language</div>
+        <p style="font-size:13px;font-style:italic;">"We'll delete all the rows in the shipment table with that cargo id, then pass the origin and destination into the Routing Service and it will repopulate the table…"</p>
+        <p style="font-size:12px;color:var(--muted);">Developer nói về implementation. Business không hiểu. Cần nhiều vòng giải thích.</p>
+      </div>
+      <div class="compare-col good">
+        <div class="compare-col-title">✅ Có Ubiquitous Language</div>
+        <p style="font-size:13px;font-style:italic;">"When you change anything in the Route Specification, we'll delete the old Itinerary and ask the Routing Service to generate a new one."</p>
+        <p style="font-size:12px;color:var(--muted);">Cả hai nói bằng thuật ngữ model: <em>Route Specification, Itinerary, Routing Service</em>. Ngắn gọn, chính xác.</p>
+      </div>
+    </div>
+
+    <h3>Nguyên tắc xây dựng Ubiquitous Language</h3>
+    <div class="cards">
+      <div class="card">
+        <div class="card-title">① Dùng ở mọi nơi</div>
+        <p>Họp, code, ticket, comment, email — cùng một ngôn ngữ. Không có ngoại lệ.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">② Khi ngôn ngữ "kẹt" → model sai</div>
+        <p>Phải giải thích dài dòng khi dùng một thuật ngữ? → Khái niệm đó chưa được model đúng. Sửa model.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">③ Business expert phải tham gia</div>
+        <p>Nếu domain expert không hiểu tên class → model đang có vấn đề, không phải business expert "không đủ kỹ thuật".</p>
+      </div>
+      <div class="card blue">
+        <div class="card-title">④ Refactor ngôn ngữ = refactor model</div>
+        <p>Khi tìm được từ tốt hơn → đổi tên class/method ngay. Ngôn ngữ và code phải đồng bộ.</p>
+      </div>
+    </div>
+
+    <h3>Về Diagram và Tài liệu</h3>
+    <p>Evans có quan điểm thực tế: <strong>Model không phải là diagram.</strong> Diagram chỉ là hình minh họa một phần của model. Code mới là nơi model sống.</p>
+    <table>
+      <tr><th>Công cụ</th><th>Vai trò đúng</th><th>Sai lầm phổ biến</th></tr>
+      <tr><td>UML Diagram</td><td>Brainstorm, giải thích nhanh cho 3-5 objects</td><td>Vẽ toàn bộ model — quá phức tạp, không ai đọc</td></tr>
+      <tr><td>Tài liệu viết</td><td>Giải thích ý nghĩa, ngữ cảnh lớn mà code không nói được</td><td>Mô tả lại những gì code đã nói rõ</td></tr>
+      <tr><td>Code</td><td>Tài liệu quan trọng nhất — chính xác tuyệt đối về hành vi</td><td>Dùng tên không phản ánh domain language</td></tr>
+      <tr><td>Spoken language</td><td>Phát hiện sự bất đồng, thử nghiệm model bằng lời</td><td>Dùng từ khác với những gì trong code</td></tr>
+    </table>
+
+    <div class="callout tip">
+      <div class="callout-label">💡 Thực hành "Modeling Out Loud"</div>
+      Evans đề xuất nói to về model khi thảo luận: <em>"A Routing Service finds an Itinerary that satisfies a Route Specification"</em> — nếu câu nói tự nhiên, model tốt. Nếu phải giải thích dài dòng, model cần refactor.
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-label">📖 Thuật ngữ xuất hiện trong chương này</div>
+      <div class="gterm">
+        <span class="gterm-word">Ubiquitous Language</span>
+        <span class="gterm-def">Ngôn ngữ duy nhất, có mặt ở khắp nơi (ubiquitous = có ở mọi chỗ), dùng chung bởi toàn team — developer, business expert, tài liệu, và code. Xuất phát từ domain model, không phải từ database schema hay technical jargon.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Explanatory Model</span>
+        <span class="gterm-def">Model phụ dùng để giải thích/dạy về domain — không nhất thiết phải là model dùng trong code. Ví dụ: sơ đồ hình ảnh để giải thích lộ trình vận chuyển cho người mới.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CH3 -->
+<div class="section" id="ch3">
+  <div class="container section-inner">
+    <span class="badge">Chương 3</span>
+    <h2 class="section-title">Model-Driven Design — Gắn Model với Code</h2>
+    <p>Evans bước vào một dự án thấy ngay sơ đồ class dán đầy tường — kết quả nhiều tháng phân tích. Model rất đúng về mặt nghiệp vụ. Nhưng code hoàn toàn không liên quan. Developer đã phát hiện model không implement được nên tự viết lại.</p>
+
+    <blockquote>
+      Model trên giấy có ích gì, nếu nó không trực tiếp hỗ trợ việc phát triển phần mềm chạy được?
+    </blockquote>
+
+    <h3>Vấn đề: Analysis Model vs Design Model</h3>
+    <div class="callout danger">
+      <div class="callout-label">⚠ Anti-pattern: Two-model approach</div>
+      Business analyst → [Analysis Model] → Handoff → Developer → [Design Model] → Code. Mỗi lần "handoff" là mất kiến thức. Cuối cùng hai model diverge, không ai biết cái nào đúng.
+    </div>
+
+    <h3>Giải pháp: MODEL-DRIVEN DESIGN</h3>
+    <p>Chỉ có <strong>một model duy nhất</strong>, phục vụ cả phân tích lẫn thiết kế, và sống trực tiếp trong code.</p>
+
+    <h3>So sánh: Script vs Model-Driven (ví dụ PCB)</h3>
+    <div class="compare-grid">
+      <div class="compare-col bad">
+        <div class="compare-col-title">❌ Script approach</div>
+        <p style="font-size:13px;">Sort file → Parse tên → Ghi rule → Lặp lại…</p>
+        <p style="font-size:12px;margin-top:8px;color:var(--muted);">Không có khái niệm "Bus" trong code. Thay đổi format file → viết lại từ đầu. Không thể test.</p>
+      </div>
+      <div class="compare-col good">
+        <div class="compare-col-title">✅ Model-Driven</div>
+        <p style="font-size:13px;font-family:'IBM Plex Mono',monospace;">bus.assignRule(NetRule.create(type, param));</p>
+        <p style="font-size:12px;margin-top:8px;color:var(--muted);">Code đọc như nghiệp vụ. Thêm 20 rule mới → không sửa core. Dễ unit test.</p>
+      </div>
+    </div>
+
+    <h3>HANDS-ON MODELERS — Dev phải là người model</h3>
+    <p>Evans kể một dự án bị cấm viết code vì "modeler phải tập trung vào model". Kết quả: model không được implement đúng, feedback không quay về kịp, dev bỏ model và tự làm theo cách riêng.</p>
+    <div class="callout">
+      <div class="callout-label">📌 Nguyên tắc bắt buộc</div>
+      Bất kỳ ai đóng góp vào model <strong>phải viết code</strong>. Bất kỳ ai viết code <strong>phải tham gia model</strong>. <strong>Developer chính là modeler</strong> — dù ai muốn hay không.
+    </div>
+
+    <h3>Khi UI Model khác Domain Model — Bài học IE Favorites</h3>
+    <p>Internet Explorer lưu Favorites dưới dạng file Windows. Khi user đặt tên có dấu ":", IE báo lỗi: <em>"A filename cannot contain: \ / : * ?"</em>. User bối rối: tôi chỉ lưu bookmark! → Khi UI model và domain model không khớp, user bị confused và hành vi phần mềm không thể đoán trước.</p>
+
+    <div class="glossary">
+      <div class="glossary-label">📖 Thuật ngữ xuất hiện trong chương này</div>
+      <div class="gterm">
+        <span class="gterm-word">Model-Driven Design</span>
+        <span class="gterm-def">Phương pháp thiết kế trong đó chỉ có một model duy nhất, dùng cho cả phân tích lẫn implementation. Code phản ánh trực tiếp các khái niệm trong model.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Analysis Model</span>
+        <span class="gterm-def">Model được tạo bởi analyst để hiểu domain, không tính đến implementation. Evans coi đây là anti-pattern khi nó tách rời khỏi design model.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Hands-on Modeler</span>
+        <span class="gterm-def">Nguyên tắc: người model phải tham gia code, người code phải tham gia model. Tách rời hai vai trò này phá vỡ Model-Driven Design.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ PART II -->
+<div class="section" id="part2">
+  <div class="container section-inner">
+    <span class="badge part">Phần II</span>
+    <h2 class="section-title">Building Blocks — Các Viên Gạch Xây Dựng Model</h2>
+    <p>Phần này trình bày các "viên gạch" cụ thể để xây model: các patterns cơ bản giúp code phản ánh domain model một cách rõ ràng và nhất quán.</p>
+    <div class="cards">
+      <div class="card"><div class="card-title">Entities</div><p>Object có danh tính xuyên suốt vòng đời. Ví dụ: User, Order.</p></div>
+      <div class="card"><div class="card-title">Value Objects</div><p>Object mô tả giá trị, không có danh tính. Ví dụ: Address, Money.</p></div>
+      <div class="card"><div class="card-title">Services</div><p>Hành động không tự nhiên thuộc về Entity hay Value Object nào.</p></div>
+      <div class="card"><div class="card-title">Modules</div><p>Nhóm các khái niệm liên quan — kể câu chuyện domain ở mức cao hơn.</p></div>
+      <div class="card rust"><div class="card-title">Aggregates</div><p>Cụm objects được xử lý như một đơn vị nhất quán với một root duy nhất.</p></div>
+      <div class="card rust"><div class="card-title">Factories</div><p>Đóng gói logic tạo Aggregate phức tạp — giữ invariants ngay từ đầu.</p></div>
+      <div class="card rust"><div class="card-title">Repositories</div><p>Trừu tượng hóa việc tìm kiếm và truy xuất Aggregates từ storage.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CH4 -->
+<div class="section" id="ch4">
+  <div class="container section-inner">
+    <span class="badge">Chương 4</span>
+    <h2 class="section-title">Layered Architecture &amp; Isolating the Domain</h2>
+
+    <h3>LAYERED ARCHITECTURE — Tại sao phải tách layers</h3>
+    <p>Phần mềm phức tạp thường trộn lẫn: UI logic, business logic, database logic. Khi chúng rối với nhau, không thể hiểu, không thể test, không thể thay đổi một phần mà không ảnh hưởng phần khác.</p>
+
+    <table>
+      <tr><th>Layer</th><th>Trách nhiệm</th><th>Ví dụ</th></tr>
+      <tr><td><strong>User Interface</strong></td><td>Hiển thị thông tin, nhận input từ user</td><td>React components, API controllers</td></tr>
+      <tr><td><strong>Application</strong></td><td>Điều phối workflow, không chứa business rules</td><td>Use cases, Application Services</td></tr>
+      <tr><td><strong>Domain</strong></td><td>Business rules, domain logic — trái tim của phần mềm</td><td>Entities, Value Objects, Domain Services</td></tr>
+      <tr><td><strong>Infrastructure</strong></td><td>Database, email, file system, external APIs</td><td>Repositories impl, ORM, SMTP client</td></tr>
+    </table>
+
+    <div class="callout">
+      <div class="callout-label">📌 Nguyên tắc cốt lõi</div>
+      <strong>Domain layer phải không phụ thuộc vào bất kỳ layer nào khác.</strong> Business rules không được biết đến database, không biết đến HTTP, không biết đến email. Đây là điều kiện để có thể test domain logic thuần túy.
+    </div>
+
+    <h3>SMART UI ANTI-PATTERN — Bẫy hấp dẫn cần tránh</h3>
+    <div class="callout danger">
+      <div class="callout-label">⚠ Anti-pattern: Smart UI</div>
+      Đặt toàn bộ business logic vào UI layer (validation trong form handler, business rule trong onClick). Nhanh ban đầu, nhưng không scale. Không thể reuse logic, không thể test, không thể thay đổi UI mà không ảnh hưởng business rule.
+    </div>
+    <p><strong>Khi nào Smart UI có thể chấp nhận được?</strong> Khi ứng dụng đơn giản, không cần scale, team nhỏ, deadline rất gấp và không có kế hoạch mở rộng. <em>Nhưng hãy biết rõ đây là trade-off, không phải giải pháp tốt.</em></p>
+
+    <div class="glossary">
+      <div class="glossary-label">📖 Thuật ngữ xuất hiện trong chương này</div>
+      <div class="gterm">
+        <span class="gterm-word">Layered Architecture</span>
+        <span class="gterm-def">Kiến trúc phân tầng: UI → Application → Domain → Infrastructure. Mỗi layer chỉ phụ thuộc vào layer bên dưới (hoặc cùng level).</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Domain Layer</span>
+        <span class="gterm-def">Layer chứa toàn bộ business logic và domain model. Phải độc lập với infrastructure. Đây là layer quan trọng nhất trong DDD.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Smart UI Anti-pattern</span>
+        <span class="gterm-def">Anti-pattern: đặt business logic vào UI layer. Hấp dẫn vì nhanh, nhưng tạo ra technical debt lớn và không scale.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CH5 -->
+<div class="section" id="ch5">
+  <div class="container section-inner">
+    <span class="badge">Chương 5</span>
+    <h2 class="section-title">Entities, Value Objects &amp; Services</h2>
+
+    <h3>ENTITIES — Object có Danh tính</h3>
+    <p>Evans kể câu chuyện bị kiện nhầm — toà án tìm "Eric Evans" và chọn nhầm người. Danh tính quan trọng: không phải thuộc tính mà là <em>sự liên tục xuyên suốt vòng đời</em>.</p>
+
+    <div class="callout">
+      <div class="callout-label">📌 Định nghĩa Entity</div>
+      Một object được phân biệt <strong>bởi danh tính của nó</strong>, không phải bởi thuộc tính. Hai Entity có thể có cùng thuộc tính nhưng vẫn là hai thứ khác nhau. Ví dụ: hai giao dịch ngân hàng cùng số tiền, cùng ngày → vẫn là hai giao dịch riêng biệt.
+    </div>
+
+    <table>
+      <tr><th>Câu hỏi</th><th>Entity</th><th>Value Object</th></tr>
+      <tr><td>Danh tính quan trọng?</td><td>✅ Có</td><td>❌ Không</td></tr>
+      <tr><td>Có thể thay thế bản sao?</td><td>❌ Không</td><td>✅ Có</td></tr>
+      <tr><td>Thay đổi theo thời gian?</td><td>✅ Thay đổi, identity giữ nguyên</td><td>✅ Tạo mới, không sửa</td></tr>
+      <tr><td>Ví dụ</td><td>User, Order, Product (cụ thể)</td><td>Address, Money, Color</td></tr>
+      <tr><td>Identifier</td><td>Cần ID duy nhất</td><td>Không cần ID</td></tr>
+    </table>
+
+    <div class="callout danger">
+      <div class="callout-label">⚠ Sai lầm phổ biến</div>
+      Gán ID cho mọi object vì "framework yêu cầu" — điều này làm mờ đi sự phân biệt quan trọng giữa Entity và Value Object, làm model khó hiểu và tốn kém về performance.
+    </div>
+
+    <h3>VALUE OBJECTS — Object mô tả đặc tính</h3>
+    <p>Một đứa trẻ vẽ tranh — em không quan tâm cái bút marker nào, miễn là cùng màu. Marker là Value Object.</p>
+
+    <div class="cards">
+      <div class="card green">
+        <div class="card-title">Bất biến (Immutable)</div>
+        <p>Value Object không thay đổi — thay vào đó tạo mới. Giúp chia sẻ an toàn, tránh side effects.</p>
+      </div>
+      <div class="card green">
+        <div class="card-title">Conceptually Whole</div>
+        <p>street + city + zip = Address (một khái niệm), không phải 3 thuộc tính rời rạc của Person.</p>
+      </div>
+      <div class="card green">
+        <div class="card-title">Ví dụ thực tế</div>
+        <p>Money, Address, DateRange, Color, PhoneNumber, Email. Tất cả mô tả giá trị, không có danh tính riêng.</p>
+      </div>
+    </div>
+
+    <div class="dtree">
+      <div class="q">Khi nào Address là Entity, khi nào là Value Object?</div><br>
+      <span class="q">→ Bạn có cần phân biệt hai địa chỉ giống nhau không?</span><br>
+      <span class="y">  YES → Entity</span><span class="result"> (điện lực: mỗi căn hộ = service point riêng biệt)</span><br>
+      <span class="n">  NO  → Value Object</span><span class="result"> (mail-order: chỉ cần biết giao hàng đâu)</span>
+    </div>
+
+    <h3>SERVICES — Khi hành động không thuộc về object nào</h3>
+    <p>Đôi khi có những hành động quan trọng trong domain mà không thể tự nhiên gán cho Entity hay Value Object nào. Ép nó vào một object nào đó sẽ làm object đó méo mó, khó hiểu.</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-title">Đặc điểm của Service tốt</div>
+        <p>① Liên quan đến khái niệm domain không thuộc Entity/Value nào<br>② Interface dùng ngôn ngữ của model<br>③ Stateless — không giữ trạng thái riêng</p>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Phân biệt 3 loại Service</div>
+        <p><strong>Domain Service:</strong> Chứa business logic (FundsTransferService)<br><strong>Application Service:</strong> Điều phối workflow<br><strong>Infrastructure Service:</strong> Email, file, external API</p>
+      </div>
+    </div>
+
+    <table>
+      <tr><th>Ví dụ</th><th>Thuộc layer nào?</th><th>Lý do</th></tr>
+      <tr><td>Chuyển tiền giữa 2 tài khoản</td><td>Domain Service</td><td>Chứa business rule banking</td></tr>
+      <tr><td>Xuất transactions ra Excel</td><td>Application Service</td><td>Không có business rule, chỉ format</td></tr>
+      <tr><td>Gửi email thông báo</td><td>Infrastructure Service</td><td>Technical, không có domain meaning</td></tr>
+    </table>
+
+    <div class="glossary">
+      <div class="glossary-label">📖 Thuật ngữ xuất hiện trong chương này</div>
+      <div class="gterm">
+        <span class="gterm-word">Entity</span>
+        <span class="gterm-def">Object được phân biệt bằng danh tính, không phải thuộc tính. Có vòng đời riêng. Cần mechanism để so sánh identity (ID). Khi thiết kế Entity, hãy tập trung vào danh tính và continuity, không phải data.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Value Object</span>
+        <span class="gterm-def">Object mô tả đặc tính của domain, không có danh tính riêng. Nên immutable. Hai Value Object bằng nhau khi tất cả thuộc tính bằng nhau. Dùng khi bạn chỉ quan tâm "nó là gì", không phải "nó là cái nào".</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Service (Domain)</span>
+        <span class="gterm-def">Hành động domain quan trọng không thuộc tự nhiên về Entity hay Value Object nào. Stateless. Tên thường là verb (FundsTransferService, RoutingService). Không nên là "Manager" hay "Handler" nếu tên đó không có nghĩa trong domain.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Modules (Packages)</span>
+        <span class="gterm-def">Nhóm các khái niệm liên quan thành một đơn vị có tên. Tên Module phải là Ubiquitous Language. Low coupling giữa modules, high cohesion bên trong. Modules kể câu chuyện domain ở mức cao hơn class.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CH6 -->
+<div class="section" id="ch6">
+  <div class="container section-inner">
+    <span class="badge">Chương 6</span>
+    <h2 class="section-title">Aggregates, Factories &amp; Repositories</h2>
+    <p>Vòng đời của domain object bao gồm: tạo ra, lưu trữ, sửa đổi, và xóa. Nếu quản lý vòng đời này tệ, model bị "swamped" bởi technical complexity.</p>
+
+    <h3>AGGREGATES — Ranh giới nhất quán</h3>
+    <p>Bài toán: Khi xóa một "person" object, bạn có nên xóa address đi kèm không? Nếu có, những person khác cùng địa chỉ sẽ có broken reference. Nếu không, database tích lũy junk data.</p>
+
+    <div class="callout">
+      <div class="callout-label">📌 Định nghĩa Aggregate</div>
+      <strong>Aggregate</strong> là cụm objects liên quan được xử lý như một đơn vị nhất quán cho mục đích thay đổi dữ liệu. Có một <strong>Aggregate Root</strong> duy nhất kiểm soát mọi access.
+    </div>
+
+    <p><strong>Ví dụ: Car Aggregate</strong> — Car là root. Tires có identity nhưng chỉ trong ngữ cảnh Car. Không ai query "tìm tất cả tires" — họ query "tìm Car và lấy tires của nó".</p>
+
+    <h4>Các quy tắc bắt buộc của Aggregate</h4>
+    <div class="cards">
+      <div class="card rust">
+        <div class="card-title">① Root là cổng vào duy nhất</div>
+        <p>Objects bên ngoài chỉ được giữ reference đến Aggregate Root, không được đến internal objects.</p>
+      </div>
+      <div class="card rust">
+        <div class="card-title">② Chỉ Root có global identity</div>
+        <p>Internal entities có local identity, chỉ unique trong Aggregate. Không query directly đến chúng.</p>
+      </div>
+      <div class="card rust">
+        <div class="card-title">③ Invariants phải được enforce</div>
+        <p>Sau mỗi transaction, tất cả invariants của Aggregate phải được thỏa mãn. Root chịu trách nhiệm này.</p>
+      </div>
+      <div class="card rust">
+        <div class="card-title">④ Delete = xóa toàn bộ</div>
+        <p>Khi delete Aggregate Root, toàn bộ objects trong boundary phải bị xóa cùng lúc.</p>
+      </div>
+    </div>
+
+    <div class="callout danger">
+      <div class="callout-label">⚠ Ví dụ vi phạm invariant (Purchase Order)</div>
+      George và Amanda cùng sửa 2 line items khác nhau của cùng một PO. Mỗi người lock line item của mình. Kết quả: tổng tiền vượt approved limit — invariant bị vi phạm mà không ai biết. Giải pháp: lock toàn bộ PO (Aggregate) khi có ai đang sửa.
+    </div>
+
+    <h3>FACTORIES — Đóng gói việc tạo phức tạp</h3>
+    <p>Việc tạo một Aggregate phức tạp thường đòi hỏi nhiều steps và phải giữ invariants ngay từ đầu. Constructor không đủ.</p>
+    <div class="compare-grid">
+      <div class="compare-col bad">
+        <div class="compare-col-title">❌ Tạo phức tạp trong client code</div>
+        <p style="font-size:13px;">Client phải biết cách tạo ra đúng cấu trúc bên trong. Rò rỉ implementation details. Nếu cách tạo thay đổi, phải sửa nhiều nơi.</p>
+      </div>
+      <div class="compare-col good">
+        <div class="compare-col-title">✅ Factory đóng gói logic tạo</div>
+        <p style="font-size:13px;font-family:'IBM Plex Mono',monospace;">Order order = OrderFactory.createForCustomer(customer, items);</p>
+        <p style="font-size:12px;margin-top:8px;color:var(--muted);">Client không cần biết cách tạo. Invariants được đảm bảo ngay từ đầu.</p>
+      </div>
+    </div>
+
+    <h3>REPOSITORIES — Trừu tượng hóa storage</h3>
+    <p>Repository cung cấp interface để tìm kiếm và truy xuất Aggregates — giống như một "collection" trong memory. Client không cần biết database, SQL, hay ORM.</p>
+
+    <table>
+      <tr><th>Đặc điểm Repository tốt</th><th>Giải thích</th></tr>
+      <tr><td>Interface dùng domain language</td><td><code>orderRepo.findByCustomer(customer)</code> không phải <code>db.query("SELECT...")</code></td></tr>
+      <tr><td>Chỉ cho Aggregate Roots</td><td>Không có Repository cho internal entities</td></tr>
+      <tr><td>Ẩn hoàn toàn infrastructure</td><td>Domain code không biết đến SQL, MongoDB, hay Redis</td></tr>
+      <tr><td>Trả về domain objects</td><td>Không phải DTOs hay database rows</td></tr>
+    </table>
+
+    <div class="callout tip">
+      <div class="callout-label">💡 Factory vs Repository</div>
+      <strong>Factory:</strong> tạo object mới — chưa có trong storage.<br>
+      <strong>Repository:</strong> tìm và trả về object đã tồn tại — đã có trong storage.
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-label">📖 Thuật ngữ xuất hiện trong chương này</div>
+      <div class="gterm">
+        <span class="gterm-word">Aggregate</span>
+        <span class="gterm-def">Cụm objects liên quan được xử lý như một đơn vị nhất quán. Có một Root duy nhất. Ranh giới xác định phạm vi invariants cần maintain. Ví dụ: Order + LineItems = một Aggregate; Car + Tires = một Aggregate.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Aggregate Root</span>
+        <span class="gterm-def">Entity duy nhất mà objects bên ngoài được phép giữ reference đến. Chịu trách nhiệm enforce tất cả invariants của Aggregate. Là điểm vào duy nhất để thay đổi Aggregate.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Invariant</span>
+        <span class="gterm-def">Quy tắc nhất quán phải luôn đúng sau mỗi transaction. Ví dụ: "Tổng line items không được vượt approved limit của PO". Aggregate Root chịu trách nhiệm enforce invariants.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Factory</span>
+        <span class="gterm-def">Object/method đóng gói logic tạo Aggregate hoặc Entity phức tạp. Đảm bảo invariants được giữ ngay từ khi tạo. Không phải design pattern GoF Factory Method theo nghĩa kỹ thuật thuần túy.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Repository</span>
+        <span class="gterm-def">Abstraction để tìm kiếm và truy xuất Aggregates. Cung cấp interface giống "collection" trong memory. Ẩn hoàn toàn infrastructure (SQL, NoSQL, API). Chỉ tồn tại cho Aggregate Roots.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ PART III -->
+<div class="section" id="part3">
+  <div class="container section-inner">
+    <span class="badge part">Phần III</span>
+    <h2 class="section-title">Refactoring Toward Deeper Insight</h2>
+    <p>Building blocks là nền tảng. Nhưng thách thức thực sự là <em>tìm ra model đúng</em> — một model phản ánh sự hiểu biết sâu sắc về domain, không chỉ là bề mặt của nó.</p>
+    <blockquote>
+      Model ban đầu thường ngây thơ và nông cạn. Sự tinh chỉnh đến qua nhiều vòng lặp knowledge crunching và refactoring — không phải qua planning upfront.
+    </blockquote>
+    <div class="cards">
+      <div class="card"><div class="card-title">Breakthrough (Ch.8)</div><p>Những khoảnh khắc insight đột ngột thay đổi toàn bộ model — không thể plan nhưng cần nhận ra và nắm bắt.</p></div>
+      <div class="card"><div class="card-title">Implicit → Explicit (Ch.9)</div><p>Những khái niệm ẩn trong code (không được đặt tên) → đặt tên và model chúng tường minh.</p></div>
+      <div class="card"><div class="card-title">Supple Design (Ch.10)</div><p>Thiết kế dẻo dai — dễ thay đổi, dễ hiểu, dễ test. Các patterns cụ thể để đạt được điều này.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CH8 -->
+<div class="section" id="ch8">
+  <div class="container section-inner">
+    <span class="badge">Chương 8</span>
+    <h2 class="section-title">Breakthrough — Đột phá Model</h2>
+    <p>Dự án quản lý syndicated loans. Sau nhiều tháng refactoring, team có model ổn — nhưng vẫn gặp vấn đề rounding phức tạp và requirements ngày càng khó xử lý.</p>
+
+    <h3>Insight đột phá</h3>
+    <p>Nhận ra rằng <em>"Investment"</em> và <em>"Loan Investment"</em> thực ra chỉ là hai trường hợp đặc biệt của một khái niệm tổng quát hơn: <strong>Shares</strong>. Shares trong Facility, shares trong Loan, shares trong payment distribution — tất cả đều là "phần của một tổng thể có thể phân chia".</p>
+
+    <div class="callout">
+      <div class="callout-label">💡 Kết quả của Breakthrough</div>
+      Model mới với <strong>SharePie</strong>: một Value Object đơn giản với phép toán <code>plus()</code>, <code>minus()</code>, <code>prorated()</code>. Loại bỏ toàn bộ special-case logic. Code đọc như định nghĩa nghiệp vụ. Rounding problems biến mất. Business experts hiểu ngay và dùng SharePie trong marketing materials.
+    </div>
+
+    <h3>Quyết định khó khăn: refactor hay không?</h3>
+    <p>Project đang dưới deadline nghiêm trọng. Refactor sẽ mất 3 tuần và disable nhiều functionality trong quá trình. Project manager dũng cảm cho phép. Kết quả: hoàn thành trong 3 tuần, dự án accelerate thay vì chậm lại.</p>
+
+    <div class="dtree">
+      <div class="q">Khi nào nên dừng lại để breakthrough refactoring?</div><br>
+      <span class="q">→ Model hiện tại có giải thích được tại sao requirements liên tục phức tạp thêm?</span><br>
+      <span class="n">  NO → Có thể bạn đang miss một khái niệm quan trọng. Tìm kiếm breakthrough.</span><br>
+      <span class="q">→ Refactor có mất &gt; 3 tuần?</span><br>
+      <span class="y">  YES → Đánh giá rủi ro kỹ. Không phải lúc nào cũng đúng lúc.</span><br>
+      <span class="n">  NO  → Thường nên làm. Technical debt này sẽ đắt hơn sau.</span>
+    </div>
+
+    <div class="callout tip">
+      <div class="callout-label">💡 Dấu hiệu cần Breakthrough</div>
+      ① Requirements mới liên tục làm phức tạp model theo hướng không ngờ<br>
+      ② Business experts nói "quá kỹ thuật, tôi không hiểu" với model hiện tại<br>
+      ③ Có thuật ngữ business experts dùng thường xuyên nhưng không có trong model<br>
+      ④ Rounding, edge cases, special logic ngày càng nhiều và không hội tụ
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-label">📖 Thuật ngữ xuất hiện trong chương này</div>
+      <div class="gterm">
+        <span class="gterm-word">Breakthrough</span>
+        <span class="gterm-def">Khoảnh khắc insight đột ngột khi team nhận ra một cách tổ chức model sâu sắc hơn, loại bỏ hàng loạt complexity cùng lúc. Không thể plan nhưng được chuẩn bị bởi việc liên tục refactor và knowledge crunching.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Deep Model</span>
+        <span class="gterm-def">Model phản ánh những mối quan tâm cốt lõi của domain experts và kiến thức quan trọng nhất — không chỉ là bề mặt. Thường đơn giản hơn model ban đầu nhưng giải thích được nhiều thứ hơn.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CH9 -->
+<div class="section" id="ch9">
+  <div class="container section-inner">
+    <span class="badge">Chương 9</span>
+    <h2 class="section-title">Making Implicit Concepts Explicit</h2>
+    <p>Nhiều khái niệm quan trọng đang ẩn trong code dưới dạng logic phân tán, conditional statements, hay method names mơ hồ. Khi nhận ra và đặt tên cho chúng, model trở nên giàu sức mạnh hơn.</p>
+
+    <h3>4 cách nhận ra khái niệm ẩn</h3>
+    <div class="cards">
+      <div class="card">
+        <div class="card-title">① Lắng nghe ngôn ngữ</div>
+        <p>Business experts dùng từ mà không có trong model? → Đó là khái niệm cần thêm vào. Ví dụ: "accrual" (ghi nhận phát sinh) — không có trong model nhưng experts nói liên tục.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">② Xem xét sự vụng về</div>
+        <p>Có chỗ nào trong design cảm thấy awkward, khó giải thích, hoặc phải làm vòng vèo? → Khả năng cao là thiếu một khái niệm quan trọng.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">③ Suy nghĩ về mâu thuẫn</div>
+        <p>Experts nói những điều mâu thuẫn nhau? → Thường là hai trường hợp của cùng một khái niệm cần được phân biệt rõ.</p>
+      </div>
+      <div class="card blue">
+        <div class="card-title">④ Đọc tài liệu domain</div>
+        <p>Sách giáo khoa, tiêu chuẩn ngành, tài liệu nội bộ của business — chúng chứa vocabulary cần đưa vào model.</p>
+      </div>
+    </div>
+
+    <h3>SPECIFICATION pattern — Khái niệm ẩn quan trọng</h3>
+    <p>Rất nhiều hệ thống có logic kiểm tra "object X có thỏa mãn điều kiện Y không?" nhưng logic đó nằm rải rác, trùng lặp nhiều nơi. Specification pattern tách rule ra thành object độc lập.</p>
+
+    <div class="compare-grid">
+      <div class="compare-col bad">
+        <div class="compare-col-title">❌ Logic kiểm tra trùng lặp</div>
+        <p style="font-size:13px;">Validation trong Controller, filtering trong Repository query, selection trong UI — cùng một rule nhưng viết nhiều chỗ.</p>
+      </div>
+      <div class="compare-col good">
+        <div class="compare-col-title">✅ Specification Object</div>
+        <p style="font-size:13px;font-family:'IBM Plex Mono',monospace;">Spec spec = new DelinquentAccountSpec();<br>spec.isSatisfiedBy(account);</p>
+        <p style="font-size:12px;margin-top:8px;color:var(--muted);">Rule được đặt tên, có thể combine, reuse, và test độc lập.</p>
+      </div>
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-label">📖 Thuật ngữ xuất hiện trong chương này</div>
+      <div class="gterm">
+        <span class="gterm-word">Specification</span>
+        <span class="gterm-def">Pattern để đóng gói một business rule kiểm tra (predicate) thành một object. Có method <code>isSatisfiedBy(object)</code>. Có thể combine: <code>AND</code>, <code>OR</code>, <code>NOT</code>. Dùng cho validation, selection, và construction (tạo object thỏa mãn spec).</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Constraint</span>
+        <span class="gterm-def">Business rule được tách ra thành method hoặc object riêng. Đơn giản hơn Specification — khi rule đủ đơn giản không cần combine.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CH10 -->
+<div class="section" id="ch10">
+  <div class="container section-inner">
+    <span class="badge">Chương 10</span>
+    <h2 class="section-title">Supple Design — Thiết kế Dẻo dai</h2>
+    <p>Model tốt thôi chưa đủ. Code phải được viết theo cách làm cho nó dễ hiểu, dễ thay đổi, và dễ kết hợp. Evans gọi đây là <em>Supple Design</em> — thiết kế dẻo như găng tay được mặc lâu, mềm ở đúng những chỗ cần bẻ.</p>
+
+    <h3>6 Patterns của Supple Design</h3>
+    <table>
+      <tr><th>Pattern</th><th>Mô tả ngắn</th><th>Lợi ích</th></tr>
+      <tr>
+        <td><strong>Intention-Revealing Interfaces</strong></td>
+        <td>Đặt tên method/class theo mục đích (what), không phải cách thực hiện (how)</td>
+        <td>Đọc code = đọc nghiệp vụ. Không cần đọc implementation để hiểu ý định.</td>
+      </tr>
+      <tr>
+        <td><strong>Side-Effect-Free Functions</strong></td>
+        <td>Function chỉ tính toán và trả về, không thay đổi state</td>
+        <td>An toàn để gọi bất kỳ lúc nào, dễ test, dễ kết hợp, dễ reason về.</td>
+      </tr>
+      <tr>
+        <td><strong>Assertions</strong></td>
+        <td>Phát biểu rõ ràng post-conditions và invariants</td>
+        <td>Developer hiểu contract của method mà không cần đọc implementation.</td>
+      </tr>
+      <tr>
+        <td><strong>Conceptual Contours</strong></td>
+        <td>Chia nhỏ model theo ranh giới tự nhiên của domain</td>
+        <td>Granularity đúng — không quá thô, không quá mịn.</td>
+      </tr>
+      <tr>
+        <td><strong>Standalone Classes</strong></td>
+        <td>Giảm dependencies đến mức tối thiểu</td>
+        <td>Dễ hiểu mà không cần biết ngữ cảnh. Dễ test.</td>
+      </tr>
+      <tr>
+        <td><strong>Closure of Operations</strong></td>
+        <td>Operation trả về cùng type với input</td>
+        <td>Tự chứa đựng, dễ kết hợp. SharePie.plus(SharePie) → SharePie.</td>
+      </tr>
+    </table>
+
+    <h3>Ví dụ thực tế: SharePie</h3>
+    <pre>
+<span class="comment">// INTENTION REVEALING: tên nói lên mục đích</span>
+<span class="good">public SharePie prorated(Money amount) { ... }</span>
+<span class="good">public SharePie plus(SharePie other) { ... }</span>
+<span class="good">public SharePie minus(SharePie other) { ... }</span>
+
+<span class="comment">// SIDE-EFFECT-FREE: mỗi method trả về SharePie mới, không sửa cái cũ</span>
+<span class="comment">// CLOSURE OF OPERATIONS: SharePie → SharePie (tự chứa đựng)</span>
+
+<span class="comment">// Client code đọc như định nghĩa nghiệp vụ:</span>
+<span class="good">SharePie deviation = actual.minus(</span>
+<span class="good">    facility.getShares().prorated(loan.getAmount()));</span>
+</pre>
+
+    <div class="callout tip">
+      <div class="callout-label">💡 Dấu hiệu Supple Design</div>
+      Khi đọc client code mà không cần mở implementation để hiểu — đó là dấu hiệu design đang supple. Khi cần đọc implementation để hiểu client code đang làm gì — đó là dấu hiệu cần cải thiện.
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-label">📖 Thuật ngữ xuất hiện trong chương này</div>
+      <div class="gterm">
+        <span class="gterm-word">Intention-Revealing Interface</span>
+        <span class="gterm-def">Interface (tên class/method/param) phát biểu mục đích (why/what), không phải cơ chế (how). Ví dụ: <code>paint(Color)</code> tốt hơn <code>setRGBValues(r, g, b)</code>.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Side-Effect-Free Function</span>
+        <span class="gterm-def">Function chỉ tính toán và trả về kết quả, không thay đổi bất kỳ state nào (cả của chính nó lẫn các objects khác). Giúp dễ test, dễ compose, dễ reason about.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Closure of Operations</span>
+        <span class="gterm-def">Khi một operation trên một type trả về cùng type đó. Ví dụ: Money + Money = Money. SharePie.prorated(amount) = SharePie. Tạo ra "domain math" tự chứa đựng và dễ kết hợp.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CH11-12 -->
+<div class="section" id="ch11-12">
+  <div class="container section-inner">
+    <span class="badge">Chương 11 &amp; 12</span>
+    <h2 class="section-title">Analysis Patterns &amp; Design Patterns trong Domain</h2>
+
+    <h3>Analysis Patterns (Ch.11)</h3>
+    <p>Đôi khi ai đó đã giải quyết bài toán tương tự trong domain khác và documented lại model của họ. Sử dụng những patterns này như điểm khởi đầu — không phải solution hoàn chỉnh.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="card-title">Account + Entry pattern</div>
+        <p>Theo dõi thay đổi của một "account" theo thời gian. Mỗi Entry bất biến, balance = sum(entries). Áp dụng cho: ledger, inventory, credit/debit tracking.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Posting Rules pattern</div>
+        <p>Khi một entry trong Account A tự động trigger entry trong Account B. Tách rule ra thành object. Ba firing modes: Eager, Account-based, Rule-based.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <div class="callout-label">📌 Cách dùng Analysis Patterns đúng</div>
+      Analysis pattern là <strong>điểm khởi đầu và nguồn cảm hứng</strong>, không phải giải pháp copy-paste. Adapt chúng cho context của bạn. Giữ nguyên <em>bản chất</em> của pattern (để tận dụng accumulated wisdom), nhưng thay đổi chi tiết theo nhu cầu thực tế.
+    </div>
+
+    <h3>Design Patterns như Domain Patterns (Ch.12)</h3>
+    <p>Một số Design Patterns của GoF có thể áp dụng ở cả hai cấp độ: kỹ thuật và domain concept.</p>
+    <table>
+      <tr><th>Pattern</th><th>Kỹ thuật thuần túy</th><th>Như Domain Pattern</th></tr>
+      <tr>
+        <td><strong>STRATEGY (Policy)</strong></td>
+        <td>Thay thế algorithm runtime</td>
+        <td>Biểu diễn một business policy/rule có thể thay đổi. Ví dụ: LegMagnitudePolicy (fastest vs cheapest routing).</td>
+      </tr>
+      <tr>
+        <td><strong>COMPOSITE</strong></td>
+        <td>Tree structure, xử lý đồng nhất leaf và node</td>
+        <td>Khi domain thực sự có cấu trúc phân cấp toàn phần: Route bao gồm các Routes nhỏ hơn.</td>
+      </tr>
+      <tr>
+        <td><strong>FLYWEIGHT</strong></td>
+        <td>Share objects để tiết kiệm memory</td>
+        <td><em>Không áp dụng như domain pattern</em> — là optimization thuần kỹ thuật, không có nghĩa domain.</td>
+      </tr>
+    </table>
+
+    <div class="glossary">
+      <div class="glossary-label">📖 Thuật ngữ xuất hiện trong chương này</div>
+      <div class="gterm">
+        <span class="gterm-word">Analysis Pattern</span>
+        <span class="gterm-def">Model đã được documented từ kinh nghiệm thực tế trong một domain cụ thể (Martin Fowler's "Analysis Patterns"). Không phải solution sẵn sàng dùng, mà là "kit of model fragments" — điểm khởi đầu cho knowledge crunching.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Strategy / Policy</span>
+        <span class="gterm-def">Trong context DDD: tách một business rule hoặc process có thể thay đổi thành object riêng. Khác với Strategy pattern thuần kỹ thuật ở chỗ: nó biểu diễn một khái niệm domain có ý nghĩa nghiệp vụ thực sự.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ PART IV -->
+<div class="section" id="part4">
+  <div class="container section-inner">
+    <span class="badge part">Phần IV</span>
+    <h2 class="section-title">Strategic Design — Thiết kế Chiến lược</h2>
+    <p>Khi hệ thống lớn lên, một model duy nhất cho toàn bộ không còn thực tế. Phần này giải quyết câu hỏi: làm thế nào để quản lý sự phức tạp ở quy mô lớn — nhiều team, nhiều hệ thống, nhiều context?</p>
+    <div class="cards">
+      <div class="card rust"><div class="card-title">Bounded Context (Ch.14)</div><p>Xác định ranh giới rõ ràng của mỗi model. Bên trong ranh giới, ngôn ngữ nhất quán. Khác ranh giới, model có thể khác nhau.</p></div>
+      <div class="card rust"><div class="card-title">Distillation (Ch.15)</div><p>Tách Core Domain khỏi supporting subdomains. Đầu tư sâu nhất vào Core — đó là lợi thế cạnh tranh.</p></div>
+      <div class="card rust"><div class="card-title">Large-Scale Structure (Ch.16)</div><p>Patterns tổ chức toàn bộ hệ thống: Layers, System Metaphor, Knowledge Level, Pluggable Components.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CH14 -->
+<div class="section" id="ch14">
+  <div class="container section-inner">
+    <span class="badge strategy">Chương 14</span>
+    <h2 class="section-title">Bounded Context &amp; Context Map</h2>
+    <p>Khi nhiều team làm việc trên cùng một hệ thống, model bắt đầu "splintered" — mỗi người dùng cùng từ nhưng có nghĩa khác nhau. Bounded Context là giải pháp.</p>
+
+    <h3>BOUNDED CONTEXT — Ranh giới của Model</h3>
+    <div class="callout">
+      <div class="callout-label">📌 Định nghĩa Bounded Context</div>
+      <strong>Bounded Context</strong> là ranh giới rõ ràng xác định phạm vi mà một model cụ thể áp dụng. Bên trong ranh giới: ngôn ngữ nhất quán, model nhất quán. Tại ranh giới: cần translation layer.
+    </div>
+
+    <p>Ví dụ thực tế: "Customer" trong Sales system vs "Customer" trong Support system — cùng từ, khác model. Đừng cố force chúng thành một model — hãy accept rằng đây là hai Bounded Contexts khác nhau.</p>
+
+    <h3>Các mối quan hệ giữa Bounded Contexts</h3>
+    <table>
+      <tr><th>Pattern</th><th>Mô tả</th><th>Khi nào dùng</th></tr>
+      <tr>
+        <td><strong>Shared Kernel</strong></td>
+        <td>Hai team chia sẻ một phần model chung, maintain cùng nhau</td>
+        <td>Hai team phụ thuộc chặt, có thể coordinate thường xuyên</td>
+      </tr>
+      <tr>
+        <td><strong>Customer/Supplier</strong></td>
+        <td>Upstream team serve downstream team. Downstream có quyền negotiate requirements</td>
+        <td>Một team depend vào team khác, có thể communicate trực tiếp</td>
+      </tr>
+      <tr>
+        <td><strong>Conformist</strong></td>
+        <td>Downstream team chấp nhận model của upstream, không negotiate</td>
+        <td>Upstream không quan tâm đến downstream (big vendor, legacy system)</td>
+      </tr>
+      <tr>
+        <td><strong>Anticorruption Layer</strong></td>
+        <td>Translation layer bảo vệ model của mình khỏi model xấu/không tương thích từ bên ngoài</td>
+        <td>Tích hợp với legacy system, bên thứ ba, hay model design tệ</td>
+      </tr>
+      <tr>
+        <td><strong>Separate Ways</strong></td>
+        <td>Hai context hoàn toàn độc lập, không integrate</td>
+        <td>Integration cost &gt; benefit. Chấp nhận duplicate functionality.</td>
+      </tr>
+      <tr>
+        <td><strong>Open Host Service</strong></td>
+        <td>Định nghĩa protocol/API để nhiều systems tích hợp</td>
+        <td>Khi nhiều systems cần access vào một context</td>
+      </tr>
+      <tr>
+        <td><strong>Published Language</strong></td>
+        <td>Ngôn ngữ trao đổi được document công khai (XML schema, JSON spec…)</td>
+        <td>Cần stable interface cho nhiều consumers không liên quan</td>
+      </tr>
+    </table>
+
+    <h3>CONTEXT MAP — Bản đồ toàn hệ thống</h3>
+    <p>Vẽ tất cả Bounded Contexts và mối quan hệ giữa chúng lên một bản đồ. Không phải technical architecture diagram — mà là <em>bản đồ ngôn ngữ và team dynamics</em>.</p>
+
+    <div class="callout">
+      <div class="callout-label">📌 ANTICORRUPTION LAYER — Pattern quan trọng nhất</div>
+      Khi tích hợp với legacy system hoặc hệ thống bên ngoài có model xấu, <strong>không cho phép model đó "lây nhiễm" vào domain của bạn</strong>. Xây một translation layer để:<br>
+      ① Chuyển đổi concepts từ external model sang domain model của bạn<br>
+      ② Cô lập domain của bạn khỏi sự thay đổi của external system<br>
+      ③ Đặt tên theo Ubiquitous Language của bạn, không của họ
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-label">📖 Thuật ngữ xuất hiện trong chương này</div>
+      <div class="gterm">
+        <span class="gterm-word">Bounded Context</span>
+        <span class="gterm-def">Ranh giới rõ ràng xác định phạm vi áp dụng của một model và Ubiquitous Language cụ thể. Bên trong: mọi thứ nhất quán. Ngoài ranh giới: model có thể khác, cần translation. Không phải microservice — một service có thể có nhiều BC, một BC có thể span nhiều services.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Context Map</span>
+        <span class="gterm-def">Tài liệu mô tả tất cả Bounded Contexts trong dự án và mối quan hệ giữa chúng (Shared Kernel, Customer/Supplier, Anticorruption Layer…). Giúp team hiểu "bức tranh lớn" về cách các models interact.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Anticorruption Layer</span>
+        <span class="gterm-def">Translation layer bảo vệ domain model của bạn khỏi model xấu hoặc không tương thích từ bên ngoài. Thường implement qua Facade + Adapter + Translator. Tên method dùng Ubiquitous Language của bạn, không của external system.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Continuous Integration (trong BC)</span>
+        <span class="gterm-def">Trong DDD context: process thường xuyên merge và kiểm tra tính nhất quán của model trong một Bounded Context. Không phải CI/CD theo nghĩa DevOps, mà là đảm bảo model không bị "splintered" trong team.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CH15 -->
+<div class="section" id="ch15">
+  <div class="container section-inner">
+    <span class="badge strategy">Chương 15</span>
+    <h2 class="section-title">Distillation — Chắt lọc Core Domain</h2>
+    <p>Trong một hệ thống lớn, không phải mọi phần đều quan trọng như nhau. Distillation là quá trình xác định và tập trung vào phần quan trọng nhất — <strong>Core Domain</strong>.</p>
+
+    <h3>Ba loại Subdomain</h3>
+    <div class="cards">
+      <div class="card rust">
+        <div class="card-title">Core Domain 🎯</div>
+        <p>Lý do tồn tại của hệ thống. Lợi thế cạnh tranh. Nơi đầu tư sâu nhất về modeling và design. Không thể outsource. Không thể dùng off-the-shelf.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Supporting Subdomain ⚙️</div>
+        <p>Cần thiết nhưng không phải lợi thế cạnh tranh. Có thể build in-house với ít đầu tư hơn, hoặc outsource với supervision chặt.</p>
+      </div>
+      <div class="card green">
+        <div class="card-title">Generic Subdomain 📦</div>
+        <p>Vấn đề phổ biến, đã có giải pháp sẵn có. Dùng off-the-shelf, mua, hoặc copy — không nên reinvent. Ví dụ: authentication, email, reporting.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">📌 Sai lầm chiến lược phổ biến nhất</div>
+      Đầu tư nhiều nhất vào Generic Subdomain (vì nó "concrete" và dễ estimate) trong khi neglect Core Domain (vì nó "fuzzy" và khó). Kết quả: authentication system hoàn hảo, core business logic nghèo nàn.
+    </div>
+
+    <h3>Các công cụ Distillation</h3>
+    <table>
+      <tr><th>Công cụ</th><th>Mục đích</th></tr>
+      <tr><td><strong>Domain Vision Statement</strong></td><td>1 trang mô tả Core Domain và value nó mang lại — guide cho toàn team</td></tr>
+      <tr><td><strong>Highlighted Core</strong></td><td>Đánh dấu các elements Core trong model documentation — không cần refactor, chỉ cần visibility</td></tr>
+      <tr><td><strong>Cohesive Mechanisms</strong></td><td>Tách generic technical mechanisms ra khỏi Core — ví dụ: "shares math" tách khỏi business logic</td></tr>
+      <tr><td><strong>Segregated Core</strong></td><td>Refactor code để Core Domain nằm riêng trong package/module riêng biệt</td></tr>
+      <tr><td><strong>Abstract Core</strong></td><td>Distill Core thành abstract model — polymorphic, không phải concrete implementation</td></tr>
+    </table>
+
+    <div class="glossary">
+      <div class="glossary-label">📖 Thuật ngữ xuất hiện trong chương này</div>
+      <div class="gterm">
+        <span class="gterm-word">Core Domain</span>
+        <span class="gterm-def">Phần domain là lợi thế cạnh tranh thực sự của tổ chức — lý do hệ thống tồn tại. Nơi cần đầu tư sâu nhất về DDD. Không thể outsource hay mua off-the-shelf. Ví dụ: với Air Closet, Core Domain là styling recommendation algorithm và subscription management logic.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Generic Subdomain</span>
+        <span class="gterm-def">Subdomain giải quyết vấn đề phổ biến, không phải lợi thế cạnh tranh. Nên dùng off-the-shelf solutions. Ví dụ: authentication, payment processing, email delivery. Đừng xây custom khi có giải pháp tốt sẵn có.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Domain Vision Statement</span>
+        <span class="gterm-def">Tài liệu 1 trang mô tả ngắn gọn: Core Domain là gì, value nó tạo ra cho ai, và tại sao nó khác biệt. Dùng để align team về priority. Phải được update khi understanding của Core Domain thay đổi.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CH16 -->
+<div class="section" id="ch16">
+  <div class="container section-inner">
+    <span class="badge strategy">Chương 16 &amp; 17</span>
+    <h2 class="section-title">Large-Scale Structure &amp; Bringing It Together</h2>
+    <p>Khi hệ thống quá lớn để hiểu toàn bộ, cần một "ngôn ngữ" để mô tả cấu trúc tổng thể — không phải chi tiết implementation, mà là cách các phần liên hệ với nhau.</p>
+
+    <h3>4 Patterns của Large-Scale Structure</h3>
+    <div class="cards">
+      <div class="card blue">
+        <div class="card-title">Evolving Order</div>
+        <p>Structure không được áp đặt từ trên xuống (big upfront design). Nó evolve cùng với model, được refactor theo insight mới. Bắt đầu đơn giản.</p>
+      </div>
+      <div class="card blue">
+        <div class="card-title">System Metaphor</div>
+        <p>Một ẩn dụ mô tả toàn bộ hệ thống. Ví dụ: "hệ thống như một tổng đài điện thoại" — giúp mọi người hình dung cách các phần làm việc cùng nhau.</p>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Responsibility Layers</div>
+        <p>Phân chia hệ thống theo mức độ trách nhiệm: Decision layer (policies), Operational layer (activities), Capability layer (what exists). Các layers cấp cao không depend vào cấp thấp.</p>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Knowledge Level</div>
+        <p>Tách "meta-level" (cấu hình, rules về cấu trúc) khỏi "operational level" (dữ liệu chạy). Dùng khi cần hệ thống cấu hình linh hoạt mà không cần code lại.</p>
+      </div>
+    </div>
+
+    <h3>Bringing the Strategy Together</h3>
+    <p>Ba phần của Strategic Design không phải ba bài toán riêng biệt — chúng kết hợp với nhau:</p>
+    <div class="dtree">
+      Bounded Context  ──────►  xác định ranh giới model, team ownership<br>
+      Distillation     ──────►  xác định đâu là Core, đầu tư vào đâu<br>
+      Large-Scale Str. ──────►  tổ chức tổng thể, communication giữa parts<br><br>
+      <span class="q">Thứ tự tiếp cận khi dự án đang chạy:</span><br>
+      <span class="y">1.</span><span class="result"> Xác định Bounded Contexts hiện tại (theo thực tế, không theo lý tưởng)</span><br>
+      <span class="y">2.</span><span class="result"> Tăng cường Continuous Integration trong mỗi Context</span><br>
+      <span class="y">3.</span><span class="result"> Viết Domain Vision Statement cho Core Domain</span><br>
+      <span class="y">4.</span><span class="result"> Refactor dần theo strategic priorities</span>
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-label">📖 Thuật ngữ xuất hiện trong chương này</div>
+      <div class="gterm">
+        <span class="gterm-word">Responsibility Layers</span>
+        <span class="gterm-def">Pattern tổ chức hệ thống theo "mức độ trách nhiệm" thay vì technical tiers. Ví dụ: Decision layer (business policies) → Operations layer (current activities) → Capability layer (what exists). Layer cao hơn depend vào thấp hơn, không ngược lại.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Knowledge Level</span>
+        <span class="gterm-def">Pattern tách "cấu hình về cấu trúc" (meta-level) khỏi "dữ liệu vận hành" (operational). Ví dụ: "loại nhân viên" (meta) vs "nhân viên cụ thể" (operational). Cho phép thay đổi cấu trúc mà không cần code lại.</span>
+      </div>
+      <div class="gterm">
+        <span class="gterm-word">Pluggable Component Framework</span>
+        <span class="gterm-def">Kiến trúc cho phép các components implement chung interface và được "plug in" vào hệ thống. Chỉ dùng khi đã có Abstract Core ổn định và đã được thực tế chứng minh.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ DEBATE -->
+<div class="section" id="debate">
+  <div class="container section-inner">
+    <span class="badge debate">Phản biện</span>
+    <h2 class="section-title">Căn cứ Lập luận &amp; Phản biện về DDD</h2>
+    <p>Những câu hỏi phản biện phổ biến nhất — và cách Evans (cùng thực tế) trả lời chúng.</p>
+
+    <div class="debate-item">
+      <div class="debate-header">
+        <span class="q-icon">❓</span>
+        <span>"DDD quá phức tạp và heavyweight. CRUD app đơn giản không cần DDD."</span>
+      </div>
+      <div class="debate-body">
+        <p><strong>Evans đồng ý một phần:</strong> DDD không phải cho mọi dự án. Chính Evans viết: "Smart UI Anti-pattern không phải anti-pattern trong mọi trường hợp." Khi domain đơn giản, team nhỏ, deadline gấp — CRUD là hoàn toàn hợp lý.</p>
+        <p><strong>Điểm quan trọng:</strong> Vấn đề không phải là DDD vs CRUD, mà là: "domain của bạn có thực sự phức tạp không?" Nếu nghiệp vụ có nhiều rules, nhiều invariants, nhiều stakeholders với hiểu biết khác nhau — thì complexity đó <em>tồn tại dù bạn dùng pattern gì</em>. DDD cho bạn công cụ để quản lý nó.</p>
+      </div>
+    </div>
+
+    <div class="debate-item">
+      <div class="debate-header">
+        <span class="q-icon">❓</span>
+        <span>"Ubiquitous Language không thực tế — business và dev luôn nói khác nhau."</span>
+      </div>
+      <div class="debate-body">
+        <p>Evans không ảo tưởng: xây dựng Ubiquitous Language <em>khó</em> và tốn thời gian. Nhưng alternative còn đắt hơn: hiểu nhầm liên tục, bugs từ miscommunication, features không match business need.</p>
+        <p><strong>Từ thực tế:</strong> Trong dự án loan syndication, chính việc không có language chung đã khiến term "Loan Investment" không có nghĩa business nào. Business experts đã nói nhiều lần họ không hiểu term này — nhưng defer vì nghĩ là kỹ thuật cần thiết. Khi có language chung, điều đó không xảy ra.</p>
+      </div>
+    </div>
+
+    <div class="debate-item">
+      <div class="debate-header">
+        <span class="q-icon">❓</span>
+        <span>"Aggregate boundaries quá cứng nhắc — trong microservices modern, mỗi service là một aggregate?"</span>
+      </div>
+      <div class="debate-body">
+        <p>Aggregate boundaries và service boundaries là hai khái niệm <strong>khác nhau</strong> ở hai cấp độ khác nhau. Aggregate giải quyết consistency trong một transaction. Service boundary giải quyết deployment và team autonomy.</p>
+        <p>Một service có thể chứa nhiều Aggregates. Một Aggregate không nên span nhiều services (vì distributed transactions). <strong>Bounded Context</strong> thường tương ứng với service boundary tốt hơn là Aggregate.</p>
+      </div>
+    </div>
+
+    <div class="debate-item">
+      <div class="debate-header">
+        <span class="q-icon">❓</span>
+        <span>"Entity/Value Object là lý thuyết — database là flat tables, không phải object graph."</span>
+      </div>
+      <div class="debate-body">
+        <p>Evans thừa nhận ORM impedance mismatch là vấn đề thực tế (Ch.6). Nhưng đây là vấn đề <em>infrastructure mapping</em>, không phải vấn đề của domain model. Bạn có thể có domain model sạch với Entities/VOs và Repository ẩn đi mapping.</p>
+        <p>Thực tế: một Address trong domain là Value Object. Trong database, nó có thể là cột trong bảng Customer. Repository handle mapping này. Domain code không cần biết.</p>
+      </div>
+    </div>
+
+    <div class="debate-item">
+      <div class="debate-header">
+        <span class="q-icon">❓</span>
+        <span>"Breakthrough nghe hay nhưng không thực tế — ai có thể biết trước khi nào sẽ breakthrough?"</span>
+      </div>
+      <div class="debate-body">
+        <p>Evans không nói Breakthrough có thể được planned — ông nói rõ "this is not a technique; it is an event." Điều bạn có thể làm là <em>tạo điều kiện cho nó</em>: liên tục knowledge crunching, refactor nhỏ thường xuyên, cultivate Ubiquitous Language, và quan trọng là <strong>nhận ra khi nó xảy ra và quyết định hành động</strong>.</p>
+        <p>Project manager dũng cảm cho phép 3 tuần refactor là phần quan trọng nhất của câu chuyện — không phải insight kỹ thuật.</p>
+      </div>
+    </div>
+
+    <div class="debate-item">
+      <div class="debate-header">
+        <span class="q-icon">❓</span>
+        <span>"Bounded Context là microservices phải không? Vậy DDD = microservices architecture?"</span>
+      </div>
+      <div class="debate-body">
+        <p><strong>Không.</strong> DDD ra đời năm 2003, trước microservices. Bounded Context là khái niệm về model boundaries, không về deployment boundaries. Bạn có thể dùng DDD với monolith, với modular monolith, với microservices.</p>
+        <p>Bounded Context <em>thường</em> là good starting point cho microservice boundaries, nhưng không phải 1:1. Microservice cần thêm nhiều considerations khác (network latency, distributed transactions, operational complexity) mà DDD không address.</p>
+      </div>
+    </div>
+
+    <div class="debate-item">
+      <div class="debate-header">
+        <span class="q-icon">❓</span>
+        <span>"Nếu domain expert không hợp tác hoặc không có, DDD có thể thực hiện không?"</span>
+      </div>
+      <div class="debate-body">
+        <p>Evans thẳng thắn: thiếu domain expert là một trong những rủi ro lớn nhất. Knowledge crunching <em>đòi hỏi</em> sự tham gia của người hiểu domain. Không có họ, bạn đang modeling based on assumptions.</p>
+        <p><strong>Thực tế:</strong> Nếu không có domain expert trực tiếp, có các alternatives: đọc tài liệu domain (sách giáo khoa, tiêu chuẩn ngành, competitor products), interview end users thực tế, tìm SME nội bộ. DDD khó hơn nhiều nhưng không hoàn toàn impossible.</p>
+      </div>
+    </div>
+
+    <div class="debate-item">
+      <div class="debate-header">
+        <span class="q-icon">❓</span>
+        <span>"DDD làm chậm development ban đầu — startup không có thời gian cho điều đó."</span>
+      </div>
+      <div class="debate-body">
+        <p>Evans không phủ nhận rằng ban đầu sẽ chậm hơn. Nhưng ông chỉ ra qua 3 dự án ở Preface: dự án thứ nhất (không DDD) đạt được fast start nhưng hit ceiling ở version 2. Dự án thứ hai (DDD) bắt đầu modest nhưng "each successive iteration opened exciting new options."</p>
+        <p><strong>Trade-off:</strong> DDD là đầu tư dài hạn. Startup với 3-tháng runway? Có thể CRUD đúng hơn. Startup với ambition build complex product trong nhiều năm? DDD có ROI dương rõ ràng từ khoảng month 6-12 trở đi.</p>
+      </div>
+    </div>
+
+    <div class="debate-item">
+      <div class="debate-header">
+        <span class="q-icon">❓</span>
+        <span>"Core Domain là concept hay — nhưng làm sao biết cái gì là Core?"</span>
+      </div>
+      <div class="debate-body">
+        <p>Câu hỏi hay nhất và khó nhất. Evans không đưa ra formula. Nhưng có một số heuristics: Core Domain là phần mà nếu outsource/mua off-the-shelf, bạn mất đi lợi thế cạnh tranh. Là nơi business experts có kiến thức không thể document đầy đủ. Là nơi rules thay đổi thường xuyên nhất theo chiến lược kinh doanh.</p>
+        <p>Thực tế: Domain Vision Statement (1 trang) giúp force team phải explicit về Core Domain và liên tục re-evaluate khi business evolves.</p>
+      </div>
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-label">📖 Tổng hợp thuật ngữ quan trọng nhất (Quick Reference)</div>
+      <div class="gterm"><span class="gterm-word">Domain</span><span class="gterm-def">Lĩnh vực nghiệp vụ phần mềm phục vụ</span></div>
+      <div class="gterm"><span class="gterm-word">Domain Model</span><span class="gterm-def">Abstraction hóa domain, sống trong code</span></div>
+      <div class="gterm"><span class="gterm-word">Ubiquitous Language</span><span class="gterm-def">Ngôn ngữ chung team+code+tài liệu</span></div>
+      <div class="gterm"><span class="gterm-word">Entity</span><span class="gterm-def">Object có danh tính xuyên suốt vòng đời</span></div>
+      <div class="gterm"><span class="gterm-word">Value Object</span><span class="gterm-def">Object mô tả giá trị, không có danh tính, immutable</span></div>
+      <div class="gterm"><span class="gterm-word">Aggregate</span><span class="gterm-def">Cụm objects nhất quán, có Root duy nhất</span></div>
+      <div class="gterm"><span class="gterm-word">Repository</span><span class="gterm-def">Abstraction tìm kiếm/truy xuất Aggregates từ storage</span></div>
+      <div class="gterm"><span class="gterm-word">Factory</span><span class="gterm-def">Đóng gói logic tạo Aggregate phức tạp</span></div>
+      <div class="gterm"><span class="gterm-word">Domain Service</span><span class="gterm-def">Hành động domain không thuộc Entity/Value nào, stateless</span></div>
+      <div class="gterm"><span class="gterm-word">Bounded Context</span><span class="gterm-def">Ranh giới nhất quán của một model cụ thể</span></div>
+      <div class="gterm"><span class="gterm-word">Context Map</span><span class="gterm-def">Bản đồ tất cả BCs và mối quan hệ</span></div>
+      <div class="gterm"><span class="gterm-word">Core Domain</span><span class="gterm-def">Phần domain là lợi thế cạnh tranh, đầu tư sâu nhất</span></div>
+      <div class="gterm"><span class="gterm-word">Anticorruption Layer</span><span class="gterm-def">Translation layer bảo vệ model khỏi external model xấu</span></div>
+      <div class="gterm"><span class="gterm-word">Deep Model</span><span class="gterm-def">Model phản ánh sự hiểu biết sâu sắc, giải thích được nhiều thứ bằng ít khái niệm</span></div>
+      <div class="gterm"><span class="gterm-word">Supple Design</span><span class="gterm-def">Thiết kế dẻo: Intention-Revealing, Side-Effect-Free, Closure of Operations</span></div>
+      <div class="gterm"><span class="gterm-word">Specification</span><span class="gterm-def">Business rule kiểm tra được đóng gói thành object có thể combine</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer style="background:var(--dark-bg);color:#c8bfad;padding:40px 0;text-align:center;margin-top:0;">
+  <div class="container">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:2px;margin-bottom:12px;">DOMAIN-DRIVEN DESIGN MASTERY GUIDE</div>
+    <p style="font-size:13px;">Chắt lọc từ <em>Domain-Driven Design: Tackling Complexity in the Heart of Software</em> — Eric Evans, 2003</p>
+    <p style="font-size:12px;margin-top:8px;color:#7a7060;">Tài liệu tham chiếu tiếng Việt · Tất cả khái niệm được giải thích và minh họa bằng ví dụ thực tế</p>
+  </div>
+</footer>
+
+</body>
+</html>
