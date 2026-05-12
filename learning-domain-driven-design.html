@@ -3,1443 +3,1176 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DDD Mastery — Learning Domain-Driven Design</title>
+<title>Learning Domain-Driven Design — Tài liệu tham chiếu toàn diện</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Inter:wght@400;500;600;700&display=swap');
-
   :root {
-    --text: #1a1a1a;
-    --muted: #6b6b6b;
-    --subtle: #999;
-    --border: #e8e8e8;
-    --accent: #1a8917;
-    --highlight-bg: #f9f9f9;
-    --callout-bg: #f2f8f2;
-    --warn-bg: #fff8f0;
-    --warn-border: #e8820c;
-    --tip-bg: #f0f7ff;
-    --tip-border: #1a73e8;
-    --tag-bg: #f2f2f2;
-    --glossary-bg: #fafafa;
-    --glossary-border: #e0e0e0;
+    --bg: #f5f0e8;
+    --ink: #1a1208;
+    --gold: #c8922a;
+    --rust: #b5451b;
+    --sage: #5a7a5e;
+    --muted: #4a4035;
+    --border-light: #d4c9b0;
+    --white: #ffffff;
+    --cream: #ede6d3;
   }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
-    background: #fff;
-    color: var(--text);
-    font-family: 'Merriweather', Georgia, serif;
-    font-size: 18px;
-    line-height: 1.8;
-    -webkit-font-smoothing: antialiased;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0;
+    padding: 0;
   }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+  h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; line-height: 1.25; }
+  h2 { font-size: 1.9rem; margin-top: 0; }
+  h3 { font-size: 1.25rem; }
+  code, .mono { font-family: 'IBM Plex Mono', monospace; }
+  a { color: var(--gold); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  p { margin: 0 0 1em; }
+  ul, ol { margin: 0 0 1em 1.5em; }
+  li { margin-bottom: .3em; }
 
   /* ── COVER ── */
   .cover {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 72px 24px 56px;
-    border-bottom: 1px solid var(--border);
+    background: var(--ink);
+    color: var(--white);
+    padding: 80px 0 60px;
+    text-align: center;
   }
-  .cover-label {
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: var(--subtle);
-    margin-bottom: 20px;
-  }
+  .cover .container { max-width: 700px; }
   .cover h1 {
-    font-family: 'Merriweather', serif;
-    font-size: 42px;
-    font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -.02em;
-    margin-bottom: 16px;
-    color: var(--text);
+    font-size: 3rem;
+    color: var(--gold);
+    margin: 0 0 8px;
   }
-  .cover h1 em { font-style: italic; color: var(--accent); }
-  .cover-sub {
-    font-family: 'Inter', sans-serif;
-    font-size: 17px;
-    color: var(--muted);
-    line-height: 1.6;
-    margin-bottom: 32px;
-    font-weight: 400;
+  .cover .subtitle { font-size: 1.1rem; color: #c8b99a; margin: 0 0 4px; }
+  .cover .author { font-family: 'IBM Plex Mono', monospace; color: #a08060; font-size: .85rem; margin: 12px 0 24px; }
+  .cover .desc { font-size: 1rem; color: #d4c9b0; line-height: 1.65; margin: 0 0 32px; }
+  .cover .stats {
+    display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;
   }
-  .cover-meta {
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    color: var(--subtle);
-    display: flex;
-    gap: 24px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border);
+  .stat-box {
+    background: rgba(200,146,42,.12);
+    border: 1px solid rgba(200,146,42,.3);
+    border-radius: 8px;
+    padding: 12px 24px;
+    text-align: center;
   }
+  .stat-box .num { font-size: 1.6rem; font-weight: 700; color: var(--gold); font-family: 'IBM Plex Mono', monospace; }
+  .stat-box .lbl { font-size: .75rem; color: #a08060; letter-spacing: .05em; }
 
   /* ── TOC ── */
-  .toc {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 40px 24px 40px;
-    border-bottom: 1px solid var(--border);
+  .toc-section {
+    background: var(--cream);
+    padding: 48px 0;
+    border-top: 3px solid var(--gold);
+    border-bottom: 3px solid var(--gold);
   }
-  .toc-title {
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--subtle);
-    margin-bottom: 16px;
-  }
+  .toc-section h2 { text-align: center; margin-bottom: 28px; }
   .toc-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
   }
-  .toc-link {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    color: var(--text);
-    text-decoration: none;
-    padding: 5px 0;
-    border-bottom: 1px solid transparent;
+  .toc-item {
     display: flex;
-    align-items: baseline;
     gap: 10px;
-    transition: color .15s;
+    align-items: baseline;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background .15s;
   }
-  .toc-link:hover { color: var(--accent); }
-  .toc-link span {
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--accent);
-    min-width: 28px;
-  }
-
-  /* ── MAIN ── */
-  main { max-width: 680px; margin: 0 auto; padding: 0 24px 80px; }
+  .toc-item:hover { background: rgba(200,146,42,.12); }
+  .toc-num { font-family: 'IBM Plex Mono', monospace; font-size: .8rem; color: var(--gold); min-width: 60px; }
+  .toc-name { font-size: .9rem; color: var(--ink); }
+  @media (max-width: 600px) { .toc-grid { grid-template-columns: 1fr; } }
 
   /* ── SECTION ── */
-  .section { padding: 56px 0 0; }
-  .section + .section { border-top: 1px solid var(--border); }
-
-  .section-badge {
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 10px;
-  }
-  .section h2 {
-    font-family: 'Merriweather', serif;
-    font-size: 30px;
-    font-weight: 700;
-    line-height: 1.25;
-    letter-spacing: -.01em;
-    margin-bottom: 20px;
-    color: var(--text);
-  }
-
-  h3 {
-    font-family: 'Merriweather', serif;
-    font-size: 21px;
-    font-weight: 700;
-    line-height: 1.3;
-    margin: 44px 0 14px;
-    color: var(--text);
-  }
-
-  p { margin-bottom: 20px; }
-  p:last-child { margin-bottom: 0; }
-
-  strong { font-weight: 700; }
-  em { font-style: italic; }
-  code {
-    font-family: 'SFMono-Regular', Consolas, monospace;
-    font-size: 14px;
-    background: var(--tag-bg);
-    padding: 2px 6px;
-    border-radius: 3px;
-    color: #c0392b;
-  }
-
-  /* ── BLOCKQUOTE ── */
-  blockquote {
-    margin: 28px 0;
-    padding: 0 0 0 20px;
-    border-left: 3px solid var(--border);
-    font-style: italic;
-    font-size: 19px;
-    color: var(--muted);
-    line-height: 1.7;
-  }
-  blockquote cite {
-    display: block;
-    font-style: normal;
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    color: var(--subtle);
-    margin-top: 10px;
-  }
-
-  /* ── LISTS ── */
-  ul, ol { padding-left: 28px; margin-bottom: 20px; }
-  li { margin-bottom: 8px; line-height: 1.7; }
-
-  /* ── CALLOUT ── */
-  .callout {
-    margin: 24px 0;
-    padding: 16px 20px;
-    background: var(--callout-bg);
-    border-left: 3px solid var(--accent);
-    border-radius: 0 4px 4px 0;
-    font-size: 16px;
-    line-height: 1.7;
-  }
-  .callout.danger {
-    background: var(--warn-bg);
-    border-color: var(--warn-border);
-  }
-  .callout.tip {
-    background: var(--tip-bg);
-    border-color: var(--tip-border);
-  }
-  .callout-label {
-    font-family: 'Inter', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 6px;
-  }
-  .callout.danger .callout-label { color: var(--warn-border); }
-  .callout.tip .callout-label { color: var(--tip-border); }
-
-  /* ── CARDS → Medium-style lined list ── */
-  .cards {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    margin: 20px 0;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-  }
-  .card {
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
-    background: #fff;
-    position: relative;
-  }
-  .card:last-child { border-bottom: none; }
-  .card::before { display: none; }
-  .card h4 {
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 6px;
-    color: var(--text);
-  }
-  .card p {
-    font-size: 15px;
-    margin: 0;
-    line-height: 1.65;
-    color: var(--muted);
-    font-family: 'Inter', sans-serif;
-  }
-
-  /* ── BADGE ── */
+  .section { padding: 60px 0; border-bottom: 1px solid var(--border-light); }
   .badge {
     display: inline-block;
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 99px;
-    text-transform: uppercase;
-    letter-spacing: .03em;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    letter-spacing: .1em;
+    color: var(--white);
+    background: var(--ink);
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
   }
-  .badge.core { background: #fde8df; color: #b5451b; }
-  .badge.generic { background: #e0eaf0; color: #3d4f5c; }
-  .badge.supporting { background: #e8f0e8; color: #5a7a5e; }
 
-  /* ── TABLE ── */
-  .tbl-wrap { overflow-x: auto; margin: 24px 0; }
-  table { width: 100%; border-collapse: collapse; font-size: 15px; font-family: 'Inter', sans-serif; }
-  th {
-    background: #f5f5f5;
-    color: var(--text);
-    font-weight: 600;
-    font-size: 12px;
-    letter-spacing: .05em;
-    text-transform: uppercase;
-    padding: 10px 12px;
-    text-align: left;
-    border-bottom: 2px solid var(--border);
+  /* ── CALLOUTS ── */
+  .callout {
+    border-left: 4px solid var(--gold);
+    background: #fff3cd;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 20px 0;
   }
-  td {
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: top;
-    line-height: 1.55;
-    color: var(--text);
+  .callout .title { font-family: 'IBM Plex Mono', monospace; font-size: .78rem; font-weight: 600; color: var(--gold); margin-bottom: 6px; letter-spacing: .06em; }
+  .callout.danger { border-color: var(--rust); background: #fdf0ec; }
+  .callout.danger .title { color: var(--rust); }
+  .callout.tip { border-color: var(--sage); background: #edf4ee; }
+  .callout.tip .title { color: var(--sage); }
+
+  /* ── CARDS ── */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin: 20px 0; }
+  .card {
+    background: var(--white);
+    border: 1.5px solid var(--border-light);
+    border-left: 4px solid var(--gold);
+    border-radius: 8px;
+    padding: 16px 18px;
   }
-  tr:last-child td { border-bottom: none; }
+  .card h4 { margin: 0 0 8px; font-family: 'IBM Plex Mono', monospace; font-size: .85rem; color: var(--rust); }
+  .card.rust { border-left-color: var(--rust); }
+  .card.sage { border-left-color: var(--sage); }
+  .card.ink { border-left-color: var(--ink); }
 
   /* ── DECISION TREE ── */
   .dtree {
-    background: #f9f9f9;
-    border: 1px solid var(--border);
-    border-radius: 6px;
+    background: var(--ink);
+    border-radius: 10px;
     padding: 24px 28px;
-    margin: 24px 0;
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    line-height: 2.1;
+    margin: 20px 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .82rem;
+    line-height: 1.8;
   }
-  .dtree .q { color: var(--text); font-weight: 600; }
-  .dtree .a { color: var(--muted); padding-left: 20px; }
-  .dtree .r { color: var(--accent); font-weight: 600; padding-left: 40px; }
+  .dtree .q { color: var(--gold); }
+  .dtree .a { color: #a8d8b0; margin-left: 24px; }
+  .dtree .r { color: #f4a87a; font-weight: 600; margin-left: 48px; }
 
-  /* ── DEBATE ── */
-  .debate {
-    margin: 16px 0;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-  }
-  .debate-header {
-    background: #f5f5f5;
-    color: var(--text);
-    padding: 12px 18px;
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    border-bottom: 1px solid var(--border);
-  }
-  .debate-body {
-    padding: 14px 18px;
-    font-size: 16px;
-    line-height: 1.7;
-    font-family: 'Inter', sans-serif;
-    color: var(--muted);
-  }
+  /* ── TABLE ── */
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: .88rem; }
+  th { background: var(--ink); color: var(--white); font-family: 'IBM Plex Mono', monospace; font-size: .78rem; letter-spacing: .06em; padding: 10px 14px; text-align: left; }
+  td { padding: 9px 14px; border-bottom: 1px solid var(--border-light); vertical-align: top; }
+  tr:nth-child(even) td { background: rgba(200,146,42,.04); }
 
   /* ── GLOSSARY ── */
   .glossary {
+    background: var(--white);
+    border: 1.5px solid var(--border-light);
+    border-top: 3px solid var(--gold);
+    border-radius: 0 0 8px 8px;
+    padding: 20px 24px;
     margin-top: 40px;
-    padding: 20px 22px 22px;
-    background: var(--glossary-bg);
-    border: 1px solid var(--glossary-border);
-    border-top: 2px solid var(--accent);
-    border-radius: 0 0 6px 6px;
   }
   .glossary-title {
-    font-family: 'Inter', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 14px;
-  }
-  .glossary-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    color: var(--gold);
+    margin-bottom: 16px;
   }
   .gterm {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 12px;
     padding: 9px 0;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    gap: 14px;
-    align-items: baseline;
+    border-bottom: 1px solid #f0e8d8;
+    align-items: start;
   }
   .gterm:last-child { border-bottom: none; }
-  .gterm-word {
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
-    white-space: nowrap;
-    min-width: 140px;
-  }
-  .gterm-def {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.6;
-  }
+  .gterm-word { font-family: 'IBM Plex Mono', monospace; font-weight: 600; color: var(--rust); font-size: .85rem; line-height: 1.5; }
+  .gterm-def { font-size: .88rem; color: var(--muted); line-height: 1.6; }
+  @media (max-width: 600px) { .gterm { grid-template-columns: 1fr; } }
 
-  /* ── FOOTER ── */
-  .footer {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 32px 24px;
-    border-top: 1px solid var(--border);
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    color: var(--subtle);
+  /* ── DEBATE ── */
+  .debate-item { margin-bottom: 20px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-light); }
+  .debate-header {
+    background: #3d4f5c;
+    color: var(--white);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .82rem;
+    padding: 12px 16px;
+    line-height: 1.5;
+  }
+  .debate-body { background: var(--white); padding: 14px 16px; font-size: .88rem; color: var(--muted); line-height: 1.65; }
+
+  /* ── DIVIDER ── */
+  .part-header {
+    background: var(--ink);
+    color: var(--gold);
+    padding: 36px 0 24px;
+    margin: 0;
     text-align: center;
   }
+  .part-header h2 { color: var(--gold); margin: 0; font-size: 1.5rem; }
+  .part-header p { color: #a08060; margin: 8px 0 0; font-family: 'IBM Plex Mono', monospace; font-size: .8rem; }
 
-  @media (max-width: 640px) {
-    body { font-size: 16px; }
-    .cover, .toc, main { padding-left: 20px; padding-right: 20px; }
-    .cover h1 { font-size: 32px; }
-    .section h2 { font-size: 24px; }
-    h3 { font-size: 18px; }
-    .gterm { flex-direction: column; gap: 4px; }
-    .gterm-word { min-width: unset; }
+  blockquote {
+    border-left: 3px solid var(--gold);
+    margin: 16px 0;
+    padding: 4px 16px;
+    color: var(--muted);
+    font-style: italic;
   }
 </style>
 </head>
 <body>
+
+<!-- ══════════════════════════════════════════════
+     COVER
+══════════════════════════════════════════════ -->
 <div class="cover">
-  <div class="cover-label">📖 Chưng Cất Toàn Bộ · Vlad Khononov · O'Reilly 2021</div>
-  <h1>Domain-Driven<br><em>Design</em></h1>
-  <p class="cover-sub">Tài liệu tham chiếu hoàn chỉnh — mọi khái niệm, pattern, trade-off, và căn cứ để lập luận. Từ Strategic Design đến Tactical Design đến áp dụng thực tế.</p>
-  <div class="cover-meta">
-    <span>340 trang → 1 file</span>
-    <span>16 chương + appendix</span>
-    <span>4 phần lớn</span>
-  </div>
-</div>
-
-<!-- TOC -->
-<div class="toc">
-  <div class="toc-title">Mục lục nhanh</div>
-  <div class="toc-grid">
-    <a class="toc-link" href="#p1"><span>I</span> Strategic Design</a>
-    <a class="toc-link" href="#subdomains"><span>01</span> Subdomains</a>
-    <a class="toc-link" href="#ubiquitous"><span>02</span> Ubiquitous Language</a>
-    <a class="toc-link" href="#bounded"><span>03</span> Bounded Contexts</a>
-    <a class="toc-link" href="#integration"><span>04</span> Integration Patterns</a>
-    <a class="toc-link" href="#p2"><span>II</span> Tactical Design</a>
-    <a class="toc-link" href="#business-logic"><span>05-07</span> Business Logic</a>
-    <a class="toc-link" href="#architecture"><span>08</span> Architecture Patterns</a>
-    <a class="toc-link" href="#communication"><span>09</span> Communication</a>
-    <a class="toc-link" href="#p3"><span>III</span> Áp Dụng Thực Tế</a>
-    <a class="toc-link" href="#heuristics"><span>10</span> Heuristics</a>
-    <a class="toc-link" href="#evolving"><span>11</span> Evolving Design</a>
-    <a class="toc-link" href="#eventstorming"><span>12</span> EventStorming</a>
-    <a class="toc-link" href="#realworld"><span>13</span> Real World DDD</a>
-    <a class="toc-link" href="#p4"><span>IV</span> Quan Hệ Với Patterns Khác</a>
-    <a class="toc-link" href="#microservices"><span>14</span> Microservices</a>
-    <a class="toc-link" href="#eda"><span>15</span> Event-Driven Arch</a>
-    <a class="toc-link" href="#datamesh"><span>16</span> Data Mesh</a>
-    <a class="toc-link" href="#debate"><span>★</span> Căn cứ phản biện</a>
-  </div>
-</div>
-
-<main>
-
-<!-- ═══════════════════════════════════════════════════════ PART I -->
-<div id="p1" class="section">
-  <div class="section-badge">Part I · Strategic Design</div>
-  <h2>Chiến lược — Tại sao xây cái gì</h2>
-  <p>Strategic design trả lời câu hỏi <strong>"what?"</strong> và <strong>"why?"</strong>. Trước khi viết một dòng code, DDD yêu cầu hiểu rõ business domain và strategy của tổ chức.</p>
-
-  <div class="glossary">
-    <div class="glossary-title">📖 Thuật ngữ xuất hiện trong phần này</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">DDD</span><span class="gterm-def">Domain-Driven Design — phương pháp luận thiết kế phần mềm lấy business domain làm trung tâm của mọi quyết định kỹ thuật.</span></div>
-      <div class="gterm"><span class="gterm-word">Strategic Design</span><span class="gterm-def">Phần DDD trả lời "xây cái gì và tại sao" — phân tích business, xác định boundaries ở mức hệ thống.</span></div>
-      <div class="gterm"><span class="gterm-word">Tactical Design</span><span class="gterm-def">Phần DDD trả lời "implement như thế nào" — patterns cụ thể để viết code business logic.</span></div>
+  <div class="container">
+    <h1>Learning<br>Domain-Driven Design</h1>
+    <div class="subtitle">Aligning Software Architecture and Business Strategy</div>
+    <div class="author">Vlad Khononov · O'Reilly Media · 2021</div>
+    <p class="desc">
+      Cuốn sách này dạy bạn cách thiết kế phần mềm dựa trên <em>chiến lược kinh doanh</em> thực sự, không chỉ là code. 
+      Đọc xong bạn sẽ biết phân tích nghiệp vụ, đặt ranh giới hệ thống hợp lý, cài đặt logic phức tạp một cách có cấu trúc, 
+      và tránh biến dự án thành "mớ bòng bong" (big ball of mud).
+    </p>
+    <div class="stats">
+      <div class="stat-box"><div class="num">340</div><div class="lbl">trang</div></div>
+      <div class="stat-box"><div class="num">16</div><div class="lbl">chương</div></div>
+      <div class="stat-box"><div class="num">4</div><div class="lbl">phần</div></div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════ CH1 -->
-<div id="subdomains" class="section">
-  <div class="section-badge">Chương 1</div>
-  <h2>Business Domain &amp; Subdomains</h2>
+<!-- ══════════════════════════════════════════════
+     MỤC LỤC NHANH
+══════════════════════════════════════════════ -->
+<div class="toc-section">
+  <div class="container">
+    <h2>📋 Mục lục nhanh</h2>
+    <div class="toc-grid">
+      <a href="#ch1" class="toc-item"><span class="toc-num">Ch.01</span><span class="toc-name">Phân tích miền kinh doanh</span></a>
+      <a href="#ch2" class="toc-item"><span class="toc-num">Ch.02</span><span class="toc-name">Ubiquitous Language — Ngôn ngữ chung</span></a>
+      <a href="#ch3" class="toc-item"><span class="toc-num">Ch.03</span><span class="toc-name">Bounded Context — Vùng ranh giới</span></a>
+      <a href="#ch4" class="toc-item"><span class="toc-num">Ch.04</span><span class="toc-name">Tích hợp giữa các Bounded Context</span></a>
+      <a href="#ch5" class="toc-item"><span class="toc-num">Ch.05</span><span class="toc-name">Cài đặt logic đơn giản</span></a>
+      <a href="#ch6" class="toc-item"><span class="toc-num">Ch.06</span><span class="toc-name">Cài đặt logic phức tạp — Domain Model</span></a>
+      <a href="#ch7" class="toc-item"><span class="toc-num">Ch.07</span><span class="toc-name">Event Sourcing — Mô hình hoá thời gian</span></a>
+      <a href="#ch8" class="toc-item"><span class="toc-num">Ch.08</span><span class="toc-name">Architectural Patterns — Kiến trúc</span></a>
+      <a href="#ch9" class="toc-item"><span class="toc-num">Ch.09</span><span class="toc-name">Communication Patterns — Giao tiếp</span></a>
+      <a href="#ch10" class="toc-item"><span class="toc-num">Ch.10</span><span class="toc-name">Design Heuristics — Quy tắc ra quyết định</span></a>
+      <a href="#ch11" class="toc-item"><span class="toc-num">Ch.11</span><span class="toc-name">Tiến hoá thiết kế theo thời gian</span></a>
+      <a href="#ch12" class="toc-item"><span class="toc-num">Ch.12</span><span class="toc-name">EventStorming — Workshop khám phá</span></a>
+      <a href="#ch13" class="toc-item"><span class="toc-num">Ch.13</span><span class="toc-name">DDD trong thực tế / Dự án có sẵn</span></a>
+      <a href="#ch14" class="toc-item"><span class="toc-num">Ch.14</span><span class="toc-name">Microservices và DDD</span></a>
+      <a href="#ch15" class="toc-item"><span class="toc-num">Ch.15</span><span class="toc-name">Event-Driven Architecture</span></a>
+      <a href="#ch16" class="toc-item"><span class="toc-num">Ch.16</span><span class="toc-name">Data Mesh</span></a>
+      <a href="#debate" class="toc-item"><span class="toc-num">★</span><span class="toc-name">Phản biện & tranh luận</span></a>
+    </div>
+  </div>
+</div>
 
-  <blockquote>
-    Để thiết kế và xây dựng một giải pháp hiệu quả, bạn phải hiểu vấn đề. Vấn đề ở đây là hệ thống phần mềm cần xây dựng — và để hiểu vấn đề, bạn phải hiểu bối cảnh: chiến lược kinh doanh của tổ chức.
-    <cite>— Vlad Khononov</cite>
-  </blockquote>
+<!-- ══════════════════════════════════════════════
+     PART I — STRATEGIC DESIGN
+══════════════════════════════════════════════ -->
+<div class="part-header">
+  <div class="container">
+    <h2>PHẦN I — STRATEGIC DESIGN (Thiết kế chiến lược)</h2>
+    <p>Trả lời câu hỏi "Xây cái gì?" và "Vì sao xây?"</p>
+  </div>
+</div>
 
-  <h3>Business Domain là gì?</h3>
-  <p>Lĩnh vực hoạt động chính của công ty — dịch vụ cung cấp cho khách hàng. FedEx = giao hàng. Starbucks = cà phê. Amazon = bán lẻ + cloud computing (nhiều domain cùng lúc).</p>
+<!-- ── CH 1 ── -->
+<div class="section" id="ch1">
+  <div class="container">
+    <div class="badge">CHƯƠNG 1</div>
+    <h2>Phân tích miền kinh doanh (Business Domain)</h2>
 
-  <h3>Ba loại Subdomain</h3>
-  <p>Mọi subdomain đều cần thiết — nhưng chúng không bình đẳng về giá trị chiến lược.</p>
+    <p><strong>Business Domain (miền kinh doanh)</strong> là lĩnh vực hoạt động chính của một công ty — tức dịch vụ mà công ty đó cung cấp cho khách hàng. Ví dụ: FedEx giao hàng, Starbucks bán cà phê, Walmart bán lẻ. Một công ty có thể có nhiều miền kinh doanh (Amazon vừa bán lẻ vừa cung cấp cloud).</p>
 
-  <div class="tbl-wrap">
+    <p>Trong mỗi miền kinh doanh, công ty phải vận hành nhiều <strong>Subdomain (miền con)</strong> — những hoạt động kinh doanh cụ thể phục vụ mục tiêu tổng thể. Ví dụ: Starbucks không chỉ pha cà phê, họ còn phải thuê mặt bằng, tuyển nhân sự, quản lý tài chính.</p>
+
+    <h3>Ba loại Subdomain</h3>
+    <div class="cards">
+      <div class="card">
+        <h4>🏆 Core Subdomain</h4>
+        <p>Điều công ty làm <em>khác biệt</em> so với đối thủ. Đây là nguồn lợi thế cạnh tranh. Ví dụ: thuật toán gợi ý nhạc của Spotify, thuật toán tìm đường của Uber.</p>
+        <p><strong>Đặc điểm:</strong> Phức tạp, hay thay đổi, cần làm in-house bằng kỹ thuật cao nhất.</p>
+      </div>
+      <div class="card sage">
+        <h4>🔧 Supporting Subdomain</h4>
+        <p>Hỗ trợ nghiệp vụ nhưng không tạo lợi thế cạnh tranh. Ví dụ: hệ thống quản lý danh mục sản phẩm của một hãng quảng cáo — cần có nhưng không phải sức mạnh độc đáo.</p>
+        <p><strong>Đặc điểm:</strong> Đơn giản, ít thay đổi, có thể outsource hoặc để junior làm.</p>
+      </div>
+      <div class="card rust">
+        <h4>📦 Generic Subdomain</h4>
+        <p>Tất cả công ty đều làm như nhau. Ví dụ: xác thực người dùng, thanh toán, gửi email. Đã có giải pháp sẵn trên thị trường.</p>
+        <p><strong>Đặc điểm:</strong> Phức tạp nhưng đã được giải quyết — nên <em>mua / dùng thư viện</em> thay vì tự làm.</p>
+      </div>
+    </div>
+
+    <h3>So sánh tổng quát</h3>
     <table>
-      <thead>
-        <tr>
-          <th>Loại</th>
-          <th>Competitive Advantage</th>
-          <th>Độ phức tạp</th>
-          <th>Volatility</th>
-          <th>Cách triển khai</th>
-          <th>Bản chất</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Loại</th><th>Lợi thế cạnh tranh</th><th>Độ phức tạp</th><th>Mức thay đổi</th><th>Chiến lược</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Core</strong></td><td>✅ Có</td><td>Cao</td><td>Cao</td><td>Làm in-house, kỹ thuật cao</td></tr>
+        <tr><td><strong>Generic</strong></td><td>❌ Không</td><td>Cao</td><td>Thấp</td><td>Mua / dùng open source</td></tr>
+        <tr><td><strong>Supporting</strong></td><td>❌ Không</td><td>Thấp</td><td>Thấp</td><td>Làm in-house hoặc outsource</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <div class="title">💡 QUY TẮC NHANH</div>
+      Muốn xác định Core subdomain? Tự hỏi: "Đây có thể trở thành sản phẩm riêng bán được không?" Nếu có → Core. Muốn phân biệt Supporting vs Generic? Hỏi: "Có sẵn giải pháp bên ngoài để dùng không?" Nếu có → Generic.
+    </div>
+
+    <div class="callout tip">
+      <div class="title">✅ DOMAIN EXPERTS (Chuyên gia nghiệp vụ)</div>
+      Là những người hiểu sâu nhất về nghiệp vụ — người đặt yêu cầu, hoặc người dùng cuối của phần mềm. Họ không phải BA hay PM — họ là người <em>sở hữu kiến thức kinh doanh</em>. Kỹ sư cần học từ họ, không phải ngược lại.
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-title">📖 THUẬT NGỮ XUẤT HIỆN TRONG CHƯƠNG NÀY</div>
+      <div class="gterm"><span class="gterm-word">Business Domain</span><span class="gterm-def">Lĩnh vực hoạt động chính của công ty — dịch vụ họ cung cấp cho khách. Starbucks có Business Domain là "chuỗi cà phê". Dùng khi muốn mô tả công ty ở mức cao nhất.</span></div>
+      <div class="gterm"><span class="gterm-word">Subdomain</span><span class="gterm-def">Một mảng hoạt động kinh doanh cụ thể trong Business Domain. Ví dụ: quản lý kho, thanh toán, xác thực là 3 subdomain khác nhau. Không có subdomain nào đủ mạnh một mình — chúng phải kết hợp với nhau.</span></div>
+      <div class="gterm"><span class="gterm-word">Core Subdomain</span><span class="gterm-def">Subdomain tạo ra lợi thế cạnh tranh cho công ty. Không thể mua, không thể outsource — phải làm in-house và đầu tư kỹ thuật tốt nhất. Ví dụ: thuật toán xếp hạng của Google Search.</span></div>
+      <div class="gterm"><span class="gterm-word">Generic Subdomain</span><span class="gterm-def">Mọi công ty đều làm giống nhau. Đã có giải pháp tốt sẵn có. Ví dụ: authentication (xác thực), accounting (kế toán). Nên dùng thư viện / SaaS thay vì tự xây.</span></div>
+      <div class="gterm"><span class="gterm-word">Supporting Subdomain</span><span class="gterm-def">Hỗ trợ nghiệp vụ nhưng không tạo lợi thế. Logic đơn giản, chủ yếu là CRUD. Có thể outsource nhưng không có giải pháp sẵn phù hợp. Ví dụ: module quản lý danh mục quảng cáo của một hãng marketing.</span></div>
+      <div class="gterm"><span class="gterm-word">Domain Experts</span><span class="gterm-def">Người có hiểu biết sâu nhất về nghiệp vụ — là khách hàng, người dùng cuối, hoặc người đặt yêu cầu. Không phải BA hay PM. Kỹ sư cần giao tiếp trực tiếp với họ.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CH 2 ── -->
+<div class="section" id="ch2">
+  <div class="container">
+    <div class="badge">CHƯƠNG 2</div>
+    <h2>Ubiquitous Language — Ngôn ngữ chung của dự án</h2>
+
+    <p>Lý do phần mềm thất bại thường không phải do kỹ thuật, mà do <strong>giao tiếp kém</strong>. Trong quy trình phát triển truyền thống, kiến thức nghiệp vụ bị "dịch" nhiều lần: từ domain expert → BA → tài liệu yêu cầu → thiết kế hệ thống → source code. Mỗi lần dịch là một lần mất thông tin — như trò chơi "điện thoại truyền tin" của trẻ em.</p>
+
+    <p>DDD đề xuất giải pháp: hãy để tất cả stakeholder dùng <strong>Ubiquitous Language (ngôn ngữ phổ quát)</strong> — một ngôn ngữ chung duy nhất mô tả nghiệp vụ, dùng trong hội thoại, tài liệu, test, và cả source code.</p>
+
+    <h3>Ubiquitous Language là gì?</h3>
+    <p>Là ngôn ngữ <em>của nghiệp vụ</em>, không phải ngôn ngữ kỹ thuật. Nó chứa các thuật ngữ mà domain expert sử dụng tự nhiên, và kỹ sư phải học để hiểu.</p>
+
+    <div class="cards">
+      <div class="card sage">
+        <h4>✅ Ngôn ngữ nghiệp vụ (đúng)</h4>
+        <p>"Chiến dịch chỉ được đăng nếu có ít nhất một vị trí hiển thị đang hoạt động."</p>
+        <p>"Hoa hồng bán hàng được tính sau khi giao dịch được phê duyệt."</p>
+      </div>
+      <div class="card rust">
+        <h4>❌ Ngôn ngữ kỹ thuật (sai)</h4>
+        <p>"Chiến dịch được đăng nếu có ít nhất một record trong bảng active-placements."</p>
+        <p>"Hoa hồng dựa trên record tương quan từ bảng transactions và approved-sales."</p>
+      </div>
+    </div>
+
+    <h3>Yêu cầu của Ubiquitous Language</h3>
+    <ul>
+      <li><strong>Nhất quán:</strong> Mỗi thuật ngữ chỉ có một nghĩa duy nhất. Không dùng "policy" vừa nghĩa là "quy định" vừa nghĩa là "hợp đồng bảo hiểm" trong cùng một ngữ cảnh.</li>
+      <li><strong>Không đồng nghĩa:</strong> Hai từ khác nhau không được chỉ cùng một khái niệm. "User" và "Account" — nếu dùng lẫn lộn, hãy hỏi xem chúng có thực sự là hai khái niệm khác nhau không.</li>
+      <li><strong>Phản ánh mô hình thực tế:</strong> Ngôn ngữ nên thể hiện cách domain expert nghĩ về nghiệp vụ.</li>
+    </ul>
+
+    <h3>Mô hình (Model) là gì?</h3>
+    <p>Mô hình không phải là bản sao thực tế — nó là sự trừu tượng hoá có mục đích. Giống như bản đồ: bản đồ tàu điện ngầm Tokyo không cần hiển thị địa hình, chỉ cần hiển thị tuyến và trạm. Mô hình tốt chứa <em>vừa đủ</em> thông tin để giải quyết vấn đề cụ thể.</p>
+
+    <div class="callout">
+      <div class="title">💡 QUOTE GHI NHỚ</div>
+      "It's developers' misunderstanding, not domain experts' knowledge, that gets released in production." — Alberto Brandolini
+    </div>
+
+    <div class="callout tip">
+      <div class="title">✅ CÔNG CỤ HỖ TRỢ</div>
+      Wiki glossary để lưu thuật ngữ. Gherkin tests để mô tả hành vi bằng ngôn ngữ nghiệp vụ. NDepend để phân tích xem code có dùng đúng thuật ngữ không. Nhưng quan trọng nhất là: <em>sử dụng ngôn ngữ đó hàng ngày</em>.
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-title">📖 THUẬT NGỮ XUẤT HIỆN TRONG CHƯƠNG NÀY</div>
+      <div class="gterm"><span class="gterm-word">Ubiquitous Language</span><span class="gterm-def">Ngôn ngữ chung duy nhất của dự án, dùng bởi tất cả stakeholder (kỹ sư, PM, domain expert, designer). Phải nhất quán, không mơ hồ. Dùng trong hội thoại, tài liệu, tests, và source code. Không phải ngôn ngữ kỹ thuật — là ngôn ngữ của nghiệp vụ.</span></div>
+      <div class="gterm"><span class="gterm-word">Model (mô hình)</span><span class="gterm-def">Biểu diễn đơn giản hoá của thực tế, có mục đích cụ thể. Không phải bản sao — là công cụ để giải quyết vấn đề. Ví dụ: mảnh bìa cứng cắt theo kích thước tủ lạnh = mô hình kiểm tra xem tủ có vào được cửa bếp không.</span></div>
+      <div class="gterm"><span class="gterm-word">Gherkin</span><span class="gterm-def">Ngôn ngữ viết test theo kiểu "Given... When... Then..." gần với tiếng Anh thông thường, để domain expert có thể đọc và xác nhận hành vi hệ thống. Ví dụ: "Given khách hàng gửi yêu cầu hỗ trợ, When ticket được gán cho agent, Then agent nhận thông báo."</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CH 3 ── -->
+<div class="section" id="ch3">
+  <div class="container">
+    <div class="badge">CHƯƠNG 3</div>
+    <h2>Bounded Context — Vùng ranh giới của mô hình</h2>
+
+    <p>Vấn đề: trong một tổ chức lớn, cùng một thuật ngữ có thể có nghĩa khác nhau ở các bộ phận khác nhau. Ví dụ trong một công ty telemarketing: "lead" trong bộ phận Marketing là một thông báo có người quan tâm, còn trong bộ phận Sales là một quy trình dài hạn quản lý toàn bộ vòng đời bán hàng.</p>
+
+    <p>Làm thế nào để cùng lúc: (1) ngôn ngữ phải nhất quán, và (2) phản ánh đúng mô hình tư duy của domain expert?</p>
+
+    <p>Giải pháp: <strong>Bounded Context (ngữ cảnh có ranh giới rõ ràng)</strong> — chia ngôn ngữ thành nhiều ngôn ngữ nhỏ hơn, mỗi cái có vùng áp dụng rõ ràng. Từ "lead" trong context Marketing vs context Sales là hai khái niệm khác nhau, và không có vấn đề gì cả.</p>
+
+    <h3>Subdomains vs Bounded Contexts — Sự khác biệt quan trọng</h3>
+    <div class="cards">
+      <div class="card">
+        <h4>🔍 Subdomains</h4>
+        <p><strong>Được phát hiện, không được thiết kế.</strong> Là cách tổ chức vận hành nghiệp vụ — do business định nghĩa, không phải kỹ sư. Kỹ sư chỉ phân tích để tìm ra.</p>
+      </div>
+      <div class="card sage">
+        <h4>🏗️ Bounded Contexts</h4>
+        <p><strong>Được thiết kế, không được phát hiện.</strong> Là quyết định thiết kế phần mềm — kỹ sư quyết định ranh giới nào phù hợp với bài toán cụ thể.</p>
+      </div>
+    </div>
+
+    <h3>Ranh giới vật lý và ranh giới quyền sở hữu</h3>
+    <p>Mỗi Bounded Context nên là một service/project độc lập — có lifecycle riêng, được deploy độc lập. Đồng thời, mỗi Bounded Context chỉ nên do <em>một team</em> phụ trách. Một team có thể quản lý nhiều Bounded Context, nhưng một Bounded Context không thể do hai team cùng làm.</p>
+
+    <div class="callout tip">
+      <div class="title">✅ KHI NÀO NÊN CHIA NHỎ BOUNDED CONTEXT?</div>
+      Khi cần tách lifecycle phát triển của hai tính năng. Khi cần scale một phần độc lập. Khi team mới được thành lập. Đừng chia quá nhỏ — quá nhiều BC nhỏ = quá nhiều overhead tích hợp.
+    </div>
+
+    <div class="callout danger">
+      <div class="title">⚠️ SAI LẦM PHỔ BIẾN</div>
+      Nhầm lẫn "một subdomain = một bounded context". Không nhất thiết! Một BC có thể chứa nhiều subdomain (nếu chúng không có mô hình xung đột). Hoặc một subdomain có thể cần nhiều BC (nếu cần nhiều mô hình khác nhau cho cùng một thực thể).
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-title">📖 THUẬT NGỮ XUẤT HIỆN TRONG CHƯƠNG NÀY</div>
+      <div class="gterm"><span class="gterm-word">Bounded Context</span><span class="gterm-def">Vùng ranh giới tường minh cho một mô hình và ngôn ngữ. Bên trong BC, mọi thuật ngữ có nghĩa nhất quán. Bên ngoài ranh giới, cùng một từ có thể có nghĩa khác. BC là ranh giới vật lý (một service/project), ranh giới lifecycle, và ranh giới quyền sở hữu team.</span></div>
+      <div class="gterm"><span class="gterm-word">Consistency Boundary</span><span class="gterm-def">Ranh giới đảm bảo tính nhất quán của mô hình. Bên trong ranh giới, dữ liệu phải luôn nhất quán. Đây chính là bounded context ở cấp độ mô hình.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CH 4 ── -->
+<div class="section" id="ch4">
+  <div class="container">
+    <div class="badge">CHƯƠNG 4</div>
+    <h2>Tích hợp giữa các Bounded Context</h2>
+
+    <p>Các Bounded Context không tồn tại độc lập — chúng phải giao tiếp với nhau. Nhưng vì mỗi BC có ngôn ngữ và mô hình riêng, cần có các mẫu tích hợp cụ thể. Sách chia thành 3 nhóm dựa trên kiểu cộng tác giữa các team:</p>
+
+    <h3>Nhóm 1 — Cooperation (Hợp tác tốt)</h3>
+    <div class="cards">
+      <div class="card">
+        <h4>🤝 Partnership (Đối tác)</h4>
+        <p>Hai team phối hợp chặt chẽ, ad-hoc — ai thay đổi API thì thông báo, người kia tự thích nghi. Cần giao tiếp tốt, ít phù hợp với team phân tán địa lý.</p>
+      </div>
+      <div class="card">
+        <h4>🔗 Shared Kernel (Nhân chung)</h4>
+        <p>Hai BC dùng chung một phần mô hình (thường là contract tích hợp). Mọi thay đổi phải được cả hai team đồng thuận. Dùng khi chi phí duplicate > chi phí phối hợp.</p>
+      </div>
+    </div>
+
+    <h3>Nhóm 2 — Customer–Supplier (Thượng nguồn – Hạ nguồn)</h3>
+    <div class="cards">
+      <div class="card ink">
+        <h4>😌 Conformist (Tuân thủ)</h4>
+        <p>Downstream (hạ nguồn) chấp nhận toàn bộ mô hình của upstream (thượng nguồn). Đơn giản nhưng mất tự chủ. Dùng khi upstream là tiêu chuẩn ngành hoặc đủ tốt cho nhu cầu.</p>
+      </div>
+      <div class="card rust">
+        <h4>🛡️ Anticorruption Layer — ACL</h4>
+        <p>Downstream dịch (translate) mô hình upstream sang mô hình riêng của mình. Như lớp phiên dịch. Dùng khi upstream có mô hình kém chất lượng, thay đổi thường xuyên, hoặc khi downstream là core subdomain.</p>
+      </div>
+      <div class="card sage">
+        <h4>📡 Open-Host Service — OHS</h4>
+        <p>Upstream tạo một "ngôn ngữ tích hợp" (Published Language) tách khỏi mô hình nội bộ, tối ưu cho consumer. Upstream quan tâm bảo vệ consumer. Có thể hỗ trợ nhiều version cùng lúc.</p>
+      </div>
+    </div>
+
+    <h3>Nhóm 3 — Separate Ways (Đường ai nấy đi)</h3>
+    <p>Đôi khi tốn kém hơn khi cộng tác — tốt hơn là duplicate chức năng. Dùng cho generic/supporting subdomain khi chi phí tích hợp &gt; chi phí duplicate. <strong>Không bao giờ dùng cho core subdomain!</strong></p>
+
+    <h3>Context Map (Bản đồ ngữ cảnh)</h3>
+    <p>Là sơ đồ trực quan thể hiện tất cả BC và cách chúng tích hợp với nhau. Giúp nhìn tổng thể kiến trúc, phát hiện vấn đề tổ chức (ví dụ: nhiều team đều phải dùng ACL với cùng một upstream → upstream đó có vấn đề gì?).</p>
+
+    <div class="callout tip">
+      <div class="title">✅ KHI NÀO DÙNG ACL?</div>
+      Khi downstream là core subdomain. Khi upstream có model kém chất lượng. Khi upstream thay đổi API thường xuyên. Khi tích hợp với hệ thống legacy.
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-title">📖 THUẬT NGỮ XUẤT HIỆN TRONG CHƯƠNG NÀY</div>
+      <div class="gterm"><span class="gterm-word">Integration Contract</span><span class="gterm-def">Giao kèo giữa hai BC về cách chúng giao tiếp — định nghĩa rõ dữ liệu, format, và API sẽ dùng. Mỗi BC có ngôn ngữ riêng nên cần có hợp đồng tường minh.</span></div>
+      <div class="gterm"><span class="gterm-word">Anticorruption Layer (ACL)</span><span class="gterm-def">Lớp dịch mô hình: downstream tự chuyển đổi mô hình của upstream thành mô hình phù hợp với mình. Giống phiên dịch viên trong cuộc họp song ngữ — mỗi bên nói ngôn ngữ của mình, phiên dịch lo phần còn lại.</span></div>
+      <div class="gterm"><span class="gterm-word">Open-Host Service (OHS)</span><span class="gterm-def">Upstream cung cấp một API tích hợp riêng (Published Language), tách biệt với mô hình nội bộ. Mục đích: bảo vệ consumer khỏi thay đổi nội bộ. Giống như cửa hàng có catalog công khai khác với quy trình nội bộ.</span></div>
+      <div class="gterm"><span class="gterm-word">Published Language</span><span class="gterm-def">Ngôn ngữ tích hợp chuẩn hoá được upstream phát hành trong Open-Host Service. Tối ưu cho nhu cầu consumer, không phải nhu cầu nội bộ.</span></div>
+      <div class="gterm"><span class="gterm-word">Context Map</span><span class="gterm-def">Sơ đồ vẽ tất cả Bounded Context và cách tích hợp giữa chúng. Như bản đồ "ai đang nói chuyện với ai và theo kiểu gì". Công cụ quan trọng để hiểu kiến trúc tổng thể và phát hiện vấn đề tổ chức.</span></div>
+      <div class="gterm"><span class="gterm-word">Upstream / Downstream</span><span class="gterm-def">Upstream là bên cung cấp service (nhà cung cấp). Downstream là bên tiêu thụ service (khách hàng). Upstream thường có quyền lực hơn trong việc định nghĩa giao kèo.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PART II — TACTICAL DESIGN
+══════════════════════════════════════════════ -->
+<div class="part-header">
+  <div class="container">
+    <h2>PHẦN II — TACTICAL DESIGN (Thiết kế chiến thuật)</h2>
+    <p>Trả lời câu hỏi "Cài đặt như thế nào?"</p>
+  </div>
+</div>
+
+<!-- ── CH 5 ── -->
+<div class="section" id="ch5">
+  <div class="container">
+    <div class="badge">CHƯƠNG 5</div>
+    <h2>Cài đặt logic kinh doanh đơn giản</h2>
+
+    <p>Không phải mọi logic đều phức tạp. Sách đưa ra hai pattern cho logic đơn giản:</p>
+
+    <h3>Transaction Script — Kịch bản giao dịch</h3>
+    <p>Mỗi thao tác công khai = một hàm thủ tục đơn giản. Hàm đọc dữ liệu, xử lý, ghi lại. <em>Yêu cầu duy nhất</em>: toàn bộ thao tác phải thành công hoặc thất bại hoàn toàn (atomic). Nếu thất bại giữa chừng → hệ thống vẫn nhất quán.</p>
+
+    <div class="callout danger">
+      <div class="title">⚠️ BA VẤN ĐỀ PHỔ BIẾN VỀ TRANSACTION</div>
+      <strong>1. Không có transaction bao quanh:</strong> Cập nhật bảng A thành công, rồi server crash → bảng B chưa cập nhật → dữ liệu mất đồng bộ.<br><br>
+      <strong>2. Distributed transaction:</strong> Cập nhật DB xong nhưng publish message bus thất bại → hai hệ thống không đồng bộ. Giải pháp: Outbox pattern (xem chương 9).<br><br>
+      <strong>3. Implicit distributed transaction:</strong> Hàm void cũng là distributed transaction! Client có thể không biết thao tác thành công hay chưa và retry → duplicate.
+    </div>
+
+    <h3>Active Record — Bản ghi có hành vi</h3>
+    <p>Khi cần làm việc với cấu trúc dữ liệu phức tạp (one-to-many, many-to-many), Transaction Script sẽ tạo nhiều code lặp cho việc mapping. Active Record giải quyết bằng cách tạo object đại diện cho cấu trúc dữ liệu đó, kèm theo các phương thức CRUD.</p>
+
+    <div class="callout tip">
+      <div class="title">✅ KHI NÀO DÙNG TRANSACTION SCRIPT & ACTIVE RECORD?</div>
+      Transaction Script: logic đơn giản như ETL, thao tác CRUD thẳng. Phù hợp supporting subdomain.<br>
+      Active Record: khi có cấu trúc dữ liệu phức tạp nhưng logic vẫn đơn giản. Vẫn phù hợp supporting subdomain.
+    </div>
+
+    <div class="callout danger">
+      <div class="title">⚠️ ĐỪNG DÙNG CHO CORE SUBDOMAIN</div>
+      Transaction Script và Active Record không xử lý được business logic phức tạp. Khi logic phức tạp, chúng dẫn đến code trùng lặp, khó bảo trì, và dữ liệu mất nhất quán.
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-title">📖 THUẬT NGỮ XUẤT HIỆN TRONG CHƯƠNG NÀY</div>
+      <div class="gterm"><span class="gterm-word">Transaction Script</span><span class="gterm-def">Pattern cài đặt logic bằng các hàm thủ tục đơn giản, mỗi hàm xử lý một thao tác. Yêu cầu: mỗi hàm phải atomic (thành công hoàn toàn hoặc thất bại hoàn toàn). Dùng cho supporting subdomain với logic giản dị như ETL.</span></div>
+      <div class="gterm"><span class="gterm-word">Active Record</span><span class="gterm-def">Object đại diện cho một row trong DB, kèm theo phương thức CRUD. Kết hợp data + data-access trong một class. Phù hợp khi cấu trúc dữ liệu phức tạp nhưng logic nghiệp vụ còn đơn giản. Không nên dùng cho core subdomain.</span></div>
+      <div class="gterm"><span class="gterm-word">Idempotent (Bất biến)</span><span class="gterm-def">Tính chất: gọi một lần hay mười lần kết quả vẫn như nhau. Ví dụ: "SET visits = 5" là idempotent, còn "SET visits = visits + 1" thì không. Cần khi thao tác có thể bị retry.</span></div>
+      <div class="gterm"><span class="gterm-word">Optimistic Concurrency Control</span><span class="gterm-def">Kiểm tra xem dữ liệu bạn đang cập nhật có bị thay đổi bởi người khác chưa. Nếu có → từ chối và yêu cầu retry. Dùng version number: chỉ cập nhật nếu version_hiện_tại = version_bạn_đọc.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CH 6 ── -->
+<div class="section" id="ch6">
+  <div class="container">
+    <div class="badge">CHƯƠNG 6</div>
+    <h2>Domain Model — Mô hình cho logic phức tạp</h2>
+
+    <p>Khi logic có nhiều quy tắc kinh doanh phức tạp, ràng buộc (invariants), và quy trình đan xen nhau — Transaction Script không đủ sức. Domain Model pattern sinh ra để giải quyết trường hợp này.</p>
+
+    <h3>Các khối xây dựng (Building Blocks)</h3>
+
+    <h3>1. Value Object — Đối tượng giá trị</h3>
+    <p>Là object được xác định bởi <em>giá trị</em> của nó, không phải định danh. Giống tờ tiền 100k — bạn không quan tâm tờ nào cụ thể, chỉ quan tâm mệnh giá. Hai tờ 100k hoàn toàn giống nhau và có thể đổi cho nhau.</p>
+    <ul>
+      <li><strong>Bất biến (Immutable):</strong> Không sửa giá trị cũ — tạo value object mới. Color.red.MixWith(Color.green) trả về Color.yellow mới, không sửa red.</li>
+      <li><strong>Đóng gói logic:</strong> Mọi logic liên quan đến giá trị đó sống trong value object. PhoneNumber.IsValid(), Height.ToImperial(), Color.MixWith().</li>
+      <li><strong>Nói ngôn ngữ nghiệp vụ:</strong> Thay vì string email, dùng EmailAddress. Thay vì int height, dùng Height. Code trở nên tự giải thích.</li>
+    </ul>
+
+    <div class="callout">
+      <div class="title">💡 PRIMITIVE OBSESSION (ám ảnh kiểu nguyên thuỷ)</div>
+      Là anti-pattern khi dùng string/int để đại diện khái niệm nghiệp vụ. Ví dụ: string landlinePhone, string mobilePhone, string email — cả ba đều là string nhưng ý nghĩa khác nhau, dễ nhầm. Dùng Value Object thay thế.
+    </div>
+
+    <h3>2. Entity — Thực thể</h3>
+    <p>Là object cần một <strong>ID tường minh</strong> để phân biệt, dù giá trị các trường giống nhau. Ví dụ: hai người có cùng tên "Nguyễn Văn A" là hai entity khác nhau. Entity <em>có thể thay đổi</em> theo thời gian (khác với Value Object là bất biến).</p>
+
+    <h3>3. Aggregate — Nhóm thực thể</h3>
+    <p>Là một Entity nhưng mạnh hơn: nó quản lý <em>cả một nhóm</em> Entity và Value Object, đảm bảo tính nhất quán của toàn bộ nhóm. Nghĩ về đơn hàng (Order) và các sản phẩm trong đơn (OrderItem) — đây là một Aggregate.</p>
+
+    <div class="cards">
+      <div class="card">
+        <h4>🔒 Aggregate Root (Gốc của nhóm)</h4>
+        <p>Cửa duy nhất để vào Aggregate. Không ai được sửa OrderItem trực tiếp — phải đi qua Order. Order là aggregate root.</p>
+      </div>
+      <div class="card sage">
+        <h4>⚡ Transaction Boundary (Ranh giới giao dịch)</h4>
+        <p>Mọi thay đổi bên trong Aggregate phải được commit trong một atomic transaction. Một transaction chỉ được sửa MỘT Aggregate.</p>
+      </div>
+      <div class="card rust">
+        <h4>📐 Thiết kế nhỏ nhất có thể</h4>
+        <p>Chỉ đưa vào Aggregate những gì CẦN nhất quán mạnh. Những gì có thể eventually consistent → đặt ngoài, tham chiếu qua ID.</p>
+      </div>
+    </div>
+
+    <h3>Domain Events — Sự kiện miền</h3>
+    <p>Thông điệp mô tả điều đã xảy ra trong nghiệp vụ. Tên phải ở quá khứ: TicketEscalated, OrderShipped, PaymentConfirmed. Aggregate phát ra domain events, các component khác lắng nghe và phản ứng.</p>
+
+    <h3>4. Domain Service — Dịch vụ miền</h3>
+    <p>Object không có trạng thái (stateless), chứa logic nghiệp vụ không thuộc về aggregate hay value object nào. Ví dụ: tính deadline phản hồi của agent cần dữ liệu từ ticket, policy của department, và lịch làm việc — logic này đặt trong Domain Service.</p>
+
+    <h3>Tại sao Aggregate giảm được độ phức tạp?</h3>
+    <p>Theo Eliyahu Goldratt: độ phức tạp = số "degrees of freedom" (số điểm dữ liệu cần để mô tả trạng thái). Aggregate có invariants nên nhiều trường phụ thuộc lẫn nhau → fewer degrees of freedom → ít phức tạp hơn.</p>
+
+    <div class="callout tip">
+      <div class="title">✅ KHI NÀO DÙNG DOMAIN MODEL?</div>
+      Khi logic nghiệp vụ có nhiều quy tắc phức tạp, invariants, quy trình đan xen. Phù hợp với core subdomain. Đây là "trái tim của phần mềm".
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-title">📖 THUẬT NGỮ XUẤT HIỆN TRONG CHƯƠNG NÀY</div>
+      <div class="gterm"><span class="gterm-word">Value Object</span><span class="gterm-def">Object được xác định bởi giá trị, không có ID. Bất biến — thay đổi = tạo object mới. Đóng gói logic liên quan đến giá trị đó. Ví dụ: Color, Money, PhoneNumber, EmailAddress. Dùng bất cứ khi nào có thể để làm code rõ ràng hơn.</span></div>
+      <div class="gterm"><span class="gterm-word">Entity</span><span class="gterm-def">Object cần ID để phân biệt các instance. Có thể thay đổi theo thời gian. Trong DDD, entity không tồn tại độc lập mà nằm trong aggregate.</span></div>
+      <div class="gterm"><span class="gterm-word">Aggregate</span><span class="gterm-def">Nhóm các object được quản lý cùng nhau trong một ranh giới giao dịch (transaction boundary). Chỉ có Aggregate Root là cửa vào duy nhất. Một transaction chỉ sửa một aggregate. Ví dụ: Order chứa OrderItems là một aggregate — không ai sửa OrderItem trực tiếp, phải đi qua Order.</span></div>
+      <div class="gterm"><span class="gterm-word">Aggregate Root</span><span class="gterm-def">Entity "gốc" của Aggregate — cửa vào duy nhất để đọc/ghi. Mọi thao tác trên các object bên trong aggregate phải đi qua Aggregate Root để đảm bảo invariants.</span></div>
+      <div class="gterm"><span class="gterm-word">Domain Events</span><span class="gterm-def">Thông điệp mô tả điều đã xảy ra trong nghiệp vụ. Tên ở dạng quá khứ: TicketEscalated, OrderPlaced. Aggregate phát ra, các component khác subscribe và phản ứng. Là cơ chế giao tiếp giữa các phần của hệ thống.</span></div>
+      <div class="gterm"><span class="gterm-word">Invariant</span><span class="gterm-def">Quy tắc phải luôn đúng, không được vi phạm. Ví dụ: "Tổng tiền đơn hàng không được âm", "Ticket đã đóng không được escalate". Aggregate chịu trách nhiệm bảo vệ invariants của mình.</span></div>
+      <div class="gterm"><span class="gterm-word">Domain Service</span><span class="gterm-def">Object stateless chứa logic nghiệp vụ không thuộc về aggregate hay value object cụ thể nào. Dùng khi logic cần dữ liệu từ nhiều aggregate khác nhau. Không nhầm với microservice hay web service.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CH 7 ── -->
+<div class="section" id="ch7">
+  <div class="container">
+    <div class="badge">CHƯƠNG 7</div>
+    <h2>Event Sourcing — Mô hình hoá chiều thời gian</h2>
+
+    <p>Trong cơ sở dữ liệu truyền thống, chỉ lưu <em>trạng thái hiện tại</em>. Câu hỏi "Tại sao dữ liệu lại như vậy?" hay "Trước đó nó là gì?" không trả lời được. <strong>Event Sourcing</strong> giải quyết bằng cách lưu <em>toàn bộ lịch sử thay đổi</em> dưới dạng chuỗi domain events. Trạng thái hiện tại được suy ra bằng cách "chiếu" (project) chuỗi events.</p>
+
+    <h3>Cách hoạt động</h3>
+    <p>Thay vì UPDATE lead SET status = 'converted', hệ thống lưu:</p>
+    <ol>
+      <li>lead-initialized (khi tạo)</li>
+      <li>contacted (khi gọi điện lần 1)</li>
+      <li>followup-set (khi hẹn gọi lại)</li>
+      <li>order-submitted (khi đặt hàng)</li>
+      <li>payment-confirmed (khi thanh toán) → trạng thái = converted</li>
+    </ol>
+
+    <h3>Lợi ích</h3>
+    <div class="cards">
+      <div class="card">
+        <h4>⏱️ Time Travel</h4>
+        <p>Phục hồi trạng thái ở bất kỳ thời điểm nào bằng cách chỉ apply events đến thời điểm đó. Hữu ích để debug lỗi sản xuất.</p>
+      </div>
+      <div class="card sage">
+        <h4>📊 Multiple Projections</h4>
+        <p>Từ cùng một chuỗi events, project ra nhiều mô hình khác nhau: mô hình hiện tại, mô hình cho search, mô hình cho analytics. Thêm projection mới bất cứ lúc nào.</p>
+      </div>
+      <div class="card rust">
+        <h4>📋 Audit Log miễn phí</h4>
+        <p>Lịch sử đầy đủ, nhất quán, không thể làm giả. Quan trọng cho hệ thống tài chính, y tế, pháp lý.</p>
+      </div>
+    </div>
+
+    <h3>Nhược điểm</h3>
+    <ul>
+      <li><strong>Đường cong học tập cao</strong> — tư duy khác hẳn thông thường.</li>
+      <li><strong>Khó thay đổi schema events</strong> — events đã lưu là immutable.</li>
+      <li><strong>Phức tạp hơn về kiến trúc</strong> — cần CQRS để query linh hoạt.</li>
+    </ul>
+
+    <div class="callout tip">
+      <div class="title">✅ KHI NÀO DÙNG EVENT SOURCING?</div>
+      Khi cần audit log theo yêu cầu pháp lý. Khi cần phân tích hành vi hệ thống sâu. Khi xử lý tiền tệ và giao dịch tài chính. Khi business cần insight sâu về lịch sử dữ liệu.
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-title">📖 THUẬT NGỮ XUẤT HIỆN TRONG CHƯƠNG NÀY</div>
+      <div class="gterm"><span class="gterm-word">Event Sourcing</span><span class="gterm-def">Pattern lưu trữ: thay vì lưu trạng thái hiện tại, lưu toàn bộ chuỗi events mô tả mọi thay đổi. Trạng thái hiện tại được tính bằng cách apply tuần tự tất cả events. Giống sổ cái tài chính — không xoá entry, chỉ thêm.</span></div>
+      <div class="gterm"><span class="gterm-word">Event Store</span><span class="gterm-def">Database chuyên dụng lưu trữ events. Chỉ hỗ trợ append (thêm) — không sửa, không xoá. Hai thao tác cơ bản: lấy tất cả events của một aggregate, và append events mới.</span></div>
+      <div class="gterm"><span class="gterm-word">Projection (chiếu)</span><span class="gterm-def">Quá trình "chiếu" chuỗi events thành một mô hình trạng thái cụ thể. Ví dụ: apply tất cả events của một Order để biết trạng thái hiện tại. Có thể tạo nhiều projection khác nhau từ cùng events.</span></div>
+      <div class="gterm"><span class="gterm-word">Snapshot</span><span class="gterm-def">Tối ưu hiệu năng khi aggregate có quá nhiều events: lưu lại trạng thái tại một thời điểm (snapshot), và chỉ apply events từ sau snapshot. Không cần thiết với hầu hết hệ thống — chỉ khi aggregate có 10.000+ events.</span></div>
+      <div class="gterm"><span class="gterm-word">Forgettable Payload</span><span class="gterm-def">Kỹ thuật xử lý GDPR trong event sourcing: mã hoá dữ liệu nhạy cảm, lưu key riêng. Khi cần xoá dữ liệu, chỉ xoá key → dữ liệu mã hoá vô dụng nhưng event vẫn tồn tại.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CH 8 ── -->
+<div class="section" id="ch8">
+  <div class="container">
+    <div class="badge">CHƯƠNG 8</div>
+    <h2>Architectural Patterns — Kiến trúc hệ thống</h2>
+
+    <p>Sau khi chọn cách cài đặt logic (Transaction Script / Active Record / Domain Model), cần chọn cách tổ chức code theo chiều ngang (tầng layer).</p>
+
+    <div class="cards">
+      <div class="card">
+        <h4>🏛️ Layered Architecture</h4>
+        <p>3 tầng: Presentation → Business Logic → Data Access. Mỗi tầng chỉ phụ thuộc tầng dưới. Đơn giản, phù hợp Transaction Script / Active Record.</p>
+        <p><em>Nhược điểm:</em> BLL phụ thuộc DAL → khó test aggregate độc lập.</p>
+      </div>
+      <div class="card sage">
+        <h4>🔄 Ports &amp; Adapters (Hexagonal)</h4>
+        <p>BLL ở trung tâm, không phụ thuộc gì. Infrastructure layer bao quanh, implement các "port" do BLL định nghĩa. Phù hợp Domain Model.</p>
+        <p><em>Cũng gọi là:</em> Onion Architecture, Clean Architecture.</p>
+      </div>
+      <div class="card rust">
+        <h4>⚡ CQRS</h4>
+        <p>Tách biệt model cho ghi (command execution) và đọc (read models / projections). Một command model → nhiều read model tối ưu cho từng trường hợp. Bắt buộc khi dùng Event Sourcing.</p>
+      </div>
+    </div>
+
+    <h3>CQRS chi tiết</h3>
+    <p>Command Execution Model = nguồn sự thật duy nhất, strongly consistent. Read Models = projection được cache, eventually consistent. Projection engine đồng bộ từ command model sang read models.</p>
+
+    <div class="callout">
+      <div class="title">💡 LƯU Ý VỀ COMMAND TRONG CQRS</div>
+      Command CÓ THỂ trả về dữ liệu — miễn là dữ liệu đó từ strongly consistent model. Đừng cứng nhắc bắt command không trả về gì cả. UX sẽ tệ hơn nếu client phải làm thêm round-trip chỉ để biết kết quả.
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-title">📖 THUẬT NGỮ XUẤT HIỆN TRONG CHƯƠNG NÀY</div>
+      <div class="gterm"><span class="gterm-word">Ports &amp; Adapters</span><span class="gterm-def">Pattern kiến trúc: BLL định nghĩa "port" (interface trừu tượng), infrastructure layer cài đặt "adapter" (implement cụ thể). Giúp BLL không phụ thuộc công nghệ cụ thể — dễ test, dễ thay thế DB/messaging.</span></div>
+      <div class="gterm"><span class="gterm-word">CQRS (Command-Query Responsibility Segregation)</span><span class="gterm-def">Tách trách nhiệm: một model duy nhất để thực thi command (ghi), nhiều model để đọc (query). Read model là "precached projection" — được tạo từ command model, tối ưu cho từng use case đọc.</span></div>
+      <div class="gterm"><span class="gterm-word">Command Execution Model</span><span class="gterm-def">Model duy nhất cho phép thay đổi trạng thái hệ thống. Strongly consistent — là nguồn sự thật. Trong CQRS, đây là model duy nhất cần ACID.</span></div>
+      <div class="gterm"><span class="gterm-word">Read Model (Projection)</span><span class="gterm-def">Model được tối ưu cho việc đọc dữ liệu. Eventually consistent. Có thể lưu trong bất kỳ loại DB nào phù hợp (full-text search, cache, flat file). Có thể xoá và rebuild lại từ đầu bất cứ lúc nào.</span></div>
+      <div class="gterm"><span class="gterm-word">Dependency Inversion Principle (DIP)</span><span class="gterm-def">High-level modules (business logic) không nên phụ thuộc low-level modules (infrastructure). Cả hai nên phụ thuộc vào abstraction. DIP là nền tảng của Ports &amp; Adapters.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CH 9 ── -->
+<div class="section" id="ch9">
+  <div class="container">
+    <div class="badge">CHƯƠNG 9</div>
+    <h2>Communication Patterns — Giao tiếp giữa các component</h2>
+
+    <h3>Model Translation (Dịch mô hình)</h3>
+    <p>Khi hai BC có mô hình khác nhau, cần dịch. Hai hướng:</p>
+    <ul>
+      <li><strong>Stateless:</strong> Dịch on-the-fly qua proxy hoặc API gateway.</li>
+      <li><strong>Stateful:</strong> Cần DB để batch hoặc tổng hợp dữ liệu từ nhiều nguồn.</li>
+    </ul>
+
+    <h3>Outbox Pattern — Đảm bảo publish domain events</h3>
+    <p>Vấn đề: cập nhật DB xong, publish message bus thất bại → không nhất quán. Không nên publish trực tiếp từ aggregate hoặc ngay sau commit.</p>
+    <p>Giải pháp Outbox: lưu events vào DB trong cùng một transaction với aggregate. Message relay định kỳ đọc events chưa publish và gửi lên message bus. Mark là đã publish sau khi thành công.</p>
+
+    <div class="callout">
+      <div class="title">💡 AT-LEAST-ONCE DELIVERY</div>
+      Outbox đảm bảo gửi ít nhất một lần (at-least-once), không phải đúng một lần. Nếu relay crash sau khi gửi nhưng trước khi mark → event bị gửi lại. Consumer cần xử lý duplicate (idempotency).
+    </div>
+
+    <h3>Saga — Quy trình kinh doanh đơn giản</h3>
+    <p>Khi một business process span nhiều aggregate (ví dụ: kích hoạt campaign → submit quảng cáo → nhận xác nhận → cập nhật trạng thái). Saga lắng nghe events từ các component và phát ra commands tương ứng.</p>
+
+    <h3>Process Manager — Quy trình phức tạp</h3>
+    <p>Khi quy trình có logic phân nhánh (if-else), có trạng thái riêng, và không gắn với một event duy nhất khởi tạo. Process Manager phải được khởi tạo tường minh. Ví dụ: quy trình đặt vé máy bay + khách sạn cho công tác.</p>
+
+    <table>
+      <thead><tr><th>Đặc điểm</th><th>Saga</th><th>Process Manager</th></tr></thead>
+      <tbody>
+        <tr><td>Khởi tạo</td><td>Tự động khi có event cụ thể</td><td>Phải khởi tạo tường minh</td></tr>
+        <tr><td>Logic</td><td>Đơn giản, tuyến tính</td><td>Có if-else, phân nhánh</td></tr>
+        <tr><td>Trạng thái</td><td>Thường không có state</td><td>Có state riêng</td></tr>
+        <tr><td>Phức tạp</td><td>Thấp</td><td>Cao hơn</td></tr>
+      </tbody>
+    </table>
+
+    <div class="glossary">
+      <div class="glossary-title">📖 THUẬT NGỮ XUẤT HIỆN TRONG CHƯƠNG NÀY</div>
+      <div class="gterm"><span class="gterm-word">Outbox Pattern</span><span class="gterm-def">Pattern đảm bảo publish domain events: lưu events vào DB cùng transaction với aggregate, relay riêng đọc và publish. Đảm bảo at-least-once delivery kể cả khi hệ thống crash giữa chừng.</span></div>
+      <div class="gterm"><span class="gterm-word">Saga</span><span class="gterm-def">Long-running business process span nhiều aggregate/service. Lắng nghe events và phát commands để điều phối. Đơn giản, tuyến tính, tự động khởi tạo khi có event cụ thể. Compensating actions khi có lỗi.</span></div>
+      <div class="gterm"><span class="gterm-word">Process Manager</span><span class="gterm-def">Business process phức tạp hơn Saga: có logic phân nhánh, trạng thái riêng, phải khởi tạo tường minh. Thường cài đặt như một event-sourced aggregate. Ví dụ: quy trình đặt công tác với nhiều bước phê duyệt.</span></div>
+      <div class="gterm"><span class="gterm-word">Compensating Action</span><span class="gterm-def">Hành động "bù đắp" khi một bước trong quy trình thất bại. Ví dụ: đặt vé bay thành công nhưng không đặt được khách sạn → huỷ vé bay. Không phải rollback DB — là hành động nghiệp vụ đảo ngược.</span></div>
+      <div class="gterm"><span class="gterm-word">Transaction Log Tailing</span><span class="gterm-def">Kỹ thuật "đọc nhật ký giao dịch" của DB để phát hiện thay đổi mới mà không cần polling. Hiệu quả hơn polling nhưng phụ thuộc tính năng của từng DB (ví dụ: AWS DynamoDB Streams, SQL Server CDC).</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PART III — DDD IN PRACTICE
+══════════════════════════════════════════════ -->
+<div class="part-header">
+  <div class="container">
+    <h2>PHẦN III — DDD IN PRACTICE (DDD trong thực tế)</h2>
+    <p>Áp dụng DDD vào dự án thực tế, kể cả brownfield</p>
+  </div>
+</div>
+
+<!-- ── CH 10 ── -->
+<div class="section" id="ch10">
+  <div class="container">
+    <div class="badge">CHƯƠNG 10</div>
+    <h2>Design Heuristics — Quy tắc ra quyết định thiết kế</h2>
+
+    <p>"It depends" là câu trả lời đúng cho hầu hết câu hỏi thiết kế. Chương này hỏi: "Depends vào cái gì?" — và đưa ra Decision Trees cụ thể.</p>
+
+    <h3>Decision Tree: Chọn Business Logic Pattern</h3>
+    <div class="dtree">
+      <div class="q">❓ Subdomain có cần audit log / xử lý tiền / cần phân tích sâu?</div>
+      <div class="a">→ CÓ</div>
+      <div class="r">⟹ Event-Sourced Domain Model</div>
+      <div class="a">→ KHÔNG → Logic có phức tạp không (nhiều quy tắc, invariants)?</div>
+      <div class="r">→ CÓ ⟹ Domain Model</div>
+      <div class="a">→ KHÔNG → Cấu trúc dữ liệu có phức tạp không?</div>
+      <div class="r">→ CÓ ⟹ Active Record</div>
+      <div class="r">→ KHÔNG ⟹ Transaction Script</div>
+    </div>
+
+    <h3>Decision Tree: Chọn Architectural Pattern</h3>
+    <div class="dtree">
+      <div class="q">❓ Business logic pattern là gì?</div>
+      <div class="a">→ Event-Sourced Domain Model</div>
+      <div class="r">⟹ CQRS (bắt buộc)</div>
+      <div class="a">→ Domain Model</div>
+      <div class="r">⟹ Ports &amp; Adapters</div>
+      <div class="a">→ Active Record</div>
+      <div class="r">⟹ Layered Architecture + Service Layer</div>
+      <div class="a">→ Transaction Script</div>
+      <div class="r">⟹ Layered Architecture đơn giản (3 tầng)</div>
+    </div>
+
+    <h3>Testing Strategy</h3>
+    <div class="cards">
+      <div class="card">
+        <h4>🔺 Testing Pyramid</h4>
+        <p>Nhiều unit test nhất. Dùng cho Domain Model — aggregates/value objects là unit test lý tưởng.</p>
+      </div>
+      <div class="card sage">
+        <h4>💎 Testing Diamond</h4>
+        <p>Nhiều integration test nhất. Dùng cho Active Record — logic nằm ở cả service và BLL, cần test tích hợp hai tầng.</p>
+      </div>
+      <div class="card rust">
+        <h4>🔻 Reversed Pyramid</h4>
+        <p>Nhiều end-to-end test nhất. Dùng cho Transaction Script — logic đơn giản, ít layer, kiểm tra flow là đủ.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="title">💡 HEURISTIC về kích thước Bounded Context</div>
+      Đừng optimize cho nhỏ nhất. Kích thước BC = hàm của model nó chứa. Khi mới bắt đầu, để BC rộng hơn — refactor logical boundary rẻ hơn nhiều so với refactor physical boundary. Tách nhỏ khi domain knowledge rõ ràng hơn.
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-title">📖 THUẬT NGỮ XUẤT HIỆN TRONG CHƯƠNG NÀY</div>
+      <div class="gterm"><span class="gterm-word">Heuristic (Phỏng đoán hữu dụng)</span><span class="gterm-def">Quy tắc ngón tay cái: không đảm bảo đúng 100% mọi trường hợp, nhưng hiệu quả cho đa số tình huống. Heuristic tốt tập trung vào "swamping forces" — những yếu tố quan trọng nhất, bỏ qua nhiễu.</span></div>
+      <div class="gterm"><span class="gterm-word">Testing Pyramid</span><span class="gterm-def">Chiến lược kiểm thử: nhiều unit test (đáy), ít integration test (giữa), ít nhất e2e test (đỉnh). Phù hợp Domain Model vì aggregates/value objects dễ unit test.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CH 11 ── -->
+<div class="section" id="ch11">
+  <div class="container">
+    <div class="badge">CHƯƠNG 11</div>
+    <h2>Tiến hoá thiết kế theo thời gian</h2>
+
+    <p>Thiết kế không phải là kết quả cuối cùng — nó phải thay đổi theo nghiệp vụ. Bốn vector thay đổi chính:</p>
+
+    <div class="cards">
+      <div class="card">
+        <h4>1️⃣ Thay đổi miền nghiệp vụ</h4>
+        <p>Core → Generic (khi có giải pháp off-the-shelf tốt hơn). Generic → Core (khi công ty quyết định tự xây để có lợi thế). Supporting ↔ Generic, Core ↔ Supporting. Mỗi thay đổi đòi hỏi điều chỉnh thiết kế tương ứng.</p>
+      </div>
+      <div class="card sage">
+        <h4>2️⃣ Thay đổi tổ chức</h4>
+        <p>Team mới → BC mới. Giao tiếp khó khăn → Partnership chuyển sang Customer-Supplier → Separate Ways. Tổ chức hợp nhất / phân tách → BC thay đổi theo.</p>
+      </div>
+      <div class="card rust">
+        <h4>3️⃣ Kiến thức nghiệp vụ mới</h4>
+        <p>Mô hình hiện tại không đủ → phải rebuild. Ranh giới BC sai → phải tái cấu trúc. BC nên rộng khi knowledge chưa rõ, hẹp dần khi hiểu sâu hơn.</p>
+      </div>
+      <div class="card ink">
+        <h4>4️⃣ Tăng trưởng</h4>
+        <p>BC mở rộng quá → tìm ranh giới con mới. Aggregate phình to → extract subdomain mới. Đừng để accidental complexity tích lũy.</p>
+      </div>
+    </div>
+
+    <h3>Migration path cho Tactical Patterns</h3>
+    <p>Transaction Script → Active Record (khi data structure phức tạp) → Domain Model (khi logic phức tạp) → Event-Sourced Domain Model (khi cần audit/analytics). Di chuyển từng bước nhỏ, không big bang.</p>
+
+    <div class="callout danger">
+      <div class="title">⚠️ DẤU HIỆU CẦN THAY ĐỔI THIẾT KẾ</div>
+      Cảm giác đau khi thêm tính năng mới vào một component. Logic business ngày càng phức tạp trong supporting subdomain (→ có thể đang trở thành core). Transaction Script/Active Record ngày càng khó maintain → cần chuyển Domain Model.
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-title">📖 THUẬT NGỮ XUẤT HIỆN TRONG CHƯƠNG NÀY</div>
+      <div class="gterm"><span class="gterm-word">Big Ball of Mud</span><span class="gterm-def">"Mớ bòng bong" — codebase không có cấu trúc rõ ràng, mọi thứ phụ thuộc lẫn nhau hỗn loạn. Kết quả của tăng trưởng không được kiểm soát. DDD giúp ngăn điều này.</span></div>
+      <div class="gterm"><span class="gterm-word">Strangler Pattern</span><span class="gterm-def">Chiến lược migration: tạo BC mới (strangler) song song với legacy, dần dần chuyển chức năng sang BC mới, cuối cùng loại bỏ legacy. Giống cây strangler fig bóp chết cây chủ. An toàn hơn "big rewrite".</span></div>
+      <div class="gterm"><span class="gterm-word">Accidental Complexity</span><span class="gterm-def">Độ phức tạp không cần thiết, do quyết định thiết kế cũ không còn phù hợp. Khác với Essential Complexity (độ phức tạp vốn có của nghiệp vụ). DDD giúp manage essential, eliminate accidental.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CH 12 ── -->
+<div class="section" id="ch12">
+  <div class="container">
+    <div class="badge">CHƯƠNG 12</div>
+    <h2>EventStorming — Workshop khám phá nghiệp vụ</h2>
+
+    <p>EventStorming là hoạt động nhóm low-tech (giấy dán màu + bút marker) để brainstorm và model hoá quy trình kinh doanh nhanh chóng. Mục tiêu chính: chia sẻ kiến thức, xây dựng ngôn ngữ chung, tìm ranh giới BC.</p>
+
+    <h3>10 bước EventStorming</h3>
+    <div class="cards">
+      <div class="card"><h4>🟠 1. Unstructured Exploration</h4><p>Tất cả viết domain events (quá khứ) lên sticky cam, dán lên bảng. Không lo thứ tự.</p></div>
+      <div class="card"><h4>🟠 2. Timelines</h4><p>Sắp xếp events theo thứ tự thời gian. Happy path trước, alternative paths sau.</p></div>
+      <div class="card"><h4>🩷 3. Pain Points</h4><p>Đánh dấu bottleneck, thiếu tài liệu, thiếu knowledge. Sticky hồng hình kim cương.</p></div>
+      <div class="card"><h4>🟠 4. Pivotal Events</h4><p>Tìm events đánh dấu thay đổi context lớn. Dự báo ranh giới BC tiềm năng.</p></div>
+      <div class="card"><h4>🔵 5. Commands</h4><p>Sticky xanh dương: hành động gây ra events. Đặt trước event. Thêm actor (sticky vàng nhỏ) nếu có.</p></div>
+      <div class="card"><h4>🟣 6. Policies</h4><p>Sticky tím: "Khi event X → thực thi command Y". Automation logic.</p></div>
+      <div class="card"><h4>🟢 7. Read Models</h4><p>Sticky xanh lá: màn hình/báo cáo mà actor cần xem trước khi ra quyết định.</p></div>
+      <div class="card"><h4>🩷 8. External Systems</h4><p>Sticky hồng: hệ thống ngoài trigger commands hoặc nhận events.</p></div>
+      <div class="card"><h4>🟡 9. Aggregates</h4><p>Nhóm commands và events vào aggregate. Sticky vàng lớn.</p></div>
+      <div class="card"><h4>🔲 10. Bounded Contexts</h4><p>Nhóm aggregates liên quan thành BC. Vẽ ranh giới.</p></div>
+    </div>
+
+    <div class="callout tip">
+      <div class="title">✅ KHI NÀO DÙNG EVENTSTORMING?</div>
+      Xây ubiquitous language. Khám phá yêu cầu mới. Thu hồi domain knowledge đã mất (legacy projects). Onboard thành viên mới. Tìm cách cải tiến quy trình hiện tại.
+    </div>
+
+    <div class="glossary">
+      <div class="glossary-title">📖 THUẬT NGỮ XUẤT HIỆN TRONG CHƯƠNG NÀY</div>
+      <div class="gterm"><span class="gterm-word">EventStorming</span><span class="gterm-def">Workshop brainstorm dùng giấy dán màu để khám phá và model hoá quy trình kinh doanh. Tác giả: Alberto Brandolini. Đầu ra: chuỗi domain events theo timeline, commands, actors, policies, bounded context tiềm năng.</span></div>
+      <div class="gterm"><span class="gterm-word">Pivotal Event (Sự kiện xoay chiều)</span><span class="gterm-def">Event đánh dấu sự thay đổi lớn trong quy trình — chuyển sang phase/context khác. Ví dụ: "Đơn hàng đã xác nhận" là pivotal event chia "giai đoạn đặt hàng" và "giai đoạn xử lý đơn". Gợi ý ranh giới BC.</span></div>
+      <div class="gterm"><span class="gterm-word">Automation Policy (Quy tắc tự động)</span><span class="gterm-def">Logic "Khi event X xảy ra → tự động thực thi command Y". Ví dụ: "Khi đơn hàng được phê duyệt → tự động gửi email xác nhận". Đại diện cho business rule tự động.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CH 13 ── -->
+<div class="section" id="ch13">
+  <div class="container">
+    <div class="badge">CHƯƠNG 13</div>
+    <h2>DDD trong thực tế — Dự án brownfield</h2>
+
+    <p>DDD không phải là "tất cả hoặc không có gì". Và không chỉ dùng cho greenfield projects. Thực ra, brownfield projects (đã có codebase cũ) cần DDD nhất!</p>
+
+    <h3>Bắt đầu từ đâu?</h3>
+    <ol>
+      <li><strong>Phân tích business domain hiện tại</strong> — subdomains là gì, loại nào?</li>
+      <li><strong>Khám phá thiết kế hiện tại</strong> — vẽ context map, đánh giá mức độ phù hợp.</li>
+      <li><strong>Tìm khoảng cách</strong> — nơi nào thiết kế không phù hợp với độ phức tạp của nghiệp vụ?</li>
+      <li><strong>Lên kế hoạch modernization</strong> — logic → physical boundaries, tách BC, refactor pattern.</li>
+    </ol>
+
+    <h3>Chiến lược modernization</h3>
+    <div class="cards">
+      <div class="card">
+        <h4>🌿 Strangler Pattern</h4>
+        <p>Tạo BC mới song song legacy. Dần chuyển chức năng sang BC mới. Legacy chết dần. Cả hai có thể dùng chung DB tạm thời.</p>
+      </div>
+      <div class="card sage">
+        <h4>🔧 Incremental Refactoring</h4>
+        <p>Sửa dần in-place. Bắt đầu từ Value Objects, rồi Aggregates. Từng bước nhỏ, luôn có code hoạt động được. An toàn hơn big rewrite.</p>
+      </div>
+    </div>
+
+    <h3>Undercover DDD — Áp dụng DDD không cần "bán" cho management</h3>
+    <p>Thay vì nói "chúng ta cần DDD", hãy giải thích logic đằng sau từng quyết định. Ubiquitous language là common sense. Bounded context = ngăn chặn conflict model. ACL = bảo vệ khỏi mô hình kém chất lượng. Mọi người đều hiểu được logic đó.</p>
+
+    <div class="glossary">
+      <div class="glossary-title">📖 THUẬT NGỮ XUẤT HIỆN TRONG CHƯƠNG NÀY</div>
+      <div class="gterm"><span class="gterm-word">Brownfield Project</span><span class="gterm-def">Dự án đã có codebase hiện tại — khác với greenfield (bắt đầu từ đầu). Hầu hết dự án thực tế là brownfield. DDD có thể và nên áp dụng cho brownfield, đặc biệt là những legacy codebase phức tạp.</span></div>
+      <div class="gterm"><span class="gterm-word">Facade Pattern</span><span class="gterm-def">Lớp trừu tượng mỏng che phía trước. Trong strangler pattern, facade forward requests sang legacy hoặc BC mới tùy theo trạng thái migration. Khi migration xong, facade bị xoá.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PART IV — RELATIONSHIPS
+══════════════════════════════════════════════ -->
+<div class="part-header">
+  <div class="container">
+    <h2>PHẦN IV — DDD và các phương pháp khác</h2>
+    <p>Microservices · Event-Driven Architecture · Data Mesh</p>
+  </div>
+</div>
+
+<!-- ── CH 14 ── -->
+<div class="section" id="ch14">
+  <div class="container">
+    <div class="badge">CHƯƠNG 14</div>
+    <h2>Microservices và DDD</h2>
+
+    <p>"Microservice" và "Bounded Context" thường bị nhầm là một. Sách làm rõ sự khác biệt quan trọng.</p>
+
+    <h3>Microservice là gì?</h3>
+    <p>Không phải "N dòng code" hay "nhỏ bằng một pizza". Microservice = service có <strong>micro public interface</strong> (cổng vào nhỏ gọn). Encapsulate logic phức tạp nhưng expose ít nhất có thể.</p>
+
+    <h3>Deep vs Shallow modules</h3>
+    <p>Theo John Ousterhout: Module hiệu quả = <strong>deep module</strong> — public interface nhỏ, logic bên trong lớn. Shallow module = public interface to, logic nhỏ — không đóng gói được complexity, tăng global complexity.</p>
+
+    <div class="cards">
+      <div class="card rust">
+        <h4>⚠️ Microservices quá nhỏ = Distributed Big Ball of Mud</h4>
+        <p>Khi service quá nhỏ (một method/service), chúng phải expose thêm integration methods → interface phình to → global complexity tăng vọt.</p>
+      </div>
+      <div class="card sage">
+        <h4>✅ Heuristic an toàn: Align với Subdomains</h4>
+        <p>Subdomain = tập use cases gắn kết, cùng model, cùng dữ liệu liên quan. Đây là đơn vị "deep module" tự nhiên. Microservice theo subdomain boundary thường hiệu quả nhất.</p>
+      </div>
+    </div>
+
+    <h3>Mối quan hệ BC ↔ Microservices</h3>
+    <ul>
+      <li>Mọi microservice đều là bounded context. ✅</li>
+      <li>Không phải mọi bounded context đều là microservice. ❌ (BC có thể rộng hơn)</li>
+      <li>BC định nghĩa ranh giới <em>rộng nhất hợp lệ</em>. Microservice định nghĩa ranh giới <em>hẹp nhất hợp lệ</em>.</li>
+    </ul>
+
+    <div class="glossary">
+      <div class="glossary-title">📖 THUẬT NGỮ XUẤT HIỆN TRONG CHƯƠNG NÀY</div>
+      <div class="gterm"><span class="gterm-word">Deep Module</span><span class="gterm-def">Module có public interface nhỏ gọn nhưng encapsulate logic phức tạp bên trong. Lý tưởng cho microservices. Ngược lại: shallow module = interface to, logic nhỏ = tệ.</span></div>
+      <div class="gterm"><span class="gterm-word">Distributed Big Ball of Mud</span><span class="gterm-def">Microservices quá nhỏ, phụ thuộc chằng chịt nhau = monolith xấu nhất nhưng được phân tán. Khó deploy, debug, vận hành hơn monolith bình thường.</span></div>
+      <div class="gterm"><span class="gterm-word">Micro Public Interface</span><span class="gterm-def">Giao diện công khai nhỏ gọn của microservice. Đây mới là ý nghĩa thực sự của "micro" trong microservices — không phải số dòng code hay kích thước team.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CH 15 ── -->
+<div class="section" id="ch15">
+  <div class="container">
+    <div class="badge">CHƯƠNG 15</div>
+    <h2>Event-Driven Architecture (EDA)</h2>
+
+    <p>EDA ≠ Event Sourcing. Event Sourcing xảy ra bên trong một service (lưu trạng thái). EDA là về giao tiếp <em>giữa</em> các service (bất đồng bộ).</p>
+
+    <h3>Ba loại Event Message</h3>
+    <table>
+      <thead><tr><th>Loại</th><th>Nội dung</th><th>Dùng khi nào</th><th>Ví dụ</th></tr></thead>
       <tbody>
         <tr>
-          <td><span class="badge core">Core</span></td>
-          <td>✅ Có</td>
-          <td>Cao</td>
-          <td>Cao</td>
-          <td>In-house, senior dev</td>
-          <td>Bài toán thú vị</td>
+          <td><strong>Event Notification</strong></td>
+          <td>Chỉ thông báo "đã xảy ra". Payload tối thiểu, có link để lấy thêm.</td>
+          <td>Khi consumer cần data mới nhất. Khi cần bảo mật (tránh leak sensitive data qua bus). Concurrent consumers.</td>
+          <td>paycheck-generated (kèm link /paychecks/456123)</td>
         </tr>
         <tr>
-          <td><span class="badge generic">Generic</span></td>
-          <td>❌ Không</td>
-          <td>Cao</td>
-          <td>Thấp</td>
-          <td>Mua / open source</td>
-          <td>Bài toán đã giải</td>
+          <td><strong>Event-Carried State Transfer (ECST)</strong></td>
+          <td>Snapshot đầy đủ trạng thái thay đổi. Consumer cache lại.</td>
+          <td>Khi consumer cần data eventually consistent. Fault tolerance — consumer vẫn hoạt động khi producer down.</td>
+          <td>customer-updated (full snapshot hoặc chỉ các field thay đổi)</td>
         </tr>
         <tr>
-          <td><span class="badge supporting">Supporting</span></td>
-          <td>❌ Không</td>
-          <td>Thấp</td>
-          <td>Thấp</td>
-          <td>In-house / outsource</td>
-          <td>Bài toán hiển nhiên</td>
+          <td><strong>Domain Event</strong></td>
+          <td>Mô tả sự kiện nghiệp vụ, kèm đủ context. Không phải snapshot.</td>
+          <td>Trong event sourcing. Cho integration cần ngữ nghĩa nghiệp vụ rõ ràng.</td>
+          <td>married (person-id, assumed-partner-last-name: true)</td>
         </tr>
       </tbody>
     </table>
-  </div>
 
-  <div class="cards">
-    <div class="card rust">
-      <h4>Core Subdomain</h4>
-      <p>Điều tạo ra lợi thế cạnh tranh. Không thể mua hay outsource — đó sẽ là lợi thế của cả đối thủ. Ví dụ: thuật toán ranking của Google, routing algorithm của Uber.</p>
+    <div class="callout danger">
+      <div class="title">⚠️ 3 LOẠI COUPLING NGUY HIỂM TRONG EDA</div>
+      <strong>Temporal Coupling:</strong> Hai service phải chạy theo thứ tự cố định → brittle.<br>
+      <strong>Functional Coupling:</strong> Nhiều service implement cùng một logic business.<br>
+      <strong>Implementation Coupling:</strong> Consumer subscribe domain events nội bộ của producer → phụ thuộc implementation detail.
     </div>
-    <div class="card">
-      <h4>Generic Subdomain</h4>
-      <p>Phức tạp nhưng đã có giải pháp. Ví dụ: authentication, encryption, payment processing. Tất cả đối thủ dùng chung một giải pháp → không tạo ra lợi thế.</p>
+
+    <div class="callout tip">
+      <div class="title">✅ HEURISTIC EDA</div>
+      Dùng public/private events — domain events nội bộ ≠ public events. Translate domain events sang published language trước khi publish ra ngoài. Xử lý at-least-once: consumer cần idempotent. Dùng Outbox để publish reliable.
     </div>
-    <div class="card sage">
-      <h4>Supporting Subdomain</h4>
-      <p>Logic đơn giản (CRUD, ETL). Không có competitive advantage nhưng cần thiết. Ví dụ: catalog sản phẩm, quản lý ca làm việc.</p>
-    </div>
-  </div>
 
-  <div class="callout tip">
-    <div class="callout-label">💡 Heuristic nhận diện</div>
-    <strong>Core vs Supporting:</strong> Nếu subdomain này thành side business riêng, có ai trả tiền không? Nếu có → Core.<br>
-    <strong>Supporting vs Generic:</strong> Tự viết có đơn giản hơn tích hợp thư viện ngoài không? Nếu có → Supporting.
-  </div>
-
-  <div class="callout danger">
-    <div class="callout-label">⚠️ Sai lầm phổ biến</div>
-    Core subdomain không nhất thiết là technical. Ví dụ: xưởng trang sức — thiết kế mẫu là core subdomain, không phải website bán hàng. Một công ty có thể có core subdomain hoàn toàn là con người và quy trình.
-  </div>
-
-  <h3>Xác định ranh giới Subdomain</h3>
-  <ul>
-    <li>Bắt đầu từ org chart: departments, business units</li>
-    <li>Drill down: tìm core subdomain ẩn bên trong generic subdomain</li>
-    <li><strong>Subdomain = tập hợp các use cases có liên kết chặt chẽ</strong> — cùng actor, cùng data, cùng business entity</li>
-    <li>Dừng khi drill down thêm không tạo ra insight mới cho thiết kế</li>
-  </ul>
-
-  <div class="glossary">
-    <div class="glossary-title">📖 Thuật ngữ xuất hiện trong chương này</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">Business Domain</span><span class="gterm-def">Lĩnh vực hoạt động chính của công ty — dịch vụ họ cung cấp cho khách hàng. Một công ty có thể có nhiều domain.</span></div>
-      <div class="gterm"><span class="gterm-word">Subdomain</span><span class="gterm-def">Vùng hoạt động business nhỏ hơn bên trong domain. Nhiều subdomain ghép lại tạo nên toàn bộ domain.</span></div>
-      <div class="gterm"><span class="gterm-word">Core Subdomain</span><span class="gterm-def">Subdomain tạo ra lợi thế cạnh tranh — điều công ty làm khác biệt với đối thủ. Phức tạp, thay đổi liên tục, phải xây in-house.</span></div>
-      <div class="gterm"><span class="gterm-word">Generic Subdomain</span><span class="gterm-def">Subdomain phức tạp nhưng mọi công ty cùng giải giống nhau. Không tạo lợi thế. Nên dùng off-the-shelf hoặc open source.</span></div>
-      <div class="gterm"><span class="gterm-word">Supporting Subdomain</span><span class="gterm-def">Subdomain hỗ trợ business nhưng logic đơn giản (CRUD/ETL). Không có competitive advantage, không cần đầu tư nhiều.</span></div>
-      <div class="gterm"><span class="gterm-word">Competitive Advantage</span><span class="gterm-def">Lợi thế cạnh tranh — điều khiến khách hàng chọn công ty này thay vì đối thủ.</span></div>
-      <div class="gterm"><span class="gterm-word">Volatility</span><span class="gterm-def">Tần suất thay đổi của một subdomain. Core subdomain có volatility cao vì liên tục cần cải tiến để duy trì lợi thế.</span></div>
-      <div class="gterm"><span class="gterm-word">Domain Expert</span><span class="gterm-def">Chuyên gia biết rõ business domain — không phải engineer, không phải analyst. Là người tạo ra requirements, người dùng cuối.</span></div>
-      <div class="gterm"><span class="gterm-word">ETL</span><span class="gterm-def">Extract–Transform–Load: pattern xử lý data — lấy từ nguồn, biến đổi, nạp vào đích. Đặc trưng của Supporting subdomains.</span></div>
-      <div class="gterm"><span class="gterm-word">CRUD</span><span class="gterm-def">Create–Read–Update–Delete: các thao tác cơ bản với data. Nếu business logic chỉ là CRUD → Supporting hoặc Generic subdomain.</span></div>
+    <div class="glossary">
+      <div class="glossary-title">📖 THUẬT NGỮ XUẤT HIỆN TRONG CHƯƠNG NÀY</div>
+      <div class="gterm"><span class="gterm-word">Event-Driven Architecture (EDA)</span><span class="gterm-def">Kiến trúc giao tiếp bất đồng bộ: các component trao đổi thông qua event messages. Khác với Event Sourcing (lưu trữ nội bộ). EDA là về integration, Event Sourcing là về persistence.</span></div>
+      <div class="gterm"><span class="gterm-word">Event Notification</span><span class="gterm-def">Thông báo tối giản rằng điều gì đó đã xảy ra. Consumer tự fetch thêm data nếu cần. Phù hợp khi cần data nhất quán mạnh hoặc cần bảo mật.</span></div>
+      <div class="gterm"><span class="gterm-word">ECST (Event-Carried State Transfer)</span><span class="gterm-def">Event mang theo toàn bộ hoặc một phần trạng thái mới của entity. Consumer dùng để maintain local cache. Phù hợp khi eventually consistent là đủ và cần fault tolerance.</span></div>
+      <div class="gterm"><span class="gterm-word">Temporal Coupling (Ghép nối thời gian)</span><span class="gterm-def">Hai component phải thực thi theo thứ tự cố định. Trong EDA, đây là anti-pattern — làm hệ thống brittle. Giải pháp: thiết kế lại event flow, dùng event notification thay ECST khi cần.</span></div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════ CH2 -->
-<div id="ubiquitous" class="section">
-  <div class="section-badge">Chương 2</div>
-  <h2>Ubiquitous Language</h2>
+<!-- ── CH 16 ── -->
+<div class="section" id="ch16">
+  <div class="container">
+    <div class="badge">CHƯƠNG 16</div>
+    <h2>Data Mesh</h2>
 
-  <blockquote>
-    Không phải kiến thức của domain experts, mà là sự hiểu sai của developers được release lên production.
-    <cite>— Alberto Brandolini</cite>
-  </blockquote>
+    <p>Hầu hết sách này về operational systems (OLTP). Chương này về analytical systems (OLAP) — phân tích dữ liệu để ra quyết định kinh doanh.</p>
 
-  <p>Ubiquitous Language là ngôn ngữ chung, được sử dụng nhất quán bởi tất cả stakeholders — engineers, domain experts, product owners — trong mọi hình thức giao tiếp: cuộc họp, tài liệu, tests, source code.</p>
+    <h3>Vấn đề của Data Warehouse / Data Lake</h3>
+    <p>Cả hai đều thu thập data từ tất cả hệ thống vào một nơi → mô hình khổng lồ, khó maintain. ETL scripts tạo coupling vào implementation details của operational systems. Data engineer thiếu domain knowledge → model phân tích sai.</p>
 
-  <h3>Nguyên tắc cốt lõi</h3>
-  <div class="cards">
-    <div class="card">
-      <h4>Language of Business</h4>
-      <p>Không có jargon kỹ thuật. "Advertising campaign can display different creative materials" — không phải "the advertisement iframe displays an HTML file".</p>
+    <h3>Data Mesh — 4 nguyên tắc</h3>
+    <div class="cards">
+      <div class="card">
+        <h4>1. Decompose by Domain</h4>
+        <p>Mỗi BC sở hữu cả OLTP và OLAP model của mình. Team product biết nghiệp vụ → tạo analytical model tốt hơn.</p>
+      </div>
+      <div class="card sage">
+        <h4>2. Data as a Product</h4>
+        <p>Analytical data = sản phẩm hạng nhất. Có schema rõ, có SLA, có versioning. Dễ discover, trustworthy.</p>
+      </div>
+      <div class="card rust">
+        <h4>3. Enable Autonomy</h4>
+        <p>Platform team cung cấp infrastructure cho mọi team tự build/serve data product. Không bottleneck ở một team central.</p>
+      </div>
+      <div class="card ink">
+        <h4>4. Build Ecosystem</h4>
+        <p>Federated governance đảm bảo interoperability giữa các data products. Quy tắc chung về format, access control, SLA.</p>
+      </div>
     </div>
-    <div class="card rust">
-      <h4>Không mơ hồ</h4>
-      <p>Mỗi term có một và chỉ một nghĩa. "Policy" vừa nghĩa là regulatory rule vừa là insurance contract → tách thành hai term riêng.</p>
-    </div>
-    <div class="card">
-      <h4>Không synonym</h4>
-      <p>"User", "visitor", "account" — mỗi cái có nghĩa khác nhau. Dùng lẫn lộn tạo ra model sai và bugs ẩn.</p>
-    </div>
-    <div class="card sage">
-      <h4>Continuous Effort</h4>
-      <p>Không phải một lần định nghĩa xong. Language phải được validate và evolve liên tục theo domain knowledge mới.</p>
-    </div>
-  </div>
 
-  <h3>Modeling Business Domain</h3>
-  <p>Ubiquitous language không mô tả mọi chi tiết. Đây là <strong>model</strong> — một abstraction có mục đích cụ thể. Như bản đồ: bản đồ tàu điện không cần độ cao địa hình.</p>
+    <h3>DDD hỗ trợ Data Mesh như thế nào</h3>
+    <p>Ubiquitous language → domain knowledge tốt → analytical model đúng. Open-Host Service → analytical model là thêm một Published Language. CQRS → dễ generate nhiều phiên bản analytical model cùng lúc. BC integration patterns → áp dụng tương tự cho data products.</p>
 
-  <blockquote>
-    Tất cả models đều sai — nhưng một số hữu ích.
-    <cite>— George Box</cite>
-  </blockquote>
-
-  <div class="callout">
-    <div class="callout-label">🛠️ Tools</div>
-    <strong>Wiki glossary:</strong> Capture nouns — entities, processes, roles.<br>
-    <strong>Gherkin tests:</strong> Capture behavior — rules, invariants, edge cases. Domain experts có thể đọc và verify.<br>
-    <strong>NDepend:</strong> Static analysis kiểm tra ubiquitous language trong code.
-  </div>
-
-  <div class="glossary">
-    <div class="glossary-title">📖 Thuật ngữ xuất hiện trong chương này</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">Ubiquitous Language</span><span class="gterm-def">Ngôn ngữ chung duy nhất của project — dùng bởi tất cả mọi người, trong mọi nơi (code, docs, họp). Không có bản dịch trung gian.</span></div>
-      <div class="gterm"><span class="gterm-word">Model</span><span class="gterm-def">Biểu diễn đơn giản hóa của thực tế, có mục đích cụ thể. Không copy 100% thực tế — chỉ giữ những gì cần thiết để giải quyết vấn đề đang đặt ra.</span></div>
-      <div class="gterm"><span class="gterm-word">Abstraction</span><span class="gterm-def">Ẩn đi chi tiết không cần thiết, chỉ giữ lại cái quan trọng. Mục đích không phải để mơ hồ mà để tạo ra precision ở tầng cao hơn.</span></div>
-      <div class="gterm"><span class="gterm-word">Stakeholder</span><span class="gterm-def">Tất cả người liên quan đến project: domain experts, engineers, product owners, designers, testers…</span></div>
-      <div class="gterm"><span class="gterm-word">Gherkin</span><span class="gterm-def">Ngôn ngữ viết test theo format Given/When/Then. Domain experts có thể đọc và verify behavior mà không cần biết code.</span></div>
-      <div class="gterm"><span class="gterm-word">Analysis Model</span><span class="gterm-def">Mô tả requirements của hệ thống qua trung gian (analyst → document). Gây mất mát thông tin so với giao tiếp trực tiếp với domain experts.</span></div>
-      <div class="gterm"><span class="gterm-word">Invariant</span><span class="gterm-def">Điều kiện business luôn phải đúng — không được vi phạm ở bất kỳ trạng thái nào của hệ thống. Ví dụ: "ticket đã escalated không thể tự đóng".</span></div>
+    <div class="glossary">
+      <div class="glossary-title">📖 THUẬT NGỮ XUẤT HIỆN TRONG CHƯƠNG NÀY</div>
+      <div class="gterm"><span class="gterm-word">OLTP (Online Transactional Processing)</span><span class="gterm-def">Hệ thống xử lý giao dịch thực tế — tạo đơn hàng, cập nhật user, thanh toán. Cần response time nhanh, ACID. Đây là operational system.</span></div>
+      <div class="gterm"><span class="gterm-word">OLAP (Online Analytical Processing)</span><span class="gterm-def">Hệ thống phân tích dữ liệu — báo cáo, BI, ML. Có thể chờ vài giây/phút. Tối ưu cho flexible querying, không phải real-time transactions.</span></div>
+      <div class="gterm"><span class="gterm-word">Data Mesh</span><span class="gterm-def">Kiến trúc quản lý analytical data theo hướng domain-driven: mỗi BC sở hữu và serve data product của mình. Áp dụng nguyên tắc DDD vào analytical data — decentralized ownership, interoperability.</span></div>
+      <div class="gterm"><span class="gterm-word">Fact Table (Bảng dữ kiện)</span><span class="gterm-def">Trong OLAP: table chứa các sự kiện kinh doanh đã xảy ra (append-only). Ví dụ: Fact_Sales mỗi record = một lần bán hàng. Giống domain events nhưng cho analytical use case.</span></div>
+      <div class="gterm"><span class="gterm-word">Dimension Table (Bảng chiều)</span><span class="gterm-def">Trong OLAP: table chứa attributes mô tả facts. Ví dụ: Dim_Time, Dim_Product, Dim_Customer. Cho phép filter/group facts theo nhiều chiều khác nhau.</span></div>
+      <div class="gterm"><span class="gterm-word">Star Schema / Snowflake Schema</span><span class="gterm-def">Hai cách thiết kế OLAP schema. Star: một fact table kết nối trực tiếp tới dimension tables. Snowflake: dimensions được normalize thêm. Snowflake tiết kiệm storage hơn nhưng query cần join nhiều hơn.</span></div>
+      <div class="gterm"><span class="gterm-word">Data Product</span><span class="gterm-def">Trong Data Mesh: analytical data được serve qua well-defined interface, có SLA, versioning, schema rõ ràng. Được treat như một sản phẩm thực sự, không phải side-effect của operational system.</span></div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════ CH3 -->
-<div id="bounded" class="section">
-  <div class="section-badge">Chương 3</div>
-  <h2>Bounded Contexts</h2>
+<!-- ══════════════════════════════════════════════
+     PHẦN PHẢN BIỆN
+══════════════════════════════════════════════ -->
+<div class="section" id="debate">
+  <div class="container">
+    <div class="badge">TRANH LUẬN & PHẢN BIỆN</div>
+    <h2>Căn cứ Tranh luận &amp; Phản biện</h2>
+    <p>Một số câu hỏi phản biện thực tế về DDD, dựa trên nội dung sách.</p>
 
-  <p>Vấn đề: term "lead" có nghĩa khác nhau trong Marketing (một notification) và Sales (toàn bộ lifecycle). Không thể có một model duy nhất phù hợp cho cả hai.</p>
-  <p><strong>Giải pháp:</strong> Chia ubiquitous language thành nhiều ngôn ngữ nhỏ hơn, mỗi cái có context rõ ràng → Bounded Context.</p>
-
-  <div class="callout tip">
-    <div class="callout-label">📌 Định nghĩa then chốt</div>
-    <strong>Subdomains được khám phá (discovered) — Bounded Contexts được thiết kế (designed).</strong><br>
-    Subdomains là thực tế kinh doanh. Bounded Contexts là quyết định kỹ thuật.
-  </div>
-
-  <h3>Bounded Context vs Subdomain</h3>
-  <div class="tbl-wrap">
-    <table>
-      <thead><tr><th>Khía cạnh</th><th>Subdomain</th><th>Bounded Context</th></tr></thead>
-      <tbody>
-        <tr><td>Nguồn gốc</td><td>Business strategy (discovered)</td><td>Quyết định thiết kế (designed)</td></tr>
-        <tr><td>Liên quan đến</td><td>Vấn đề cần giải quyết</td><td>Giải pháp được xây dựng</td></tr>
-        <tr><td>Thay đổi khi</td><td>Business strategy thay đổi</td><td>Organizational, technical constraints</td></tr>
-        <tr><td>Tỷ lệ</td><td>Một BC có thể chứa nhiều subdomain</td><td>Một subdomain có thể có nhiều BC</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h3>Ba loại Boundary</h3>
-  <div class="cards">
-    <div class="card">
-      <h4>Model Boundary</h4>
-      <p>BC là ranh giới của một model. Ubiquitous language chỉ nhất quán bên trong BC của nó.</p>
+    <div class="debate-item">
+      <div class="debate-header">❓ DDD quá phức tạp và tốn thời gian — startup cần move fast, không có thời gian làm tất cả những thứ này?</div>
+      <div class="debate-body">DDD là một spectrum, không phải all-or-nothing. Ngay cả khi không làm full Aggregates/EventSourcing, chỉ cần phân tích subdomain và dùng Ubiquitous Language đã mang lại giá trị lớn. Hơn nữa, thiếu DDD không có nghĩa là move fast — nhiều startup move fast rồi stuck vì technical debt. Sách nhấn mạnh: chỉ áp dụng advanced patterns khi thực sự cần (cho core subdomain), còn supporting/generic subdomain thì CRUD đơn giản là đủ.</div>
     </div>
-    <div class="card rust">
-      <h4>Physical Boundary</h4>
-      <p>Mỗi BC là một service/project độc lập — implement, evolve, version riêng. Có thể dùng tech stack phù hợp nhất.</p>
+
+    <div class="debate-item">
+      <div class="debate-header">❓ Bounded Context tốt, nhưng tách nhỏ quá thành microservices thì overhead integration quá lớn — thà dùng monolith?</div>
+      <div class="debate-body">Đây chính xác là quan điểm của sách! Không phải mọi BC đều phải là microservice. Sách định nghĩa: BC là ranh giới rộng nhất hợp lệ, microservice là ranh giới hẹp nhất hợp lệ. Bắt đầu với BC rộng hơn (modular monolith) rồi tách dần khi có lý do thực sự (team mới, nhu cầu scale độc lập). "Strategic monolith" là design option hợp lệ.</div>
     </div>
-    <div class="card sage">
-      <h4>Ownership Boundary</h4>
-      <p>Một BC chỉ do một team sở hữu. Một team có thể sở hữu nhiều BC. Không bao giờ ngược lại.</p>
+
+    <div class="debate-item">
+      <div class="debate-header">❓ Event Sourcing quá phức tạp, không cần thiết cho hầu hết hệ thống — hãy dùng state-based database bình thường?</div>
+      <div class="debate-body">Hoàn toàn đồng ý — sách tự nói điều này. Event Sourcing chỉ nên dùng khi: cần audit log bắt buộc, cần time-travel debugging, cần analytics sâu về hành vi, xử lý giao dịch tài chính. Đây là pattern nâng cao, không phải default. Decision tree trong chương 10 rõ ràng: chỉ chọn Event-Sourced Domain Model khi thực sự cần. Hầu hết hệ thống không cần.</div>
     </div>
-  </div>
 
-  <h3>Kích thước Bounded Context</h3>
-  <div class="callout danger">
-    <div class="callout-label">⚠️ Không có quy tắc cứng nhắc về kích thước</div>
-    BC quá rộng: khó maintain model nhất quán.<br>
-    BC quá hẹp: integration overhead, "chatty" services.<br>
-    <strong>Nguyên tắc:</strong> Models phải hữu ích — không nhất thiết nhỏ hay lớn.
-  </div>
+    <div class="debate-item">
+      <div class="debate-header">❓ Aggregates chỉ được modify một instance per transaction — điều này quá hạn chế trong thực tế khi nhiều thứ cần update cùng lúc?</div>
+      <div class="debate-body">Đây là ràng buộc có chủ đích để buộc bạn thiết kế aggregate boundary đúng. Khi cần update nhiều aggregate "cùng lúc" — đó là dấu hiệu bạn đang đặt boundary sai, hoặc cần eventual consistency thay vì strong consistency. Saga/Process Manager giải quyết bài toán này bằng cách chia thành nhiều giao dịch nhỏ, kết nối bởi domain events. Sách thừa nhận đây là ràng buộc cần tư duy khác, không phải bug của DDD.</div>
+    </div>
 
-  <p>Lý do extract BC nhỏ hơn từ BC lớn: tạo team mới, requirements về scalability, decoupled deployment lifecycle.</p>
+    <div class="debate-item">
+      <div class="debate-header">❓ Ubiquitous Language nghe hay nhưng thực tế domain expert và developer không bao giờ ngồi cùng nhau — làm sao áp dụng?</div>
+      <div class="debate-body">Sách thừa nhận đây là thách thức thực tế. Giải pháp thực dụng: bắt đầu với những gì có thể kiểm soát — dùng đúng thuật ngữ nghiệp vụ trong code, tài liệu, test. Dùng EventStorming để tạo cơ hội giao tiếp có cấu trúc. "Undercover DDD" — tập dùng language đúng trong mọi giao tiếp hàng ngày, không cần formal session. Ngay cả cải thiện 50% giao tiếp đã có tác động lớn.</div>
+    </div>
 
-  <div class="glossary">
-    <div class="glossary-title">📖 Thuật ngữ xuất hiện trong chương này</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">Bounded Context</span><span class="gterm-def">Ranh giới rõ ràng trong đó một model (và ubiquitous language) nhất quán và có nghĩa. Bên ngoài ranh giới, cùng term có thể nghĩa khác.</span></div>
-      <div class="gterm"><span class="gterm-word">Model Boundary</span><span class="gterm-def">Ranh giới xác định phạm vi áp dụng của một model. Không có boundary → model phình to thành copy của thực tế.</span></div>
-      <div class="gterm"><span class="gterm-word">Physical Boundary</span><span class="gterm-def">Ranh giới vật lý (codebase, service, deployment unit). Mỗi BC nên là một physical boundary độc lập.</span></div>
-      <div class="gterm"><span class="gterm-word">Logical Boundary</span><span class="gterm-def">Ranh giới logic bên trong cùng một codebase (namespace, module, package). Rẻ hơn physical boundary để refactor.</span></div>
-      <div class="gterm"><span class="gterm-word">Ownership Boundary</span><span class="gterm-def">Ranh giới sở hữu: một BC chỉ do một team maintain. Tránh implicit assumptions giữa các teams.</span></div>
-      <div class="gterm"><span class="gterm-word">Semantic Domain</span><span class="gterm-def">Vùng nghĩa của từ — cùng từ có thể nghĩa khác trong các domain khác nhau. Ví dụ: "tomato" trong botany vs ẩm thực.</span></div>
-      <div class="gterm"><span class="gterm-word">Namespace / Module</span><span class="gterm-def">Cơ chế tổ chức code theo logical boundaries trong cùng một codebase (package trong Java, namespace trong C#, module trong Node.js).</span></div>
+    <div class="debate-item">
+      <div class="debate-header">❓ Chương 10 đưa ra Decision Tree nhưng thực tế có core subdomain phức tạp nhưng team lại muốn dùng Active Record vì quen hơn — nên làm gì?</div>
+      <div class="debate-body">Sách dự đoán điều này trong phần "Undercover DDD" — hãy trình bày bằng logic, không phải authority. Tại sao invariants quan trọng? Tại sao code duplicate nguy hiểm? Tại sao encapsulation giảm bugs? Mặt khác, nếu team không có kinh nghiệm Domain Model, có thể bắt đầu từ Active Record rồi migrate dần theo sách hướng dẫn (chương 11). Big rewrite rủi ro hơn incremental refactoring.</div>
+    </div>
+
+    <div class="debate-item">
+      <div class="debate-header">❓ DDD nói "code phải nói ngôn ngữ nghiệp vụ" nhưng điều này có nghĩa là kỹ sư phải học sâu về domain — điều này có thực tế không khi kỹ sư làm nhiều domain khác nhau?</div>
+      <div class="debate-body">Không cần trở thành domain expert — chỉ cần hiểu đủ để implement đúng. Sách phân biệt rõ: domain expert biết mọi intricacy, kỹ sư cần hiểu vừa đủ để model. EventStorming là công cụ để rút trích kiến thức này hiệu quả trong 2-4 giờ. Càng phức tạp (core subdomain) thì càng cần đầu tư thời gian học domain. Với supporting/generic, CRUD là đủ.</div>
+    </div>
+
+    <div class="debate-item">
+      <div class="debate-header">❓ Context Map và tất cả documentation này rất tốt nhưng sẽ lỗi thời nhanh chóng — ai có thời gian maintain?</div>
+      <div class="debate-body">Sách đề xuất: context map nên được maintain như code, dùng tool như Context Mapper. Trách nhiệm chia sẻ — mỗi team update phần của mình. Ubiquitous language sống trong code (tên class, method, variable) — đây là documentation tự-update theo change. EventStorming để refresh knowledge định kỳ. Documentation hoàn hảo không phải mục tiêu — mức vừa đủ để quyết định thiết kế mới thì là đủ.</div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════ CH4 -->
-<div id="integration" class="section">
-  <div class="section-badge">Chương 4</div>
-  <h2>Integration Patterns (Context Map)</h2>
-
-  <p>Bounded Contexts không độc lập — chúng phải interact với nhau. Cách integrate phụ thuộc vào power dynamics và collaboration giữa các teams.</p>
-
-  <h3>Nhóm 1: Cooperation (Hợp tác)</h3>
-  <div class="cards">
-    <div class="card">
-      <h4>Partnership</h4>
-      <p>Hai BC integrate ad hoc. Cả hai team điều chỉnh cho nhau. Yêu cầu: communication tốt, commit cao, continuous integration. <em>Không phù hợp team địa lý phân tán.</em></p>
-    </div>
-    <div class="card">
-      <h4>Shared Kernel</h4>
-      <p>Hai BC chia sẻ một subset model nhỏ. Bất kỳ thay đổi nào đều trigger integration tests cho cả hai. Áp dụng khi chi phí duplication &gt; chi phí coordination.</p>
-    </div>
-  </div>
-
-  <h3>Nhóm 2: Customer–Supplier (Bất cân xứng quyền lực)</h3>
-  <div class="cards">
-    <div class="card rust">
-      <h4>Conformist</h4>
-      <p>Downstream (consumer) chấp nhận model của Upstream (supplier) — take it or leave it. Áp dụng khi model upstream là industry-standard hoặc đủ tốt.</p>
-    </div>
-    <div class="card">
-      <h4>Anticorruption Layer (ACL)</h4>
-      <p>Downstream dịch model của upstream thành model phù hợp nhu cầu riêng. Dùng khi: downstream là core subdomain, upstream model kém, hoặc upstream thay đổi thường xuyên.</p>
-    </div>
-    <div class="card sage">
-      <h4>Open-Host Service (OHS)</h4>
-      <p>Upstream tách implementation model khỏi public interface (published language). Bảo vệ consumers khỏi thay đổi nội bộ. Có thể serve nhiều phiên bản API cùng lúc.</p>
-    </div>
-  </div>
-
-  <h3>Nhóm 3: Separate Ways (Không hợp tác)</h3>
-  <p>Duplicate functionality thay vì collaborate. Áp dụng khi: communication issues nghiêm trọng, subdomain là generic, model quá khác biệt. <strong>Không bao giờ dùng cho Core Subdomain.</strong></p>
-
-  <h3>Context Map</h3>
-  <p>Visualize toàn bộ bounded contexts và integration patterns của hệ thống. Cung cấp insight về: high-level design, communication patterns, organizational issues.</p>
-
-  <div class="callout">
-    <div class="callout-label">📌 Rule of thumb</div>
-    Nhìn vào context map: nếu nhiều downstream context đều dùng ACL với cùng một upstream → upstream đó có vấn đề về model hoặc API design.
-  </div>
-
-  <div class="glossary">
-    <div class="glossary-title">📖 Thuật ngữ xuất hiện trong chương này</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">Context Map</span><span class="gterm-def">Bản đồ thể hiện tất cả Bounded Contexts trong hệ thống và các integration patterns giữa chúng. Công cụ visualize chiến lược tổng thể.</span></div>
-      <div class="gterm"><span class="gterm-word">Partnership</span><span class="gterm-def">Pattern tích hợp giữa hai BC có collaboration tốt — cùng điều chỉnh, cùng giải quyết vấn đề. Yêu cầu communication liên tục.</span></div>
-      <div class="gterm"><span class="gterm-word">Shared Kernel</span><span class="gterm-def">Hai BC chia sẻ một phần model nhỏ được co-own. Thay đổi shared kernel ảnh hưởng ngay tất cả BCs dùng nó.</span></div>
-      <div class="gterm"><span class="gterm-word">Upstream / Downstream</span><span class="gterm-def">Trong quan hệ Customer–Supplier: Upstream = supplier (cung cấp service). Downstream = consumer (dùng service). Upstream có quyền lực hơn.</span></div>
-      <div class="gterm"><span class="gterm-word">Conformist</span><span class="gterm-def">Pattern: downstream chấp nhận hoàn toàn model của upstream mà không transform. Đơn giản nhất nhưng mất autonomy.</span></div>
-      <div class="gterm"><span class="gterm-word">Anticorruption Layer (ACL)</span><span class="gterm-def">Tầng dịch thuật giữa model của upstream và model của downstream. Bảo vệ downstream khỏi model xấu hoặc hay thay đổi từ upstream.</span></div>
-      <div class="gterm"><span class="gterm-word">Open-Host Service (OHS)</span><span class="gterm-def">Upstream publish một public interface riêng (published language) tách khỏi internal model — bảo vệ consumers khỏi implementation changes.</span></div>
-      <div class="gterm"><span class="gterm-word">Published Language</span><span class="gterm-def">Protocol public của một OHS — model tối ưu cho integration, không phải internal model. Versioned và ổn định hơn internal model.</span></div>
-      <div class="gterm"><span class="gterm-word">Separate Ways</span><span class="gterm-def">Pattern: hai BC không tích hợp với nhau, duplicate functionality thay vì collaborate. Chỉ dùng cho non-core subdomains.</span></div>
-    </div>
-  </div>
+<div style="text-align:center; padding: 48px 0 36px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-size: .8rem; border-top: 1px solid var(--border-light);">
+  Tài liệu tham chiếu từ "Learning Domain-Driven Design" · Vlad Khononov · O'Reilly 2021<br>
+  Được tổng hợp và chưng cất bằng tiếng Việt cho người dùng không thành thạo tiếng Anh
 </div>
 
-<!-- ═══════════════════════════════════════════════════════ PART II -->
-<div id="p2" class="section">
-  <div class="section-badge">Part II · Tactical Design</div>
-  <h2>Chiến thuật — Implement như thế nào</h2>
-  <p>Tactical design trả lời câu hỏi <strong>"how?"</strong>. Sau khi biết cần xây gì (strategic), bây giờ implement từng component như thế nào.</p>
-
-  <div class="glossary">
-    <div class="glossary-title">📖 Thuật ngữ xuất hiện trong phần này</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">Business Logic</span><span class="gterm-def">Phần quan trọng nhất của phần mềm — các rules, calculations, và processes phản ánh cách business hoạt động. Lý do phần mềm tồn tại.</span></div>
-      <div class="gterm"><span class="gterm-word">Building Block</span><span class="gterm-def">Pattern tactical nhỏ dùng để xây dựng business logic: Value Object, Entity, Aggregate, Domain Service, Domain Event.</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════ CH5-7 -->
-<div id="business-logic" class="section">
-  <div class="section-badge">Chương 5–7</div>
-  <h2>Business Logic Patterns</h2>
-
-  <h3>Transaction Script (Chương 5)</h3>
-  <p>Organize business logic theo procedures — mỗi procedure xử lý một request từ public interface. Mỗi operation phải <strong>atomic</strong>: thành công hoàn toàn hoặc fail hoàn toàn.</p>
-
-  <div class="callout danger">
-    <div class="callout-label">⚠️ 3 lỗi phổ biến</div>
-    <strong>1. Thiếu transactional behavior:</strong> Update nhiều tables không có transaction bao bọc.<br>
-    <strong>2. Distributed transactions:</strong> Update DB rồi publish message bus — nếu publish fail, state không nhất quán.<br>
-    <strong>3. Implicit distributed transaction:</strong> Ngay cả void method cũng là distributed transaction — caller được notify kết quả.
-  </div>
-
-  <p><strong>Khi dùng:</strong> Supporting subdomains, ETL operations, simple CRUD. <strong>Không bao giờ dùng cho Core subdomains</strong> — sẽ thành big ball of mud.</p>
-
-  <h3>Active Record (Chương 5)</h3>
-  <p>Object đại diện một row trong database, encapsulate database access + business logic đơn giản. Giải quyết mapping complex data structures sang DB schema.</p>
-  <p><strong>Khi dùng:</strong> Business logic đơn giản nhưng data structures phức tạp. Supporting subdomains, generic subdomains integration.</p>
-
-  <div class="callout tip">
-    <div class="callout-label">📌 Lưu ý quan trọng</div>
-    "Anemic domain model antipattern" = Active Record bị dùng sai chỗ (complex business logic). Bản thân pattern không sai — sai khi dùng ở sai context.
-  </div>
-
-  <h3>Domain Model (Chương 6)</h3>
-  <p>Object model tích hợp cả behavior và data. Dùng cho business logic phức tạp: nhiều rules, invariants, state transitions.</p>
-
-  <h3>Building Blocks của Domain Model</h3>
-  <div class="cards">
-    <div class="card">
-      <h4>Value Object</h4>
-      <p>Được nhận dạng bởi giá trị, không phải ID. <strong>Immutable</strong> — mọi thay đổi tạo instance mới. Encapsulate business logic liên quan đến values. Ví dụ: Color, PhoneNumber, Money, Height.</p>
-    </div>
-    <div class="card rust">
-      <h4>Entity</h4>
-      <p>Cần explicit ID field để phân biệt instances. Mutable — có thể thay đổi theo lifecycle. Không dùng độc lập — chỉ trong Aggregate.</p>
-    </div>
-    <div class="card sage">
-      <h4>Aggregate</h4>
-      <p>Hierarchy of entities + value objects với chung transaction boundary. Bảo vệ tính nhất quán của data. Chỉ modify qua public interface (commands) của aggregate root.</p>
-    </div>
-    <div class="card slate">
-      <h4>Domain Service</h4>
-      <p>Stateless object chứa business logic không thuộc về aggregate nào. Thường orchestrate nhiều aggregates để tính toán. Không loophole cho multi-aggregate transaction.</p>
-    </div>
-  </div>
-
-  <h3>Aggregate — Nguyên tắc thiết kế</h3>
-  <div class="callout">
-    <div class="callout-label">📐 Rules</div>
-    <strong>1. Một transaction = một aggregate instance.</strong> Cần modify nhiều aggregates → sai boundaries.<br>
-    <strong>2. Giữ aggregate nhỏ nhất có thể</strong> — chỉ include data cần strongly consistent.<br>
-    <strong>3. Reference external aggregates bằng ID</strong>, không embed trực tiếp.<br>
-    <strong>4. Concurrency management:</strong> Version field + optimistic locking.<br>
-    <strong>5. Domain Events:</strong> Aggregate publish events để communicate với bên ngoài.
-  </div>
-
-  <h3>Domain Events</h3>
-  <p>Message mô tả sự kiện quan trọng đã xảy ra trong business domain. <strong>Tên phải ở quá khứ</strong>: "TicketEscalated", "OrderPlaced". Subscribers react bằng cách execute business logic riêng.</p>
-
-  <h3>Complexity Management</h3>
-  <p>Aggregate và Value Object giảm <em>degrees of freedom</em> của system. ClassA có 5 biến độc lập = 5 degrees of freedom. ClassB có 5 biến nhưng B, C, E là function của A và D = chỉ 2 degrees of freedom. ClassB ít phức tạp hơn mặc dù code nhiều hơn.</p>
-
-  <h3>Event-Sourced Domain Model (Chương 7)</h3>
-  <p>Thay vì persist state hiện tại, persist toàn bộ chuỗi domain events. State = projection của events.</p>
-
-  <div class="tbl-wrap">
-    <table>
-      <thead><tr><th>Khía cạnh</th><th>State-based</th><th>Event-sourced</th></tr></thead>
-      <tbody>
-        <tr><td>Lưu trữ</td><td>Current state</td><td>All events (append-only)</td></tr>
-        <tr><td>Query</td><td>Flexible</td><td>Cần CQRS để query linh hoạt</td></tr>
-        <tr><td>History</td><td>Không có</td><td>Đầy đủ, audit trail</td></tr>
-        <tr><td>Multiple projections</td><td>Không</td><td>Có — thêm projection bất cứ lúc nào</td></tr>
-        <tr><td>Time travel</td><td>Không</td><td>Có — reconstruct state tại mọi thời điểm</td></tr>
-        <tr><td>Learning curve</td><td>Thấp</td><td>Cao</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="callout tip">
-    <div class="callout-label">💡 Khi nào dùng Event Sourcing</div>
-    Cần audit log (bắt buộc bởi law), monetary transactions, deep analytics, cần time travel để debug. <strong>Không dùng chỉ vì "nghe hay"</strong> — architectural complexity cao.
-  </div>
-
-  <div class="glossary">
-    <div class="glossary-title">📖 Thuật ngữ xuất hiện trong chương này</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">Transaction Script</span><span class="gterm-def">Pattern: mỗi business operation = một procedure độc lập. Đơn giản nhất. Phù hợp supporting subdomains. Không scale cho complex business logic.</span></div>
-      <div class="gterm"><span class="gterm-word">Active Record</span><span class="gterm-def">Pattern: object đại diện row trong DB, tự biết cách persist mình. Kết hợp data structure + CRUD operations. Phù hợp data structures phức tạp, logic đơn giản.</span></div>
-      <div class="gterm"><span class="gterm-word">Domain Model</span><span class="gterm-def">Pattern: object model phản ánh business domain, kết hợp cả data và behavior. Phù hợp core subdomains với complex business logic.</span></div>
-      <div class="gterm"><span class="gterm-word">Value Object</span><span class="gterm-def">Object được nhận dạng bởi giá trị của nó (không cần ID). Immutable — thay đổi field = tạo object mới. Ví dụ: Money(100, "USD"), Color(255,0,0).</span></div>
-      <div class="gterm"><span class="gterm-word">Entity</span><span class="gterm-def">Object cần ID để phân biệt với các instances khác dù có cùng data. Mutable theo lifecycle. Tồn tại bên trong Aggregate, không độc lập.</span></div>
-      <div class="gterm"><span class="gterm-word">Aggregate</span><span class="gterm-def">Cụm entities + value objects có chung transaction boundary. Chỉ modify qua aggregate root. Một transaction chỉ được modify một aggregate.</span></div>
-      <div class="gterm"><span class="gterm-word">Aggregate Root</span><span class="gterm-def">Entry point duy nhất vào một aggregate — public interface của aggregate. External components chỉ được tương tác qua aggregate root.</span></div>
-      <div class="gterm"><span class="gterm-word">Domain Event</span><span class="gterm-def">Message mô tả điều gì đó quan trọng đã xảy ra trong business. Tên ở quá khứ: "OrderPlaced", "TicketEscalated". Dùng để communicate ra bên ngoài aggregate.</span></div>
-      <div class="gterm"><span class="gterm-word">Domain Service</span><span class="gterm-def">Stateless object chứa business logic không thuộc về aggregate hay value object nào. Thường cần data từ nhiều aggregates để tính toán.</span></div>
-      <div class="gterm"><span class="gterm-word">Immutable</span><span class="gterm-def">Không thể thay đổi sau khi tạo. Value objects phải immutable — mọi "thay đổi" tạo ra một object mới.</span></div>
-      <div class="gterm"><span class="gterm-word">Optimistic Locking</span><span class="gterm-def">Cơ chế concurrency: khi commit, kiểm tra version field xem có ai thay đổi dữ liệu trong lúc đó không. Nếu version không khớp → throw concurrency exception.</span></div>
-      <div class="gterm"><span class="gterm-word">Event Sourcing</span><span class="gterm-def">Pattern persist toàn bộ chuỗi events thay vì current state. State hiện tại = replay tất cả events từ đầu. Cho phép time travel và multiple projections.</span></div>
-      <div class="gterm"><span class="gterm-word">Event Store</span><span class="gterm-def">Database append-only lưu trữ domain events. Không cho phép update hay delete events (trừ exception cases). Source of truth trong event-sourced systems.</span></div>
-      <div class="gterm"><span class="gterm-word">Projection</span><span class="gterm-def">Quá trình biến đổi chuỗi events thành một state representation cụ thể. Từ cùng events có thể tạo nhiều projections khác nhau cho các mục đích khác nhau.</span></div>
-      <div class="gterm"><span class="gterm-word">Anemic Domain Model</span><span class="gterm-def">Anti-pattern: objects chỉ có data (getters/setters), logic nằm ngoài (trong service layer). Thực chất là Active Record bị dùng sai như Domain Model.</span></div>
-      <div class="gterm"><span class="gterm-word">Degrees of Freedom</span><span class="gterm-def">Số data points cần thiết để mô tả đầy đủ trạng thái của một system. Ít degrees of freedom = ít phức tạp hơn, dễ kiểm soát hơn.</span></div>
-      <div class="gterm"><span class="gterm-word">Primitive Obsession</span><span class="gterm-def">Code smell: dùng kiểu dữ liệu nguyên thủy (string, int) để đại diện cho domain concepts. Thay vào đó nên dùng Value Objects.</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════ CH8 -->
-<div id="architecture" class="section">
-  <div class="section-badge">Chương 8</div>
-  <h2>Architectural Patterns</h2>
-
-  <h3>Layered Architecture</h3>
-  <p>3 layers: Presentation → Business Logic → Data Access. Communication top-down. Phù hợp Transaction Script và Active Record.</p>
-  <div class="callout danger">
-    <div class="callout-label">⚠️ Hạn chế</div>
-    Business Logic layer phụ thuộc Data Access layer → khó implement Domain Model (aggregates cần ignorant of persistence).
-  </div>
-
-  <h3>Ports &amp; Adapters (Hexagonal Architecture)</h3>
-  <p>Business logic ở trung tâm, không phụ thuộc infrastructure. Business logic define "ports" (interfaces), infrastructure implement "adapters". Phù hợp Domain Model và Event-Sourced Domain Model.</p>
-  <p><em>Còn gọi là: Onion Architecture, Clean Architecture — cùng principles, khác terminology.</em></p>
-
-  <h3>CQRS (Command-Query Responsibility Segregation)</h3>
-  <p>Tách biệt model cho write (command execution model — strongly consistent, source of truth) và read (read models / projections — eventually consistent, optimized cho querying).</p>
-
-  <div class="cards">
-    <div class="card">
-      <h4>Synchronous Projection</h4>
-      <p>Catch-up subscription: poll DB cho records mới hơn last checkpoint. Safe, dễ regenerate. Khuyến nghị là default.</p>
-    </div>
-    <div class="card">
-      <h4>Asynchronous Projection</h4>
-      <p>Subscribe message bus. Scale tốt hơn nhưng phức tạp hơn — out-of-order, duplicates. Chỉ thêm vào nếu cần, không thay thế sync.</p>
-    </div>
-  </div>
-
-  <div class="callout">
-    <div class="callout-label">📌 Misconception thường gặp</div>
-    Command <strong>có thể</strong> return data — data đó phải từ strongly consistent model. Không phải "command không return gì cả".
-  </div>
-
-  <div class="glossary">
-    <div class="glossary-title">📖 Thuật ngữ xuất hiện trong chương này</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">Layered Architecture</span><span class="gterm-def">Pattern tổ chức code thành horizontal layers theo concern: Presentation, Business Logic, Data Access. Communication top-down.</span></div>
-      <div class="gterm"><span class="gterm-word">Presentation Layer</span><span class="gterm-def">Layer xử lý input/output với thế giới bên ngoài: UI, REST API, event subscription, CLI. Public interface của hệ thống.</span></div>
-      <div class="gterm"><span class="gterm-word">Business Logic Layer</span><span class="gterm-def">Layer implement và encapsulate business decisions. Trái tim của phần mềm. Còn gọi: domain layer, model layer.</span></div>
-      <div class="gterm"><span class="gterm-word">Data Access Layer</span><span class="gterm-def">Layer cung cấp access đến persistence (DB, file, external APIs). Còn gọi: infrastructure layer.</span></div>
-      <div class="gterm"><span class="gterm-word">Service Layer</span><span class="gterm-def">Layer trung gian giữa Presentation và Business Logic — orchestrate operations, expose public API. Còn gọi: application layer.</span></div>
-      <div class="gterm"><span class="gterm-word">Ports &amp; Adapters</span><span class="gterm-def">Pattern kiến trúc đặt business logic ở trung tâm. Business logic định nghĩa "ports" (interfaces), infrastructure implement "adapters". Decouples business logic khỏi technology.</span></div>
-      <div class="gterm"><span class="gterm-word">Port</span><span class="gterm-def">Interface được định nghĩa bởi business logic layer — mô tả khả năng cần thiết (ví dụ: IEmailSender, IOrderRepository) mà không biết implementation cụ thể.</span></div>
-      <div class="gterm"><span class="gterm-word">Adapter</span><span class="gterm-def">Implementation cụ thể của Port — kết nối business logic với technology thực tế (ví dụ: SendGridEmailSender implements IEmailSender).</span></div>
-      <div class="gterm"><span class="gterm-word">Dependency Inversion Principle</span><span class="gterm-def">High-level modules không nên phụ thuộc low-level modules. Cả hai nên phụ thuộc vào abstractions (interfaces). Nền tảng của Ports &amp; Adapters.</span></div>
-      <div class="gterm"><span class="gterm-word">CQRS</span><span class="gterm-def">Command-Query Responsibility Segregation: tách model write (commands, strongly consistent) và model read (queries, eventually consistent, nhiều projections).</span></div>
-      <div class="gterm"><span class="gterm-word">Command Execution Model</span><span class="gterm-def">Model duy nhất dùng để execute operations (write). Là source of truth, strongly consistent. Hỗ trợ optimistic concurrency.</span></div>
-      <div class="gterm"><span class="gterm-word">Read Model</span><span class="gterm-def">Pre-cached projection của data, tối ưu cho querying cụ thể. Read-only. Eventually consistent. Có thể wipe và regenerate từ command model.</span></div>
-      <div class="gterm"><span class="gterm-word">Strongly Consistent</span><span class="gterm-def">Data luôn phản ánh trạng thái mới nhất ngay lập tức — mọi read sau một write đều thấy write đó.</span></div>
-      <div class="gterm"><span class="gterm-word">Eventually Consistent</span><span class="gterm-def">Data sẽ nhất quán sau một khoảng thời gian — ngay sau write có thể read vẫn thấy giá trị cũ. Acceptable cho read models trong CQRS.</span></div>
-      <div class="gterm"><span class="gterm-word">Polyglot Persistence</span><span class="gterm-def">Dùng nhiều loại database khác nhau trong cùng hệ thống, mỗi loại phù hợp với use case cụ thể (relational DB + search index + cache).</span></div>
-      <div class="gterm"><span class="gterm-word">Tier vs Layer</span><span class="gterm-def">Layer = logical boundary (trong cùng codebase, cùng deployment). Tier = physical boundary (độc lập deployable, như client–server–database).</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════ CH9 -->
-<div id="communication" class="section">
-  <div class="section-badge">Chương 9</div>
-  <h2>Communication Patterns</h2>
-
-  <h3>Model Translation</h3>
-  <p>Implement ACL hoặc OHS thông qua translation. Stateless (proxy) hoặc stateful (cần DB riêng để aggregate data từ nhiều sources).</p>
-
-  <h3>Outbox Pattern</h3>
-  <p>Giải pháp publish domain events đáng tin cậy.</p>
-  <ol>
-    <li>Commit aggregate state + domain events <strong>trong cùng một atomic transaction</strong></li>
-    <li>Message relay fetch events mới từ DB</li>
-    <li>Publish events lên message bus</li>
-    <li>Mark events as published (hoặc delete)</li>
-  </ol>
-  <div class="callout tip">
-    <div class="callout-label">📌 At-least-once delivery</div>
-    Outbox đảm bảo at-least-once — subscribers phải idempotent để handle duplicates.
-  </div>
-
-  <h3>Saga Pattern</h3>
-  <p>Long-running business process spanning nhiều aggregates. React to events → issue commands. Implement compensating actions khi bước nào đó fail. State giữa các bước là eventually consistent.</p>
-
-  <h3>Process Manager</h3>
-  <p>Như Saga nhưng phức tạp hơn — có if/else logic để quyết định next step. Được instantiate explicitly (không bound với một event cụ thể). Thường implement như aggregate.</p>
-
-  <div class="callout">
-    <div class="callout-label">Saga vs Process Manager</div>
-    Saga = simple linear flow, match events → commands.<br>
-    Process Manager = business logic phức tạp quyết định flow, explicit instantiation.
-  </div>
-
-  <div class="glossary">
-    <div class="glossary-title">📖 Thuật ngữ xuất hiện trong chương này</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">Model Translation</span><span class="gterm-def">Quá trình chuyển đổi model của bounded context này sang model của bounded context khác. Implement bởi ACL (phía consumer) hoặc OHS (phía supplier).</span></div>
-      <div class="gterm"><span class="gterm-word">Stateless Translation</span><span class="gterm-def">Translation không cần lưu trạng thái — mỗi request được transform độc lập. Implement đơn giản, thường dùng proxy pattern.</span></div>
-      <div class="gterm"><span class="gterm-word">Stateful Translation</span><span class="gterm-def">Translation cần lưu trạng thái — ví dụ gom nhiều events thành một, hoặc unify data từ nhiều sources. Cần DB riêng.</span></div>
-      <div class="gterm"><span class="gterm-word">Outbox Pattern</span><span class="gterm-def">Pattern đảm bảo publish domain events đáng tin cậy: lưu events vào DB cùng transaction với state change, sau đó relay riêng publish lên message bus.</span></div>
-      <div class="gterm"><span class="gterm-word">Message Relay</span><span class="gterm-def">Process chuyên đọc events từ outbox table và publish lên message bus. Tách biệt việc persist event khỏi việc publish event.</span></div>
-      <div class="gterm"><span class="gterm-word">At-least-once Delivery</span><span class="gterm-def">Đảm bảo message sẽ được deliver ít nhất một lần — có thể duplicate. Subscriber cần idempotent để handle duplicate messages.</span></div>
-      <div class="gterm"><span class="gterm-word">Idempotent</span><span class="gterm-def">Operation có thể thực hiện nhiều lần mà kết quả vẫn như thực hiện một lần. Cần thiết khi dùng at-least-once delivery.</span></div>
-      <div class="gterm"><span class="gterm-word">Saga</span><span class="gterm-def">Long-running process kết nối nhiều aggregates qua events và commands. Đơn giản, linear. Tự động instantiate khi nhận event cụ thể.</span></div>
-      <div class="gterm"><span class="gterm-word">Compensating Action</span><span class="gterm-def">Hành động đảo ngược (undo) một bước đã thực hiện trong saga khi bước tiếp theo fail. Dùng thay vì distributed transaction.</span></div>
-      <div class="gterm"><span class="gterm-word">Process Manager</span><span class="gterm-def">Pattern giống Saga nhưng có business logic phức tạp (if/else) để quyết định next step. Được instantiate explicitly. Thường implement như aggregate.</span></div>
-      <div class="gterm"><span class="gterm-word">Transaction Log Tailing</span><span class="gterm-def">Kỹ thuật push-based: đọc transaction log của DB để detect changes mới, thay vì poll định kỳ. Ít overhead hơn polling.</span></div>
-      <div class="gterm"><span class="gterm-word">Message Bus</span><span class="gterm-def">Hệ thống truyền message giữa các components (Kafka, RabbitMQ, AWS SQS). Decouples producer khỏi consumer.</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════ PART III -->
-<div id="p3" class="section">
-  <div class="section-badge">Part III · Áp Dụng Thực Tế</div>
-  <h2>Từ lý thuyết đến thực tế</h2>
-
-  <div class="glossary">
-    <div class="glossary-title">📖 Thuật ngữ xuất hiện trong phần này</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">Greenfield Project</span><span class="gterm-def">Project xây dựng từ đầu, không có legacy code. Tự do trong design nhưng thiếu domain knowledge ban đầu.</span></div>
-      <div class="gterm"><span class="gterm-word">Brownfield Project</span><span class="gterm-def">Project có sẵn codebase cũ (legacy). Phức tạp hơn để áp dụng DDD nhưng hưởng lợi nhiều nhất từ DDD.</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════ CH10 -->
-<div id="heuristics" class="section">
-  <div class="section-badge">Chương 10</div>
-  <h2>Design Heuristics — Decision Tree</h2>
-
-  <div class="dtree">
-    <div class="q">❓ Subdomain cần monetize / audit log / deep analytics?</div>
-    <div class="a">✅ Có →</div>
-    <div class="r">📦 Event-Sourced Domain Model + CQRS + Unit Tests</div>
-    <div class="a">❌ Không →</div>
-    <div class="q">❓ Business logic phức tạp (rules, invariants, state machine)?</div>
-    <div class="a">✅ Có →</div>
-    <div class="r">📦 Domain Model + Ports &amp; Adapters + Unit Tests</div>
-    <div class="a">❌ Không →</div>
-    <div class="q">❓ Data structures phức tạp cần map với DB?</div>
-    <div class="a">✅ Có →</div>
-    <div class="r">📦 Active Record + Layered Arch + Integration Tests</div>
-    <div class="a">❌ Không →</div>
-    <div class="r">📦 Transaction Script + Simple Layered + E2E Tests</div>
-  </div>
-
-  <h3>Bounded Context Size Heuristic</h3>
-  <p>Với core subdomains đang evolve: bắt đầu với <strong>wide boundaries</strong>. Refactor logical boundaries rẻ hơn refactor physical boundaries nhiều. Decompose khi đã có đủ domain knowledge.</p>
-
-  <h3>Testing Strategy</h3>
-  <div class="tbl-wrap">
-    <table>
-      <thead><tr><th>Business Logic Pattern</th><th>Testing Strategy</th><th>Focus</th></tr></thead>
-      <tbody>
-        <tr><td>Domain Model / Event-Sourced DM</td><td>Testing Pyramid</td><td>Unit tests (aggregates, value objects)</td></tr>
-        <tr><td>Active Record</td><td>Testing Diamond</td><td>Integration tests (service + BL layers)</td></tr>
-        <tr><td>Transaction Script</td><td>Reversed Pyramid</td><td>End-to-end tests</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="glossary">
-    <div class="glossary-title">📖 Thuật ngữ xuất hiện trong chương này</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">Heuristic</span><span class="gterm-def">Rule of thumb — không guaranteed đúng 100% nhưng đủ tốt trong phần lớn trường hợp. Giúp đưa ra quyết định nhanh trong môi trường phức tạp.</span></div>
-      <div class="gterm"><span class="gterm-word">Testing Pyramid</span><span class="gterm-def">Strategy: nhiều unit tests, ít integration tests, rất ít e2e tests. Phù hợp Domain Model vì aggregates/value objects là unit test tự nhiên.</span></div>
-      <div class="gterm"><span class="gterm-word">Testing Diamond</span><span class="gterm-def">Strategy: focus vào integration tests. Phù hợp Active Record vì business logic nằm ở cả service layer và object layer.</span></div>
-      <div class="gterm"><span class="gterm-word">Reversed Testing Pyramid</span><span class="gterm-def">Strategy: focus vào e2e tests. Phù hợp Transaction Script vì logic đơn giản, ít layers, dễ test từ đầu đến cuối.</span></div>
-      <div class="gterm"><span class="gterm-word">Accidental Complexity</span><span class="gterm-def">Phức tạp do design decisions tệ, không phải do bản chất bài toán. Ví dụ: dùng Domain Model cho supporting subdomain đơn giản.</span></div>
-      <div class="gterm"><span class="gterm-word">Essential Complexity</span><span class="gterm-def">Phức tạp vốn có của bài toán business — không thể loại bỏ, chỉ có thể manage bằng DDD tools.</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════ CH11 -->
-<div id="evolving" class="section">
-  <div class="section-badge">Chương 11</div>
-  <h2>Evolving Design Decisions</h2>
-
-  <h3>Subdomain Type Changes</h3>
-  <div class="tbl-wrap">
-    <table>
-      <thead><tr><th>Chuyển từ</th><th>Sang</th><th>Ví dụ thực tế</th></tr></thead>
-      <tbody>
-        <tr><td>Core → Generic</td><td>Khi có off-the-shelf giải quyết tốt hơn</td><td>BuyIT's delivery algorithm khi DeliverIT xuất hiện</td></tr>
-        <tr><td>Generic → Core</td><td>Khi đầu tư in-house tạo ra advantage</td><td>Amazon tạo AWS từ infrastructure của mình</td></tr>
-        <tr><td>Supporting → Generic</td><td>Khi có open source solution thay thế</td><td>Contract management → open source tool</td></tr>
-        <tr><td>Supporting → Core</td><td>Khi business logic phức tạp bất ngờ</td><td>Routing algorithm trở thành competitive advantage</td></tr>
-        <tr><td>Core → Supporting</td><td>Khi complexity không còn justified</td><td>Feature bị đơn giản hóa vì không profitable</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h3>Migrating Tactical Patterns</h3>
-  <p>Transaction Script → Active Record → Domain Model → Event-Sourced DM. <strong>Không nhảy cóc</strong> — từng bước an toàn hơn.</p>
-
-  <div class="callout tip">
-    <div class="callout-label">💡 Tín hiệu cần migrate</div>
-    "Pain" khi implement business logic mới = tín hiệu design không còn phù hợp. Đừng ignore pain — đó là call to action để reassess subdomain type và design pattern.
-  </div>
-
-  <h3>Growth Management</h3>
-  <ul>
-    <li><strong>Subdomains:</strong> Revisit regularly — tìm finer-grained subdomains ẩn bên trong</li>
-    <li><strong>Bounded Contexts:</strong> Đừng để BC mất focus — extract when needed</li>
-    <li><strong>Aggregates:</strong> Giữ small. Data không cần strongly consistent → move ra ngoài</li>
-  </ul>
-
-  <div class="glossary">
-    <div class="glossary-title">📖 Thuật ngữ xuất hiện trong chương này</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">Big Ball of Mud</span><span class="gterm-def">"Cục bùn lớn" — codebase không có structure rõ ràng, mọi thứ kết nối lộn xộn, khó maintain. Thường do growth không được manage.</span></div>
-      <div class="gterm"><span class="gterm-word">Technical Debt</span><span class="gterm-def">Chi phí tích lũy từ các shortcut design không tốt. Như vay nợ: cần trả lãi dưới dạng khó maintain, khó evolve theo thời gian.</span></div>
-      <div class="gterm"><span class="gterm-word">Migration Event</span><span class="gterm-def">Event đặc biệt dùng khi migrate từ state-based sang event-sourced — explicitly ghi nhận thiếu historical data thay vì "bịa" events.</span></div>
-      <div class="gterm"><span class="gterm-word">Legacy System</span><span class="gterm-def">Hệ thống cũ, thường thiếu documentation, khó modify. Domain knowledge thường đã bị mất theo thời gian.</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════ CH12 -->
-<div id="eventstorming" class="section">
-  <div class="section-badge">Chương 12</div>
-  <h2>EventStorming</h2>
-
-  <p>Workshop low-tech để cùng nhau model business process. Primary benefit = knowledge sharing. Secondary benefit = model artifacts.</p>
-
-  <h3>10 Steps</h3>
-  <div class="tbl-wrap">
-    <table>
-      <thead><tr><th>Bước</th><th>Màu sticky note</th><th>Làm gì</th></tr></thead>
-      <tbody>
-        <tr><td>1. Unstructured Exploration</td><td>🟠 Orange</td><td>Brainstorm domain events (quá khứ)</td></tr>
-        <tr><td>2. Timelines</td><td>🟠 Orange</td><td>Sắp xếp theo thứ tự, happy path trước</td></tr>
-        <tr><td>3. Pain Points</td><td>🔴 Pink (diamond)</td><td>Mark bottlenecks, missing knowledge</td></tr>
-        <tr><td>4. Pivotal Events</td><td>🟠 + vertical bar</td><td>Sự kiện đánh dấu context/phase change</td></tr>
-        <tr><td>5. Commands</td><td>🔵 Blue</td><td>Trigger của events (imperative)</td></tr>
-        <tr><td>6. Policies</td><td>🟣 Purple</td><td>Automation: event → command</td></tr>
-        <tr><td>7. Read Models</td><td>🟢 Green</td><td>View data actor dùng để ra quyết định</td></tr>
-        <tr><td>8. External Systems</td><td>🩷 Pink</td><td>External services trigger/receive commands</td></tr>
-        <tr><td>9. Aggregates</td><td>🟡 Yellow (lớn)</td><td>Group commands + events liên quan</td></tr>
-        <tr><td>10. Bounded Contexts</td><td>Lines</td><td>Group aggregates liên quan</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h3>Khi nào dùng EventStorming</h3>
-  <ul>
-    <li>Build ubiquitous language với domain experts</li>
-    <li>Explore new business requirements, tìm edge cases</li>
-    <li>Recover domain knowledge từ legacy system</li>
-    <li>Onboard new team members</li>
-    <li>Tìm cách optimize business process</li>
-  </ul>
-
-  <div class="glossary">
-    <div class="glossary-title">📖 Thuật ngữ xuất hiện trong chương này</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">EventStorming</span><span class="gterm-def">Workshop collaborative dùng sticky notes để model business process. Invented by Alberto Brandolini. Primary value = knowledge sharing, không phải diagram cuối cùng.</span></div>
-      <div class="gterm"><span class="gterm-word">Pivotal Event</span><span class="gterm-def">Event đánh dấu sự thay đổi rõ ràng về context hoặc phase trong business process. Indicator của bounded context boundaries tiềm năng.</span></div>
-      <div class="gterm"><span class="gterm-word">Policy (EventStorming)</span><span class="gterm-def">Automation rule: "khi event X xảy ra → execute command Y". Thể hiện business rules tự động, không cần human actor.</span></div>
-      <div class="gterm"><span class="gterm-word">Actor (EventStorming)</span><span class="gterm-def">User persona thực hiện commands: customer, admin, agent... Ai đó trong business domain trigger một hành động.</span></div>
-      <div class="gterm"><span class="gterm-word">Happy Path</span><span class="gterm-def">Flow thành công, không có errors hay exceptions. Trong EventStorming, model happy path trước, sau đó mới add alternative flows.</span></div>
-      <div class="gterm"><span class="gterm-word">Pain Point</span><span class="gterm-def">Điểm trong process có vấn đề: bottleneck, manual step cần automate, missing documentation, thiếu domain knowledge. Marked rõ để address sau.</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════ CH13 -->
-<div id="realworld" class="section">
-  <div class="section-badge">Chương 13</div>
-  <h2>DDD trong Dự án Thực tế</h2>
-
-  <h3>DDD là pragmatic, không all-or-nothing</h3>
-  <blockquote>
-    DDD không phải về aggregates hay value objects. DDD là để business domain drive software design decisions.
-    <cite>— Vlad Khononov</cite>
-  </blockquote>
-
-  <h3>Strategic Analysis cho Brownfield Projects</h3>
-  <ol>
-    <li>Understand business domain (subdomains, types)</li>
-    <li>Explore current design (context map, patterns)</li>
-    <li>EventStorming để recover lost knowledge</li>
-    <li>Plan modernization strategy</li>
-  </ol>
-
-  <h3>Modernization Strategy</h3>
-  <div class="cards">
-    <div class="card">
-      <h4>Strangler Pattern</h4>
-      <p>Tạo BC mới (strangler), implement requirements mới ở đây, dần migrate functionality từ legacy. Temporary: cả hai BC có thể share cùng DB trong quá trình migrate.</p>
-    </div>
-    <div class="card rust">
-      <h4>Refactoring In-Place</h4>
-      <p>Small incremental steps. TS → AR → DM → ES-DM. Không nhảy thẳng từ TS sang ES-DM. Dùng ACL bảo vệ code mới khỏi model cũ.</p>
-    </div>
-  </div>
-
-  <h3>Undercover DDD</h3>
-  <ul>
-    <li><strong>Ubiquitous Language:</strong> Đơn giản là dùng business terms đúng — không cần announce "tôi đang implement DDD"</li>
-    <li><strong>Bounded Contexts:</strong> Appeal to logic (không duplicate model → ít bugs), không "vì DDD book nói vậy"</li>
-    <li><strong>Tactical patterns:</strong> "Tại sao aggregate không thể modify bởi external? → Để business logic colocated, tránh duplicate, tránh data corruption."</li>
-  </ul>
-
-  <div class="glossary">
-    <div class="glossary-title">📖 Thuật ngữ xuất hiện trong chương này</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">Strangler Pattern</span><span class="gterm-def">Migration strategy: tạo system mới song song với legacy, dần chuyển traffic/functionality sang. Khi migration xong, legacy "chết" như host tree bị cây strangler fig bóp chết.</span></div>
-      <div class="gterm"><span class="gterm-word">Façade Pattern</span><span class="gterm-def">Abstraction layer mỏng routing requests đến legacy hoặc modernized system trong Strangler migration. Removed khi migration hoàn tất.</span></div>
-      <div class="gterm"><span class="gterm-word">Modernization Strategy</span><span class="gterm-def">Kế hoạch cải thiện thiết kế hệ thống hiện có. Không phải "rewrite from scratch" — mà là incremental improvement có chiến lược.</span></div>
-      <div class="gterm"><span class="gterm-word">Design Entropy</span><span class="gterm-def">Xu hướng tự nhiên của software design deteriorate theo thời gian nếu không được maintain chủ động. Như entropy vật lý.</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════ PART IV -->
-<div id="p4" class="section">
-  <div class="section-badge">Part IV · Quan Hệ Với Patterns Khác</div>
-  <h2>DDD trong hệ sinh thái rộng hơn</h2>
-
-  <div class="glossary">
-    <div class="glossary-title">📖 Thuật ngữ xuất hiện trong phần này</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">Service</span><span class="gterm-def">Mechanism cung cấp access đến capabilities qua prescribed interface. Tất cả data vào/ra phải qua interface đó ("front door").</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════ CH14 -->
-<div id="microservices" class="section">
-  <div class="section-badge">Chương 14</div>
-  <h2>Microservices &amp; DDD</h2>
-
-  <blockquote>
-    Một microservice là service với <em>micro public interface</em> — cánh cửa nhỏ ra thế giới bên ngoài.
-  </blockquote>
-
-  <h3>Microservice ≠ Bounded Context</h3>
-  <div class="callout">
-    <div class="callout-label">📌 Mối quan hệ không đối xứng</div>
-    Mọi microservice đều là bounded context ✅<br>
-    Không phải mọi bounded context là microservice ❌<br><br>
-    <strong>Bounded Context = ranh giới RỘNG nhất hợp lệ</strong><br>
-    <strong>Microservice = ranh giới HẸP nhất hợp lệ</strong>
-  </div>
-
-  <h3>Safe Boundary Zone</h3>
-  <p>Ranh giới nằm giữa Microservice threshold và Bounded Context threshold là SAFE. Rộng hơn BC → Big Ball of Mud. Hẹp hơn microservice → Distributed Big Ball of Mud.</p>
-
-  <h3>Heuristic cho Microservice Boundaries</h3>
-  <div class="tbl-wrap">
-    <table>
-      <thead><tr><th>Boundary</th><th>Ưu điểm</th><th>Rủi ro</th></tr></thead>
-      <tbody>
-        <tr><td>Bounded Context</td><td>Safe, wide, model nhất quán</td><td>Monolith nếu quá rộng</td></tr>
-        <tr><td>Subdomain ⭐</td><td>Balanced, deep module, natural boundary</td><td>Cần domain knowledge tốt</td></tr>
-        <tr><td>Aggregate</td><td>Granular nhất</td><td>Shallow module, distributed monolith nếu aggregates liên kết chặt</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <p>⭐ <strong>Subdomain là heuristic an toàn nhất</strong> cho microservice boundaries — naturally deep module.</p>
-
-  <div class="glossary">
-    <div class="glossary-title">📖 Thuật ngữ xuất hiện trong chương này</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">Microservice</span><span class="gterm-def">Service với micro public interface — chỉ expose những gì thực sự cần thiết ra bên ngoài. Không phải "service nhỏ" về lines of code.</span></div>
-      <div class="gterm"><span class="gterm-word">Deep Module</span><span class="gterm-def">Module có public interface đơn giản (hẹp) nhưng encapsulate logic phức tạp (sâu). Ideal design: simple interface, powerful implementation.</span></div>
-      <div class="gterm"><span class="gterm-word">Shallow Module</span><span class="gterm-def">Module có public interface gần như rộng bằng implementation — ít encapsulation, nhiều "moving parts" ra ngoài. Anti-pattern cho microservices.</span></div>
-      <div class="gterm"><span class="gterm-word">Distributed Big Ball of Mud</span><span class="gterm-def">Khi microservices quá nhỏ → các service phải gọi nhau liên tục, tạo ra coupling phức tạp hơn monolith gốc. Tệ hơn cả Big Ball of Mud.</span></div>
-      <div class="gterm"><span class="gterm-word">Global Complexity</span><span class="gterm-def">Độ phức tạp của toàn bộ hệ thống — mức độ interconnection giữa các components. Quan trọng hơn local complexity.</span></div>
-      <div class="gterm"><span class="gterm-word">Local Complexity</span><span class="gterm-def">Độ phức tạp của một component riêng lẻ. Cần balance với global complexity — tối ưu local mà ignore global = distributed monolith.</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════ CH15 -->
-<div id="eda" class="section">
-  <div class="section-badge">Chương 15</div>
-  <h2>Event-Driven Architecture (EDA)</h2>
-
-  <div class="callout danger">
-    <div class="callout-label">⚠️ EDA ≠ Event Sourcing</div>
-    EDA = communication giữa services (cross-boundary)<br>
-    Event Sourcing = cách persist state bên trong một service
-  </div>
-
-  <h3>3 Loại Event Messages</h3>
-  <div class="cards">
-    <div class="card">
-      <h4>Event Notification</h4>
-      <p>Notify rằng có gì đó xảy ra, minimal data, consumer phải query thêm. Use case: security (tránh leak sensitive data), concurrency (query lấy latest state).</p>
-    </div>
-    <div class="card rust">
-      <h4>Event-Carried State Transfer (ECST)</h4>
-      <p>Full state snapshot trong event. Cho phép consumer cache local. Use case: fault tolerance, performance (không cần query real-time).</p>
-    </div>
-    <div class="card sage">
-      <h4>Domain Event</h4>
-      <p>Mô tả sự kiện business domain, đầy đủ context. Cẩn thận khi expose ra ngoài — có thể leak implementation details.</p>
-    </div>
-  </div>
-
-  <h3>Tránh Distributed Big Ball of Mud trong EDA</h3>
-  <ul>
-    <li><strong>Temporal coupling:</strong> Component A phải chạy trước Component B do sequence-dependent events</li>
-    <li><strong>Functional coupling:</strong> Multiple components implement cùng projection logic</li>
-    <li><strong>Implementation coupling:</strong> Consumer subscribe all internal domain events → bất kỳ schema change nào đều break</li>
-  </ul>
-
-  <div class="callout tip">
-    <div class="callout-label">💡 Design Heuristics cho EDA</div>
-    <strong>Assume the worst:</strong> Network chậm, server fail, events out-of-order, events duplicated.<br>
-    <strong>Public vs Private events:</strong> Domain events = private (internal). OHS published language = public.<br>
-    <strong>Consistency:</strong> Eventually consistent → ECST. Need latest write → Event Notification + query.
-  </div>
-
-  <div class="glossary">
-    <div class="glossary-title">📖 Thuật ngữ xuất hiện trong chương này</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">Event-Driven Architecture (EDA)</span><span class="gterm-def">Architectural style: components communicate bằng cách publish/subscribe events asynchronously. Loosely coupled nhưng cần design cẩn thận.</span></div>
-      <div class="gterm"><span class="gterm-word">Event Notification</span><span class="gterm-def">Loại event message: chỉ thông báo "có gì đó xảy ra", data tối thiểu. Consumer phải tự query để lấy details. Bảo vệ sensitive data, tránh stale data.</span></div>
-      <div class="gterm"><span class="gterm-word">Event-Carried State Transfer (ECST)</span><span class="gterm-def">Loại event message: chứa đầy đủ state thay đổi. Consumer có thể cache local. Dùng cho fault tolerance và performance.</span></div>
-      <div class="gterm"><span class="gterm-word">Temporal Coupling</span><span class="gterm-def">Coupling về thời gian: component A phải chạy trước component B. EDA không tự động loại bỏ temporal coupling nếu design không đúng.</span></div>
-      <div class="gterm"><span class="gterm-word">Functional Coupling</span><span class="gterm-def">Nhiều components implement cùng business logic (duplicate). Khi logic thay đổi, phải update tất cả.</span></div>
-      <div class="gterm"><span class="gterm-word">Implementation Coupling</span><span class="gterm-def">Consumer biết và phụ thuộc vào implementation details của producer (ví dụ: subscribe all internal domain events). Thay đổi nội bộ producer = break consumer.</span></div>
-      <div class="gterm"><span class="gterm-word">Private Event</span><span class="gterm-def">Domain event chỉ dùng internally trong bounded context. Không dùng trực tiếp cho cross-boundary integration.</span></div>
-      <div class="gterm"><span class="gterm-word">Public Event</span><span class="gterm-def">Event được design cho integration — phần của published language, ổn định, versioned. Khác với private domain events.</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════ CH16 -->
-<div id="datamesh" class="section">
-  <div class="section-badge">Chương 16</div>
-  <h2>Data Mesh &amp; DDD</h2>
-
-  <p>Data Mesh = DDD cho analytical data (OLAP). Thay vì data warehouse/lake tập trung, mỗi bounded context sở hữu analytical data của mình.</p>
-
-  <h3>4 Nguyên tắc Data Mesh</h3>
-  <ol>
-    <li><strong>Decompose data around domains:</strong> Align OLAP ownership với bounded context boundaries</li>
-    <li><strong>Data as a product:</strong> Analytical data qua well-defined output ports, versioned API, SLAs</li>
-    <li><strong>Enable autonomy:</strong> Platform team cung cấp infrastructure cho product teams tự build data products</li>
-    <li><strong>Build ecosystem:</strong> Federated governance để đảm bảo interoperability</li>
-  </ol>
-
-  <h3>DDD patterns hỗ trợ Data Mesh</h3>
-  <ul>
-    <li><strong>Ubiquitous language:</strong> Domain knowledge cần thiết để design OLAP models đúng</li>
-    <li><strong>OHS:</strong> Analytical model = published language thứ hai của bounded context</li>
-    <li><strong>CQRS:</strong> Generate nhiều projection của cùng data để serve analytical models</li>
-    <li><strong>Integration patterns:</strong> Áp dụng cho cả OLAP models (partnership, ACL, separate ways)</li>
-  </ul>
-
-  <div class="glossary">
-    <div class="glossary-title">📖 Thuật ngữ xuất hiện trong chương này</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">OLTP</span><span class="gterm-def">Online Transactional Processing: data của operational systems, tối ưu cho real-time transactions nhỏ, nhiều read/write.</span></div>
-      <div class="gterm"><span class="gterm-word">OLAP</span><span class="gterm-def">Online Analytical Processing: data cho analytics, tối ưu cho complex queries trên large datasets. Queries chậm hơn OLTP nhưng acceptable.</span></div>
-      <div class="gterm"><span class="gterm-word">Fact Table</span><span class="gterm-def">Bảng trong OLAP chứa records về business activities đã xảy ra (như domain events). Append-only, không update/delete.</span></div>
-      <div class="gterm"><span class="gterm-word">Dimension Table</span><span class="gterm-def">Bảng mô tả attributes của facts. Normalized cao để hỗ trợ flexible querying và filtering.</span></div>
-      <div class="gterm"><span class="gterm-word">Star Schema</span><span class="gterm-def">OLAP model: fact table ở trung tâm, surrounded by dimension tables. Simple, dễ query.</span></div>
-      <div class="gterm"><span class="gterm-word">Snowflake Schema</span><span class="gterm-def">OLAP model: như star schema nhưng dimensions được normalize thêm (multi-level). Tiết kiệm space hơn, query phức tạp hơn.</span></div>
-      <div class="gterm"><span class="gterm-word">Data Warehouse (DWH)</span><span class="gterm-def">Architecture tập trung: ETL data từ tất cả operational systems vào một central database. Vấn đề: enterprise-wide model, coupling với OLTP schemas.</span></div>
-      <div class="gterm"><span class="gterm-word">Data Lake</span><span class="gterm-def">Architecture lưu raw data từ operational systems, transform sau. Flexible hơn DWH nhưng dễ trở thành "data swamp" khi scale.</span></div>
-      <div class="gterm"><span class="gterm-word">Data Mesh</span><span class="gterm-def">Architecture phân tán: mỗi bounded context owns analytical data của mình, expose qua well-defined output ports. DDD cho OLAP.</span></div>
-      <div class="gterm"><span class="gterm-word">Data Product</span><span class="gterm-def">Analytical data được treat như product: có schema rõ ràng, versioned, SLAs, discoverable. Thay vì data là byproduct của operational systems.</span></div>
-      <div class="gterm"><span class="gterm-word">Federated Governance</span><span class="gterm-def">Nhóm quản lý phân tán đảm bảo interoperability giữa các data products. Gồm representatives từ các teams và data platform team.</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════ DEBATE -->
-<div id="debate" class="section">
-  <div class="section-badge">★ Bonus</div>
-  <h2>Căn cứ để Lập luận &amp; Phản biện</h2>
-  <p>Các luận điểm quan trọng khi tranh luận về DDD — dựa trực tiếp từ sách.</p>
-
-  <div class="debate">
-    <div class="debate-header">Câu hỏi: "Tại sao không dùng Domain Model cho mọi thứ?"</div>
-    <div class="debate-body">
-      <strong>Đáp:</strong> Domain Model giải quyết accidental complexity khi business logic đơn giản. Dùng Domain Model cho Supporting subdomain = over-engineering = accidental complexity từ phía solution, không phải problem. Decision tree trong Ch.10: chọn đơn giản nhất đáp ứng đủ yêu cầu.
-    </div>
-  </div>
-
-  <div class="debate">
-    <div class="debate-header">Câu hỏi: "Microservice = Bounded Context phải không?"</div>
-    <div class="debate-body">
-      <strong>Đáp:</strong> Không — mối quan hệ một chiều. Microservices là BC, nhưng BC không nhất thiết là microservice. BC = widest valid boundary. Microservice = narrowest valid boundary. Thiết kế services nhỏ hơn microservice threshold → Distributed Big Ball of Mud, tệ hơn monolith.
-    </div>
-  </div>
-
-  <div class="debate">
-    <div class="debate-header">Câu hỏi: "Dùng Event Sourcing cho mọi service vì tính linh hoạt?"</div>
-    <div class="debate-body">
-      <strong>Đáp:</strong> Event Sourcing có disadvantages thực sự: learning curve, evolving model (immutable events), architectural complexity. Chỉ justified khi: cần audit log, monetary transactions, deep analytics, time travel debugging. Dùng sai chỗ = accidental complexity không cần thiết.
-    </div>
-  </div>
-
-  <div class="debate">
-    <div class="debate-header">Câu hỏi: "Tại sao một transaction chỉ modify một aggregate?"</div>
-    <div class="debate-body">
-      <strong>Đáp:</strong> Không phải technical constraint — là design principle bảo vệ tính nhất quán. Nếu cần modify nhiều aggregates trong một transaction → đó là signal aggregate boundaries sai. Fix boundaries, không bypass rule. Coordinate cross-aggregate: dùng Saga/Process Manager với eventual consistency.
-    </div>
-  </div>
-
-  <div class="debate">
-    <div class="debate-header">Câu hỏi: "DDD chỉ dùng được cho greenfield project?"</div>
-    <div class="debate-body">
-      <strong>Đáp:</strong> Ngược lại — brownfield projects hưởng lợi nhiều nhất vì đã prove business viability nhưng đang gánh technical debt. Chiến lược: bắt đầu bằng strategic analysis, EventStorming để recover knowledge, modernize dần bằng Strangler pattern hoặc refactoring incremental.
-    </div>
-  </div>
-
-  <div class="debate">
-    <div class="debate-header">Câu hỏi: "Team nhỏ có cần DDD không?"</div>
-    <div class="debate-body">
-      <strong>Đáp:</strong> Ubiquitous language và domain analysis luôn có ích — bất kể team size. Tactical patterns chỉ dùng khi business logic thực sự phức tạp. DDD là pragmatic — pick tools phù hợp problem, không phải apply toàn bộ methodology.
-    </div>
-  </div>
-
-  <div class="debate">
-    <div class="debate-header">Câu hỏi: "Event-Driven Architecture tự động = loose coupling?"</div>
-    <div class="debate-body">
-      <strong>Đáp:</strong> Không. EDA có thể tạo temporal coupling, functional coupling, implementation coupling nếu design sai. Expose domain events nội bộ ra ngoài → consumers coupled với implementation details của producer. Cần explicitly design public events (published language) tách khỏi private domain events.
-    </div>
-  </div>
-
-  <div class="debate">
-    <div class="debate-header">Câu hỏi: "Bounded Context boundaries có thể thay đổi không?"</div>
-    <div class="debate-body">
-      <strong>Đáp:</strong> Phải thay đổi theo thời gian. Subdomains evolve (core → generic → supporting). Organizational changes ảnh hưởng collaboration patterns. Domain knowledge tăng cho phép refine boundaries. Refactoring logical boundaries rẻ hơn physical boundaries — nên bắt đầu rộng, narrow down sau.
-    </div>
-  </div>
-
-  <div class="callout tip">
-    <div class="callout-label">💡 Nguyên tắc tranh luận hiệu quả</div>
-    Thay vì "vì DDD book nói vậy" → <strong>appeal to logic và trade-offs cụ thể</strong>: tại sao pattern này giải quyết vấn đề gì, trade-offs là gì, khi nào không nên dùng. Đây là cách DDD practitioners hiệu quả nhất.
-  </div>
-
-  <div class="glossary">
-    <div class="glossary-title">📖 Tổng hợp — Thuật ngữ bổ sung thường gặp</div>
-    <div class="glossary-grid">
-      <div class="gterm"><span class="gterm-word">Over-engineering</span><span class="gterm-def">Dùng giải pháp phức tạp hơn mức cần thiết. Ví dụ: Event-Sourced Domain Model cho supporting subdomain đơn giản.</span></div>
-      <div class="gterm"><span class="gterm-word">Under-engineering</span><span class="gterm-def">Dùng giải pháp quá đơn giản cho problem phức tạp. Ví dụ: Transaction Script cho core subdomain.</span></div>
-      <div class="gterm"><span class="gterm-word">Monolith</span><span class="gterm-def">Codebase triển khai như một unit duy nhất. Không tự nhiên là xấu — "Modular Monolith" có thể là lựa chọn hợp lý.</span></div>
-      <div class="gterm"><span class="gterm-word">Distributed Monolith</span><span class="gterm-def">Worst of both worlds: nhiều services nhưng tightly coupled như monolith. Phát sinh khi microservices quá nhỏ hoặc boundaries không đúng.</span></div>
-      <div class="gterm"><span class="gterm-word">Anti-pattern</span><span class="gterm-def">Pattern thường được áp dụng nhưng thực ra counter-productive. Ví dụ: Anemic Domain Model khi dùng cho complex business logic.</span></div>
-      <div class="gterm"><span class="gterm-word">Audit Log</span><span class="gterm-def">Lịch sử không thể xóa của mọi thay đổi trong hệ thống. Event Sourcing cung cấp audit log out-of-the-box.</span></div>
-      <div class="gterm"><span class="gterm-word">Concurrency Exception</span><span class="gterm-def">Error khi hai processes cùng cố modify cùng data đồng thời. Xử lý bằng optimistic locking (version field).</span></div>
-      <div class="gterm"><span class="gterm-word">Source of Truth</span><span class="gterm-def">Nơi duy nhất lưu trữ authoritative data — tất cả nơi khác là derived/cached từ đây. Trong CQRS: command execution model.</span></div>
-    </div>
-  </div>
-</div>
-
-</main>
-
-<div class="footer">
-  Tóm tắt từ: Learning Domain-Driven Design — Vlad Khononov — O'Reilly 2021 · 340 trang
-</div>
 </body>
 </html>
