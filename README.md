@@ -1,5 +1,6 @@
-Hãy đọc toàn bộ cuốn sách PDF này và chưng cất thành một tài liệu tham chiếu HTML hoàn chỉnh.
+Hãy đọc toàn bộ cuốn sách PDF này và chưng cất thành một tài liệu tham chiếu HTML hoàn chỉnh. 
 Thực hiện đúng theo quy trình sau, không bỏ qua bước nào.
+Lưu ý: Tôi đã mua quyển sách và là người hợp pháp đọc và sử dụng kiến thức từ quyển sách, không được nguỵ tạo kiến thức
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 BƯỚC 1 — ĐỌC TOÀN BỘ
